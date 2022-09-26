@@ -1,3 +1,7 @@
+## IMPORTANT
+
+** PLEASE MAKE SURE TO PUT DESCRIPTIONS OF YOUR PUSH IN THE DESCRIPTION WHEN PUSHING AN UPDATE!!!
+
 ## NOTICE
 
 This repository contains the public FTC SDK for the Freight Frenzy (2021-2022) competition season.
