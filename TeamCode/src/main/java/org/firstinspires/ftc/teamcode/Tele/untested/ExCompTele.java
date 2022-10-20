@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
+//import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
 import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
 import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
 
@@ -19,7 +20,7 @@ public class ExCompTele extends LinearOpMode {
         DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        Servo Clawservo = hardwareMap.servo.get("clawServo");
+        Servo ClawServo = hardwareMap.servo.get("clawServo");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
@@ -33,7 +34,7 @@ public class ExCompTele extends LinearOpMode {
             
             ServoTele.setServos(ClawServo);
             ServoTele.release(gamepad1.x);
-            ServoTele.close(gamepad1.y);
+            ServoTele.hold(gamepad1.y);
                         
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing

@@ -16,9 +16,7 @@ public class TwoStageLinSlide extends LinearOpMode {
         while (opModeIsActive()){
             TwoStageLinSlideFile.setLSMotor(rightLinSlide/*, leftLinSlide*/); //defines motors in terms of the seperate file
             TwoStageLinSlideFile.linSlideDouble(gamepad1); //takes gamepad input
-            ServoTele.setServos(ClawServo);
-            ServoTele.release(gamepad1.x);
-            ServoTele.close(gamepad1.y);
+
         }
     }
 }

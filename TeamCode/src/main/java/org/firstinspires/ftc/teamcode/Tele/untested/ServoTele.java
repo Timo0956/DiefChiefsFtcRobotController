@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.Tele.untested;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 //edit if required to adapt to 2 servos
-public class ServoTele extends LinearOpMode {
-    static Servo ClawL; 
+public class ServoTele {
+    static Servo ClawL;
    // static Servo ClawR;
     static double startPos = 1;
     static double closePos = 0.2; // adjust maybe
@@ -19,9 +21,9 @@ public class ServoTele extends LinearOpMode {
         //ClawR = Cr;
         open();
         
-        sCont = ClawL.getController(); //should declare for both servos
+     //   sCont = ClawL.getController(); //should declare for both servos
         
-        sCont.pwmEnable(); //enabling just in case
+   //     sCont.pwmEnable(); //enabling just in case
         
         runTime = new ElapsedTime();
         
