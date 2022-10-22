@@ -8,6 +8,7 @@ public class TwoStageLinSlideFile {
     static final int low = 0; // declares encoder variables
     static final int mid = 2100;
     static final int high = 4200;
+
     public enum states {LOW, MEDIUM, HIGH, TOLOW, TOMEDIUM, TOHIGH} //state array for state machine
     public static states state = states.LOW;
     static DcMotor rightLinSlide = null; //DC Motors for lin slide
@@ -58,7 +59,7 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOLOW:
-                if(rightLinSlide.getCurrentPosition() > low /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to 0
+                if(rightLinSlide.getCurrentPosition() > low+100 /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to 0
                     rightLinSlide.setPower(-0.9);
                     //leftLinSlide.setPower(-0.9);
                 }
@@ -69,11 +70,11 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOMEDIUM:
-                if(rightLinSlide.getCurrentPosition() < mid /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
+                if(rightLinSlide.getCurrentPosition() < mid-100 /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
                     rightLinSlide.setPower(0.9);
                     //leftLinSlide.setPower(0.9);
                 }
-                else if (rightLinSlide.getCurrentPosition() > mid /*&& leftLinSlide.getCurrentPosition() > mid*/){
+                else if (rightLinSlide.getCurrentPosition() > mid+100 /*&& leftLinSlide.getCurrentPosition() > mid*/){
                     rightLinSlide.setPower(-0.9);
                     //leftLinSlide.setPower(-0.9);
                 }
@@ -84,7 +85,7 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOHIGH:
-                if(rightLinSlide.getCurrentPosition() < high){
+                if(rightLinSlide.getCurrentPosition() < high-100){
                     rightLinSlide.setPower(0.9);
                     //leftLinSlide.setPower(0.9);
                 }

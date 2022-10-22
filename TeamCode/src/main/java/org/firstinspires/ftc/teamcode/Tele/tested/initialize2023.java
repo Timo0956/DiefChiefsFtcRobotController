@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tele.tested;
+/*package org.firstinspires.ftc.teamcode.Tele.tested;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,7 +30,7 @@ public class initialize {
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         drivechain.setDTMotors(motorFrontLeft,motorFrontRight,motorBackLeft,motorBackRight);
-    } */
+    }
     
   public void initLSright(){
         LinSlideMotorR = hardwareMap.dcMotor.get("LinSlideMotorR");
@@ -41,8 +41,4 @@ public class initialize {
         clawServo = hardwareMap.servo.get("clawServo");
         dump.setDumpServo(dumpServo);
     }
-
-
-
-
-}
+}*/

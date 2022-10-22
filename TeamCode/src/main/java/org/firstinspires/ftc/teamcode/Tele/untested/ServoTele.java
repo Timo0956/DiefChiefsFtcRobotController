@@ -5,19 +5,22 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.sun.tools.javac.jvm.ClassWriter;
 
 //edit if required to adapt to 2 servos
 public class ServoTele {
     static Servo ClawL;
    // static Servo ClawR;
-    static double startPos = 1;
-    static double closePos = 0.2; // adjust maybe
+    static double startPos;
+    static double closePos; // adjust maybe
     //static servoController sCont = null;
     static ElapsedTime runTime = null;
     
     //initializing servos
     public static void setServos(Servo Cl/*, Servo Cr*/){
         ClawL = Cl;
+        startPos = ClawL.getPosition();
+        closePos = ClawL.getPosition()-0.4;
         //ClawR = Cr;
         open();
         
@@ -28,16 +31,17 @@ public class ServoTele {
         runTime = new ElapsedTime();
         
     }
+
     
     //releases object when x is pressed
     public static void release(boolean x){
-        if(ClawL.getPosition() == -closePos /*&& ClawR.getPosition() == closePos*/ && x){
+        if(/*ClawL.getPosition() == -closePos && ClawR.getPosition() == closePos && */x){
              open();  
         }
     }
     //holds object when y is pressed
     public static void hold(boolean y){
-        if(ClawL.getPosition() == -startPos /*&& ClawR.getPosition() == startPos*/ && y){
+        if(/*ClawL.getPosition() == -startPos && ClawR.getPosition() == startPos &&*/ y){
             close();
         }
     }
