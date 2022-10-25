@@ -7,52 +7,58 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.sun.tools.javac.jvm.ClassWriter;
 
-//edit if required to adapt to 2 servos
 public class ServoTele {
+
     static Servo ClawL;
-   // static Servo ClawR;
+    static Servo ClawR;
     static double startPos;
-    static double closePos; // adjust maybe
-    //static servoController sCont = null;
+    static double closePos;
+
     static ElapsedTime runTime = null;
     
-    //initializing servos
-    public static void setServos(Servo Cl/*, Servo Cr*/){
+    //initializing both servos
+    public static void setServos(Servo Cl, Servo Cr)
+    {
         ClawL = Cl;
-        startPos = ClawL.getPosition();
-        closePos = ClawL.getPosition()-0.4;
-        //ClawR = Cr;
+        ClawR = Cr;
+
+        // Sets start and closed positions for the claws
+        startPosL = ClawL.getPosition();
+        closePosL = ClawL.getPosition() - 0.5;
+        startPosR = ClawR.getPosition();
+        closePosR = ClawR.getPosition() + 0.5;
+        // Reversed because of flipped servo
+
         open();
-        
-     //   sCont = ClawL.getController(); //should declare for both servos
-        
-   //     sCont.pwmEnable(); //enabling just in case
-        
+
         runTime = new ElapsedTime();
-        
     }
 
     
-    //releases object when x is pressed
-    public static void release(boolean x){
-        if(/*ClawL.getPosition() == -closePos && ClawR.getPosition() == closePos && */x){
+    //opens claw when x is pressed
+    public static void release(boolean x)
+    {
+        if(x){
              open();  
         }
     }
-    //holds object when y is pressed
-    public static void hold(boolean y){
-        if(/*ClawL.getPosition() == -startPos && ClawR.getPosition() == startPos &&*/ y){
+    //closes claw when y is pressed
+    public static void hold(boolean y)
+    {
+        if(y){
             close();
         }
     }
     
-    public static void open(){
-        ClawL.setPosition(-startPos);
-    //    ClawR.setPosition(startPos);
+    public static void open()
+    {
+        ClawL.setPosition(startPos);
+        ClawR.setPosition(startPos);
     }
     
-    public static void close(){
-        ClawL.setPosition(-closePos);
-   //     ClawR.setPosition(closePos);
+    public static void close()
+    {
+        ClawL.setPosition(closePos);
+        ClawR.setPosition(closePos);
     }
 }
