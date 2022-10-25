@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import ServoTele.java;
+import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
