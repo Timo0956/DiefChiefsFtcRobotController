@@ -23,13 +23,13 @@ public class ServoTele {
         ClawR = Cr;
 
         // Sets start and closed positions for the claws
-        startPosL = 0;
-        closePosL = ClawL.getPosition() - 0.5;
-        startPosR = 0;
-        closePosR = ClawR.getPosition() + 0.5;
+        double startPosL = 0;
+        double closePosL = ClawL.getPosition() - 0.5;
+        double startPosR = 0;
+        double closePosR = ClawR.getPosition() + 0.5;
         // Reversed because of flipped servo
 
-        release();
+        release(true);
 
         runTime = new ElapsedTime();
     }
