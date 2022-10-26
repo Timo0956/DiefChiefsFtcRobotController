@@ -4,28 +4,41 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+//import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
+import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
+import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
 
 @TeleOp
-public class GM0 extends LinearOpMode {
+public class ExCompTele extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
-        // Declare our motors
-        // Make sure your ID's match your configuration
+    public void runOpMode() throws InterruptedException{
+        DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
+        //DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+        Servo ClawServoL = hardwareMap.servo.get("clawServoL");
+        Servo ClawServoR = hardwareMap.servo.get("clawServoR");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
+
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-
         if (isStopRequested()) return;
+        while (opModeIsActive()){
+            TwoStageLinSlideFile.setLSMotor(rightLinSlide/*, leftLinSlide*/); //defines motors in terms of the seperate file
+            TwoStageLinSlideFile.linSlideDouble(gamepad1); //takes gamepad input
 
-        while (opModeIsActive()) {
+            ServoTele.setServos(ClawServoL, ClawServoR);
+            ServoTele.release(gamepad1.x);
+            ServoTele.hold(gamepad1.y);
+
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
@@ -39,10 +52,11 @@ public class GM0 extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-            motorFrontLeft.setPower(-frontLeftPower * 0.8);
-            motorBackLeft.setPower(-backLeftPower * 0.8);
-            motorFrontRight.setPower(-frontRightPower * 0.8);
-            motorBackRight.setPower(-backRightPower * 0.8);
+            motorFrontLeft.setPower(-frontLeftPower);
+            motorBackLeft.setPower(-backLeftPower);
+            motorFrontRight.setPower(-frontRightPower);
+            motorBackRight.setPower(-backRightPower);
+
         }
     }
 }
