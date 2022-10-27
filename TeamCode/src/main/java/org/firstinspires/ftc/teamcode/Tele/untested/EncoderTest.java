@@ -10,18 +10,17 @@ public class EncoderTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         DcMotor linSlideTest = hardwareMap.dcMotor.get("linSlideTest");
         linSlideTest.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linSlideTest.setTargetPosition(2100);
-        linSlideTest.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         waitForStart();
-        telemetry.addData("Mode", "Starting");
+        telemetry.addData("Mode", "Ready2Start");
         telemetry.update();
-        linSlideTest.setPower(0.2);
-        while(opModeIsActive() && linSlideTest.isBusy()){
+
+        while(opModeIsActive()){
+            linSlideTest.setTargetPosition(2100);
+            linSlideTest.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            linSlideTest.setPower(0.2);
             telemetry.addData("Current Position=",linSlideTest.getCurrentPosition() + "running="+linSlideTest.isBusy());
             telemetry.update();
-            idle();
         }
-
-
     }
 }
