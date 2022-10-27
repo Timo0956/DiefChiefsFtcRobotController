@@ -59,8 +59,11 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOLOW:
-                if(rightLinSlide.getCurrentPosition() > low+100 /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to 0
+                if(rightLinSlide.getCurrentPosition() > low /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to
+                    rightLinSlide.setTargetPosition(low);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-0.9);
+
                     //leftLinSlide.setPower(-0.9);
                 }
                 else{
@@ -70,11 +73,15 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOMEDIUM:
-                if(rightLinSlide.getCurrentPosition() < mid-100 /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
+                if(rightLinSlide.getCurrentPosition() < mid /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
+                    rightLinSlide.setTargetPosition(mid);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(0.9);
                     //leftLinSlide.setPower(0.9);
                 }
-                else if (rightLinSlide.getCurrentPosition() > mid+100 /*&& leftLinSlide.getCurrentPosition() > mid*/){
+                else if (rightLinSlide.getCurrentPosition() > mid /*&& leftLinSlide.getCurrentPosition() > mid*/){
+                    rightLinSlide.setTargetPosition(mid);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-0.9);
                     //leftLinSlide.setPower(-0.9);
                 }
@@ -85,7 +92,9 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOHIGH:
-                if(rightLinSlide.getCurrentPosition() < high-100){
+                if(rightLinSlide.getCurrentPosition() < high){
+                    rightLinSlide.setTargetPosition(high);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(0.9);
                     //leftLinSlide.setPower(0.9);
                 }
