@@ -1,6 +1,4 @@
 package org.firstinspires.ftc.teamcode.Tele.untested;
-
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -8,6 +6,7 @@ public class TwoStageLinSlideFile {
     static final int low = 0; // declares encoder variables
     static final int mid = 2100;
     static final int high = 4200;
+
 
     public enum states {LOW, MEDIUM, HIGH, TOLOW, TOMEDIUM, TOHIGH} //state array for state machine
     public static states state = states.LOW;
