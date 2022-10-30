@@ -17,7 +17,7 @@ public class AutoTeleOp extends LinearOpMode{
     static DcMotor rightLinSlide = null;
     @Override
     public void runOpMode() throws InterruptedException{
-        Claw = hardwareMap.servo.get("ClawL");
+        Claw = hardwareMap.servo.get("clawServo");
         ServoTele.setServos(Claw);
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
