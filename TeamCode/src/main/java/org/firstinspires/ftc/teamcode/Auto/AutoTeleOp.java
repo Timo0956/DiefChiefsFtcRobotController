@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
 import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
 
-@Autonomous
+@Autonomous(name = "leftStrafeAuto")
 public class AutoTeleOp extends LinearOpMode{
     static DcMotor motorFrontLeft = null;
     static DcMotor motorBackLeft = null;
@@ -24,47 +24,7 @@ public class AutoTeleOp extends LinearOpMode{
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
         int power = 1;
-        if(gamepad1.a){
-            leftStrafe(power,1000);
-        }
-        else if (gamepad1.b){
-            rightStrafe(power,1000);
-        }
+        FunctionsPage.leftStrafe(power,1000);
     }
-    public static void forwardBackwardDrive (float power, long time) throws InterruptedException {
-        motorFrontLeft.setPower(power);
-        motorFrontRight.setPower(power);
-        motorBackLeft.setPower(power);
-        motorBackRight.setPower(power);
-        Thread.sleep(time);
-    }
-    public static void leftStrafe (float power, long time) throws InterruptedException{
-        motorFrontLeft.setPower(-power);
-        motorFrontRight.setPower(-power);
-        motorBackLeft.setPower(power);
-        motorBackRight.setPower(power);
-        Thread.sleep(time);
-    }
-    public static void rightStrafe (float power, long time) throws InterruptedException {
-        motorFrontLeft.setPower(power);
-        motorFrontRight.setPower(power);
-        motorBackLeft.setPower(-power);
-        motorBackRight.setPower(-power);
-        Thread.sleep(time);
-    }
-    public static void toLowLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,true,false);
-    }
-    public static void toMidLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,false,false);
-    }
-    public static void toHighLinSlide(){
-        TwoStageLinSlideFile.moveStates(1,false,false);
-    }
-    public static void closeServo(){
-        ServoTele.close();
-    }
-    public static void openServo(){
-        ServoTele.open();
-    }
+
 }
