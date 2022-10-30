@@ -11,12 +11,11 @@ public class TwoStageLinSlide extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         //DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
+        TwoStageLinSlideFile.setLSMotor(rightLinSlide/*, leftLinSlide*/); //defines motors in terms of the seperate file
 
         waitForStart();
         while (opModeIsActive()){
-            TwoStageLinSlideFile.setLSMotor(rightLinSlide/*, leftLinSlide*/); //defines motors in terms of the seperate file
             TwoStageLinSlideFile.linSlideDouble(gamepad1); //takes gamepad input
-
         }
     }
 }

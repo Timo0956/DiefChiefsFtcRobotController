@@ -1,6 +1,4 @@
 package org.firstinspires.ftc.teamcode.Tele.untested;
-
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -8,6 +6,7 @@ public class TwoStageLinSlideFile {
     static final int low = 0; // declares encoder variables
     static final int mid = 2100;
     static final int high = 4200;
+
 
     public enum states {LOW, MEDIUM, HIGH, TOLOW, TOMEDIUM, TOHIGH} //state array for state machine
     public static states state = states.LOW;
@@ -59,8 +58,11 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOLOW:
-                if(rightLinSlide.getCurrentPosition() > low+100 /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to 0
+                if(rightLinSlide.getCurrentPosition() > low /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to
+                    rightLinSlide.setTargetPosition(low);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-0.9);
+
                     //leftLinSlide.setPower(-0.9);
                 }
                 else{
@@ -70,11 +72,15 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOMEDIUM:
-                if(rightLinSlide.getCurrentPosition() < mid-100 /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
+                if(rightLinSlide.getCurrentPosition() < mid /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
+                    rightLinSlide.setTargetPosition(mid);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(0.9);
                     //leftLinSlide.setPower(0.9);
                 }
-                else if (rightLinSlide.getCurrentPosition() > mid+100 /*&& leftLinSlide.getCurrentPosition() > mid*/){
+                else if (rightLinSlide.getCurrentPosition() > mid /*&& leftLinSlide.getCurrentPosition() > mid*/){
+                    rightLinSlide.setTargetPosition(mid);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-0.9);
                     //leftLinSlide.setPower(-0.9);
                 }
@@ -85,7 +91,9 @@ public class TwoStageLinSlideFile {
                 }
                 break;
             case TOHIGH:
-                if(rightLinSlide.getCurrentPosition() < high-100){
+                if(rightLinSlide.getCurrentPosition() < high){
+                    rightLinSlide.setTargetPosition(high);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(0.9);
                     //leftLinSlide.setPower(0.9);
                 }
