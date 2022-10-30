@@ -23,11 +23,12 @@ public class AutoTeleOp extends LinearOpMode{
         rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
+        int power = 1;
         if(gamepad1.a){
-            leftStrafe(1,1000);
+            leftStrafe(power,1000);
         }
         else if (gamepad1.b){
-            rightStrafe(1,1000);
+            rightStrafe(power,1000);
         }
     }
     public static void forwardBackwardDrive (float power, long time) throws InterruptedException {
