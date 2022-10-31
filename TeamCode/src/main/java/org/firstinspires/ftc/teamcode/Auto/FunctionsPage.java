@@ -24,6 +24,7 @@ public class FunctionsPage {
         motorBackRight.setPower(power);
         Thread.sleep(time);
     }
+
     public static void rightStrafe (float power, long time) throws InterruptedException {
         motorFrontLeft.setPower(power);
         motorFrontRight.setPower(power);

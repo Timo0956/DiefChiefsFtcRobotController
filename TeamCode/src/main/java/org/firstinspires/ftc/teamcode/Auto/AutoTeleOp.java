@@ -27,7 +27,8 @@ public class AutoTeleOp extends LinearOpMode{
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
         int power = 1;
-        FunctionsPage.leftStrafe(power,1000);
+ //     FunctionsPage.leftStrafe(power,1000);
+        FunctionsPage.forwardBackwardDrive(power, 500); // gamble on the parking spot
     }
 
 }
