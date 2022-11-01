@@ -9,7 +9,8 @@ import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
 
 @Autonomous(name = "rightStrafeAuto")
 public class RightStrafe extends LinearOpMode{
-    static Servo Claw = null;
+    static Servo ClawL = null;
+    static Servo ClawR = null;
     static DcMotor motorFrontLeft = null;
     static DcMotor motorBackLeft = null;
     static DcMotor motorFrontRight = null;
@@ -18,8 +19,9 @@ public class RightStrafe extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException{
 
-        Claw = hardwareMap.servo.get("clawServo");
-        ServoTele.setServos(Claw);
+        ClawL = hardwareMap.servo.get("clawServoL");
+        ClawR = hardwareMap.servo.get("clawServoR");
+        ServoTele.setServos(ClawL, ClawR);
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
