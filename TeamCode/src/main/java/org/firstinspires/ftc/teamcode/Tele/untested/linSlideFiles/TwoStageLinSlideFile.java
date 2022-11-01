@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tele.untested;
+package org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -54,7 +54,7 @@ public class TwoStageLinSlideFile {
                     state = states.TOMEDIUM;
                 }
                 else if(leftBumper){
-                    state = states.LOW;
+                    state = states.TOLOW;
                 }
                 break;
             case TOLOW:

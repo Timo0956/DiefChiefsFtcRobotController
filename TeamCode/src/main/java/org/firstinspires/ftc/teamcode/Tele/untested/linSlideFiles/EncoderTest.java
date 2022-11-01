@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tele.untested;
+package org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

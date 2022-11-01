@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
-import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 
 public class initialize {
 

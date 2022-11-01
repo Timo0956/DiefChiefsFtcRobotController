@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
-import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 
 @Autonomous(name = "rightStrafeAuto")
 public class RightStrafe extends LinearOpMode{

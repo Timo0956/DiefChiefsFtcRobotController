@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Tele.untested.ServoTele;
-import org.firstinspires.ftc.teamcode.Tele.untested.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 
 public class FunctionsPage {
     static DcMotor motorFrontLeft = null;
