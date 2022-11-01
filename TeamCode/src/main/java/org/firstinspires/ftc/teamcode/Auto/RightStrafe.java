@@ -78,7 +78,7 @@ public class RightStrafe extends LinearOpMode{
         TwoStageLinSlideFile.moveStates(0,true,false,0);
     }
     public static void toMidLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,false,false,0);
+        TwoStageLinSlideFile.moveStates(0,false,true,0);
     }
     public static void toHighLinSlide(){
         TwoStageLinSlideFile.moveStates(1,false,false,0);
