@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 
-@Autonomous(name = "rightStrafeAuto") // Russian bot code simiarly
+@Autonomous(name = "russianAutoBotCode") // Russian bot code simiarly
 public class RightStrafe extends LinearOpMode{
     static Servo ClawL = null;
     static Servo ClawR = null;
