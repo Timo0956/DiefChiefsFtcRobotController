@@ -33,14 +33,15 @@ public class FunctionsPage {
         Thread.sleep(time);
     }
     public static void toLowLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,true,false);
+        TwoStageLinSlideFile.moveStates(0,true,false,0);
     }
     public static void toMidLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,false,false);
+        TwoStageLinSlideFile.moveStates(0,false,false,0);
     }
     public static void toHighLinSlide(){
-        TwoStageLinSlideFile.moveStates(1,false,false);
+        TwoStageLinSlideFile.moveStates(1,false,false,0);
     }
+    public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);}
     public static void closeServo(){
         ServoTele.close();
     }
