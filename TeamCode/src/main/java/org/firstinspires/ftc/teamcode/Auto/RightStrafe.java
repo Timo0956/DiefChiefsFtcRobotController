@@ -18,7 +18,7 @@ public class RightStrafe extends LinearOpMode{
     static DcMotor rightLinSlide = null;
     @Override
     public void runOpMode() throws InterruptedException{
-
+        long msPerCm = 9;
         ClawL = hardwareMap.servo.get("clawServoL");
         ClawR = hardwareMap.servo.get("clawServoR");
         ServoTele.setServos(ClawL, ClawR);
@@ -32,30 +32,27 @@ public class RightStrafe extends LinearOpMode{
         float power = 1;
         closeServo();
         toLowOffLinSlide();
-        leftStrafe(power,1500);
-        forwardBackwardDrive(-power, 1000);
-        leftStrafe(power,500);
+        leftStrafe(power,msPerCm*1500);
+        forwardBackwardDrive(-power, msPerCm*1000);
+        leftStrafe(power,msPerCm*500);
         toMidLinSlide();
-        forwardBackwardDrive(power, 300);
+        forwardBackwardDrive(power, msPerCm*300);
         openServo();
-        forwardBackwardDrive(-power, 300);
+        forwardBackwardDrive(-power, msPerCm*300);
         toLowOffLinSlide();
-        leftStrafe(power, 500);
-        moveLinSlidePosition(600, 0.9);
-        forwardBackwardDrive(power, 1500);
+        leftStrafe(power, msPerCm*500);
+        moveLinSlidePosition(600, msPerCm*0.9);
+        forwardBackwardDrive(power, msPerCm*1500);
         closeServo();
-        forwardBackwardDrive(0.7, 200);
+        forwardBackwardDrive(0.7, msPerCm*200);
         moveLinSlidePosition(500, -0.9);
-        forwardBackwardDrive(-power, 1500);
-        rightStrafe(power, 500);
+        forwardBackwardDrive(-power, msPerCm*1500);
+        rightStrafe(power, msPerCm*500);
         toMidLinSlide();
-        forwardBackwardDrive(power, 300);
+        forwardBackwardDrive(power, msPerCm*300);
         openServo();
-        leftStrafe(power, 500);
+        leftStrafe(power, msPerCm*500);
     }
-
-
-
     public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(power);
         motorFrontRight.setPower(power);
