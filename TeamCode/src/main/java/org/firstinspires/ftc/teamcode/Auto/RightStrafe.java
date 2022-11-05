@@ -19,6 +19,7 @@ public class RightStrafe extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException{
         long msPerCm = 9;
+        double power = 1;
         ClawL = hardwareMap.servo.get("clawServoL");
         ClawR = hardwareMap.servo.get("clawServoR");
         ServoTele.setServos(ClawL, ClawR);
@@ -29,7 +30,6 @@ public class RightStrafe extends LinearOpMode{
         rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
-        float power = 1;
         closeServo();
         toLowOffLinSlide();
         leftStrafe(power,msPerCm*1500);
@@ -94,7 +94,5 @@ public class RightStrafe extends LinearOpMode{
         rightLinSlide.setTargetPosition(position);
         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLinSlide.setPower(speed);
-
     }
-
 }
