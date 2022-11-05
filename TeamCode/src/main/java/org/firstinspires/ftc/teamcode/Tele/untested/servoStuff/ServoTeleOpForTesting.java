@@ -13,8 +13,8 @@ public class ServoTeleOpForTesting extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             ServoTele.setServos(ClawServoL, ClawServoR);
-            ServoTele.release(gamepad1.x);
-            ServoTele.hold(gamepad1.y);
+            ServoTele.open(gamepad1.x);
+            ServoTele.close(gamepad1.y);
         }
     }
 }

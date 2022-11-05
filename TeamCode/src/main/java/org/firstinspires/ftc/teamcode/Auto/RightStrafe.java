@@ -39,35 +39,38 @@ public class RightStrafe extends LinearOpMode{
         forwardBackwardDrive(power, 300);
         openServo();
         forwardBackwardDrive(-power, 300);
-        toLowLinSlide();
+        toLowOffLinSlide();
         leftStrafe(power, 500);
+        moveLinSlidePosition(600, 0.9);
         forwardBackwardDrive(power, 1500);
         closeServo();
-        toLowOffLinSlide();
+        forwardBackwardDrive(0.7, 200);
+        moveLinSlidePosition(500, -0.9);
         forwardBackwardDrive(-power, 1500);
         rightStrafe(power, 500);
         toMidLinSlide();
         forwardBackwardDrive(power, 300);
         openServo();
         leftStrafe(power, 500);
-
-
     }
-    public static void forwardBackwardDrive (float power, long time) throws InterruptedException {
+
+
+
+    public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(power);
         motorFrontRight.setPower(power);
         motorBackLeft.setPower(power);
         motorBackRight.setPower(power);
         Thread.sleep(time);
     }
-    public static void leftStrafe (float power, long time) throws InterruptedException{
+    public static void leftStrafe (double power, long time) throws InterruptedException{
         motorFrontLeft.setPower(-power);
         motorFrontRight.setPower(-power);
         motorBackLeft.setPower(power);
         motorBackRight.setPower(power);
         Thread.sleep(time);
     }
-    public static void rightStrafe (float power, long time) throws InterruptedException {
+    public static void rightStrafe (double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(power);
         motorFrontRight.setPower(power);
         motorBackLeft.setPower(-power);
@@ -85,9 +88,16 @@ public class RightStrafe extends LinearOpMode{
     }
     public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);}
     public static void closeServo(){
-        ServoTele.close();
+        ServoTele.close(true);
     }
     public static void openServo(){
-        ServoTele.open();
+        ServoTele.open(true);
     }
+    public static void moveLinSlidePosition (int position, double speed){
+        rightLinSlide.setTargetPosition(position);
+        rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightLinSlide.setPower(speed);
+
+    }
+
 }

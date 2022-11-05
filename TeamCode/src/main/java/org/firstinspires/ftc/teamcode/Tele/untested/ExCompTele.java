@@ -36,8 +36,8 @@ public class ExCompTele extends LinearOpMode {
 
             TwoStageLinSlideFile.linSlideDouble(gamepad1); //takes gamepad input
             
-            ServoTele.release(gamepad1.x);
-            ServoTele.hold(gamepad1.y);
+            ServoTele.open(gamepad1.x);
+            ServoTele.close(gamepad1.y);
                         
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
