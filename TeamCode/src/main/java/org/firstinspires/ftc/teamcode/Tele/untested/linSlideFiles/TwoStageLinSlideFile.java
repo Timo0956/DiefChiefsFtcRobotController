@@ -6,7 +6,7 @@ public class TwoStageLinSlideFile {
     static final int low = 0; // declares encoder variables
     static final int lowOff = 500;
     static final int mid = 2100;
-    static final int high = 4200;
+    static final int high = 4000;
     static final double power = 0.9;
 
 
@@ -52,6 +52,9 @@ public class TwoStageLinSlideFile {
                 else if(leftBumper){
                     state = states.TOLOW;
                 }
+                else if (leftTrigger > 0.7){
+                    state = states.TOLOWOFF;
+                }
                 break;
             case MEDIUM:
                 rightLinSlide.setPower(0);
@@ -65,6 +68,9 @@ public class TwoStageLinSlideFile {
                 else if (leftTrigger > 0.7){
                     state = states.TOLOWOFF;
                 }
+                else if(rightBumper){
+                    state = states.TOMEDIUM;
+                }
                 break;
             case HIGH:
                 rightLinSlide.setPower(0);
@@ -77,6 +83,9 @@ public class TwoStageLinSlideFile {
                 }
                 else if(leftTrigger>0.7){
                     state = states.TOLOWOFF;
+                }
+                else if(rightTrigger > 0.7){
+                    state = states.TOHIGH;
                 }
                 break;
             case TOLOW:
