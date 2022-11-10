@@ -11,7 +11,6 @@ public class ServoTeleOpForTesting extends LinearOpMode {
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
         waitForStart();
         while(opModeIsActive()){
-            ServoTele.setServos(ClawServoL, ClawServoR);
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
             telemetry.addData("Servo L Pos", ClawServoL.getPosition());

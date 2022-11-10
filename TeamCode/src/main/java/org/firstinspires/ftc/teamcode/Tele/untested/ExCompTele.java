@@ -22,8 +22,6 @@ public class ExCompTele extends LinearOpMode {
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-        ServoTele.setServos(ClawServoL, ClawServoR);   
-
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
 

@@ -10,26 +10,11 @@ import com.sun.tools.javac.jvm.ClassWriter;
 
 //edit if required to adapt to 2 servos
 public class ServoTele {
-
     static Servo ClawL;
     static Servo ClawR;
-
-
     static double startPos = 0;
     static double closePos = 0.15;
-
-    
     // Initializing both servos (Declared in main Teleop)
-    public static void setServos(Servo Cl, Servo Cr){
-        ClawL = Cl;
-        ClawR = Cr;
-
-
-    }
-
-
-
-
     public static void open(boolean x){
         if(x) {
             ClawL.setPosition(startPos);
