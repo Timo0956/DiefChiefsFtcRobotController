@@ -20,7 +20,6 @@ public class AutoTeleOp extends LinearOpMode{
     public void runOpMode() throws InterruptedException{
         ClawL = hardwareMap.servo.get("clawServoL");
         ClawR = hardwareMap.servo.get("clawServoR");
-        ServoTele.setServos(ClawL, ClawR);
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
