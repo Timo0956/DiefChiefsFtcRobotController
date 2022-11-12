@@ -29,20 +29,29 @@ public class RightStrafe extends LinearOpMode{
         rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
-        closeServo();
-        leftStrafe(0,500);
-        leftStrafe(-power,msPerCm*120);
-        leftStrafe(0,100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        forwardBackwardDrive(power,msPerCm*10);
-        leftStrafe(0,100);
-        openServo();
-        leftStrafe(0,100);
-        forwardBackwardDrive(-power,msPerCm*10);
-        leftStrafe(0,100);
-        moveLinSlidePosition(0,0.9, 2000);
-        rightStrafe(-power,msPerCm*36);
 
+        //sequence starts here
+        closeServo();
+        pause(700); //grab cone
+        leftStrafe(-power,msPerCm*120);
+        pause(100);
+        moveLinSlidePosition(3000,0.9, 2000); //lift cone
+        forwardBackwardDrive(power,msPerCm*10); //get to position
+        pause(100);
+        openServo(); // drop cone
+        pause(100);
+        forwardBackwardDrive(-power,msPerCm*10);
+        pause(100);
+        moveLinSlidePosition(0,0.9, 2000); // lower linslide
+        rightStrafe(-power,msPerCm*36); //parking
+
+    }
+    public static void pause(long time)throws InterruptedException{
+        motorFrontLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
+        Thread.sleep(time);
     }
     public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(-power);
@@ -65,7 +74,7 @@ public class RightStrafe extends LinearOpMode{
         motorBackRight.setPower(-power);
         Thread.sleep(time);
     }
-    public static void toLowLinSlide(){
+/*    public static void toLowLinSlide(){
         TwoStageLinSlideFile.moveStates(0,true,false,0);
     }
     public static void toMidLinSlide(){
@@ -74,7 +83,7 @@ public class RightStrafe extends LinearOpMode{
     public static void toHighLinSlide(){
         TwoStageLinSlideFile.moveStates(1,false,false,0);
     }
-    public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);}
+    public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */// commented out extra linside functions
     public static void closeServo(){
        // ServoTele.close(true);
         ClawL.setPosition(0.15);
