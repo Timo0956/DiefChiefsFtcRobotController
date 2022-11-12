@@ -15,6 +15,13 @@ public class ServoTele {
     static double startPos = 0;
     static double closePos = 0.15;
     // Initializing both servos (Declared in main Teleop)
+
+
+    public static void setServos(Servo Cl, Servo Cr)
+    {
+        ClawL = Cl;
+        ClawR = Cr;
+    }
     public static void open(boolean x){
         if(x) {
             ClawL.setPosition(startPos);

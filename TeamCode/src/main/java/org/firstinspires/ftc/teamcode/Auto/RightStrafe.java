@@ -18,8 +18,8 @@ public class RightStrafe extends LinearOpMode{
     static DcMotor rightLinSlide = null;
     @Override
     public void runOpMode() throws InterruptedException{
-        long msPerCm = 9;
-        double power = 1;
+        long msPerCm = 1500/89;
+        double power = 0.5;
         ClawL = hardwareMap.servo.get("clawServoL");
         ClawR = hardwareMap.servo.get("clawServoR");
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
@@ -30,27 +30,15 @@ public class RightStrafe extends LinearOpMode{
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
         closeServo();
-        toLowOffLinSlide();
-        leftStrafe(power,msPerCm*1500);
-        forwardBackwardDrive(-power, msPerCm*1000);
-        leftStrafe(power,msPerCm*500);
-        toMidLinSlide();
-        forwardBackwardDrive(power, msPerCm*300);
+        //toLowOffLinSlide();
+        leftStrafe(-power,msPerCm*96);
+        moveLinSlidePosition(3000,0.9);
+        forwardBackwardDrive(power,msPerCm*10);
         openServo();
-        forwardBackwardDrive(-power, msPerCm*300);
-        toLowOffLinSlide();
-        leftStrafe(power, msPerCm*500);
-        moveLinSlidePosition(600, msPerCm*0.9);
-        forwardBackwardDrive(power, msPerCm*1500);
-        closeServo();
-        forwardBackwardDrive(0.7, msPerCm*200);
-        moveLinSlidePosition(500, -0.9);
-        forwardBackwardDrive(-power, msPerCm*1500);
-        rightStrafe(power, msPerCm*500);
-        toMidLinSlide();
-        forwardBackwardDrive(power, msPerCm*300);
-        openServo();
-        leftStrafe(power, msPerCm*500);
+        forwardBackwardDrive(-power,msPerCm*10);
+        moveLinSlidePosition(0,0.9);
+        rightStrafe(-power,msPerCm*40);
+
     }
     public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(power);
@@ -84,10 +72,14 @@ public class RightStrafe extends LinearOpMode{
     }
     public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);}
     public static void closeServo(){
-        ServoTele.close(true);
+       // ServoTele.close(true);
+        ClawL.setPosition(0.15);
+        ClawR.setPosition(0.15);
     }
     public static void openServo(){
-        ServoTele.open(true);
+     //   ServoTele.open(true);
+        ClawL.setPosition(0);
+        ClawR.setPosition(0);
     }
     public static void moveLinSlidePosition (int position, double speed){
         rightLinSlide.setTargetPosition(position);

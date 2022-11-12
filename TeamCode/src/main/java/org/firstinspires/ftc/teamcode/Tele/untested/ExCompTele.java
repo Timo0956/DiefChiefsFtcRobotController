@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Tele.untested;
 
+import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,6 +24,7 @@ public class ExCompTele extends LinearOpMode {
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
+        setServos(ClawServoL, ClawServoR);
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
 
