@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Auto.noGood;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
