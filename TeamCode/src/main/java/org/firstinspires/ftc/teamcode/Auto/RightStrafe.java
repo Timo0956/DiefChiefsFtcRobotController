@@ -30,20 +30,24 @@ public class RightStrafe extends LinearOpMode{
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
         closeServo();
-        //toLowOffLinSlide();
-        leftStrafe(-power,msPerCm*96);
-        moveLinSlidePosition(3000,0.9);
+        leftStrafe(0,500);
+        leftStrafe(-power,msPerCm*120);
+        leftStrafe(0,100);
+        moveLinSlidePosition(3000,0.9, 2000);
         forwardBackwardDrive(power,msPerCm*10);
+        leftStrafe(0,100);
         openServo();
+        leftStrafe(0,100);
         forwardBackwardDrive(-power,msPerCm*10);
-        moveLinSlidePosition(0,0.9);
-        rightStrafe(-power,msPerCm*40);
+        leftStrafe(0,100);
+        moveLinSlidePosition(0,0.9, 2000);
+        rightStrafe(-power,msPerCm*36);
 
     }
     public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
-        motorFrontLeft.setPower(power);
+        motorFrontLeft.setPower(-power);
         motorFrontRight.setPower(power);
-        motorBackLeft.setPower(power);
+        motorBackLeft.setPower(-power);
         motorBackRight.setPower(power);
         Thread.sleep(time);
     }
@@ -81,9 +85,10 @@ public class RightStrafe extends LinearOpMode{
         ClawL.setPosition(0);
         ClawR.setPosition(0);
     }
-    public static void moveLinSlidePosition (int position, double speed){
+    public static void moveLinSlidePosition (int position, double speed, long time)throws InterruptedException{
         rightLinSlide.setTargetPosition(position);
         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLinSlide.setPower(speed);
+        Thread.sleep(time);
     }
 }
