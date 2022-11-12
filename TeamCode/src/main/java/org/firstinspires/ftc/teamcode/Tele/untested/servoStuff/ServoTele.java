@@ -28,7 +28,6 @@ public class ServoTele {
             ClawR.setPosition(startPos);
         }
     }
-
     //closes claw
     public static void close(boolean y){
         if(y) {

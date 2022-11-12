@@ -22,7 +22,7 @@ public class msPerCmTest extends LinearOpMode {
         motorFrontRight.setPower(0.5);
         motorFrontLeft.setPower(0.5);
         motorBackLeft.setPower(0.5);
-        Thread.sleep(1000);
+        Thread.sleep(1500);
 
     }
 }
