@@ -32,7 +32,7 @@ public class startGoingLeft extends LinearOpMode{
         //sequence starts here
         closeServo();
         pause(700); //grab cone
-        rightStrafe(-power,msPerCm*120);
+        leftStrafe(-power,msPerCm*120);
         pause(100);
         moveLinSlidePosition(3000,0.9, 2000); //lift cone
         forwardBackwardDrive(power,msPerCm*10); //get to position
@@ -42,7 +42,7 @@ public class startGoingLeft extends LinearOpMode{
         forwardBackwardDrive(-power,msPerCm*10);
         pause(100);
         moveLinSlidePosition(0,0.9, 2000); // lower linslide
-        leftStrafe(-power,msPerCm*36); //parking
+        rightStrafe(-power,msPerCm*36); //parking
 
     }
     public static void pause(long time)throws InterruptedException{
@@ -73,23 +73,23 @@ public class startGoingLeft extends LinearOpMode{
         motorBackRight.setPower(-power);
         Thread.sleep(time);
     }
-/*    public static void toLowLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,true,false,0);
-    }
-    public static void toMidLinSlide(){
-        TwoStageLinSlideFile.moveStates(0,false,true,0);
-    }
-    public static void toHighLinSlide(){
-        TwoStageLinSlideFile.moveStates(1,false,false,0);
-    }
-    public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */// commented out extra linside functions
+    /*    public static void toLowLinSlide(){
+            TwoStageLinSlideFile.moveStates(0,true,false,0);
+        }
+        public static void toMidLinSlide(){
+            TwoStageLinSlideFile.moveStates(0,false,true,0);
+        }
+        public static void toHighLinSlide(){
+            TwoStageLinSlideFile.moveStates(1,false,false,0);
+        }
+        public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */// commented out extra linside functions
     public static void closeServo(){
-       // ServoTele.close(true);
+        // ServoTele.close(true);
         ClawL.setPosition(0.15);
         ClawR.setPosition(0.15);
     }
     public static void openServo(){
-     //   ServoTele.open(true);
+        //   ServoTele.open(true);
         ClawL.setPosition(0);
         ClawR.setPosition(0);
     }
