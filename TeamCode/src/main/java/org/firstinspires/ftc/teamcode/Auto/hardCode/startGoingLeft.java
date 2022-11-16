@@ -32,7 +32,9 @@ public class startGoingLeft extends LinearOpMode{
         //sequence starts here
         closeServo();
         pause(700); //grab cone
-        leftStrafe(-power,msPerCm*120);
+        moveLinSlidePosition(100,0.9, 900);
+        pause(100);
+        leftStrafe(-power,msPerCm*103);
         pause(100);
         moveLinSlidePosition(3000,0.9, 2000); //lift cone
         forwardBackwardDrive(power,msPerCm*10); //get to position
@@ -42,7 +44,32 @@ public class startGoingLeft extends LinearOpMode{
         forwardBackwardDrive(-power,msPerCm*10);
         pause(100);
         moveLinSlidePosition(0,0.9, 2000); // lower linslide
-        rightStrafe(-power,msPerCm*36); //parking
+     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
+        pause(100);
+        moveLinSlidePosition(400,0.9, 0); // move ls into position
+        openServo();
+        forwardBackwardDrive(power,msPerCm*202); // move to stack
+        pause(1000);
+        closeServo();
+        pause(1000);
+        moveLinSlidePosition(1000,0.9, 2000);
+        forwardBackwardDrive(-power,msPerCm*205);
+        pause(500);
+        rightStrafe(-power,msPerCm*33);
+        pause(100);
+        moveLinSlidePosition(3000,0.9, 2000);
+        pause(200);
+        forwardBackwardDrive(power,msPerCm*8);
+        pause(200);
+        openServo();
+        pause(200);
+        forwardBackwardDrive(-power,msPerCm*10);
+        pause(200);
+        moveLinSlidePosition(0,0.9, 2000);
+        pause(200);
+
+      */
+        rightStrafe(-power,msPerCm*30); //parking
 
     }
     public static void pause(long time)throws InterruptedException{
