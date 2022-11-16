@@ -42,7 +42,7 @@ public class ExCompTele extends LinearOpMode {
             telemetry.update();
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x * 0.7;
+            double rx = gamepad1.right_stick_x ;
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio, but only when
             // at least one is out of the range [-1, 1]
@@ -51,10 +51,10 @@ public class ExCompTele extends LinearOpMode {
             double backLeftPower = (y - x + rx) * 0.65/ denominator;
             double frontRightPower = (y - x - rx) * 0.65/ denominator;
             double backRightPower = (y + x - rx)* 0.65/ denominator;
-            motorFrontLeft.setPower(-frontLeftPower);
-            motorBackLeft.setPower(-backLeftPower);
-            motorFrontRight.setPower(-frontRightPower);
-            motorBackRight.setPower(-backRightPower);
+            motorFrontLeft.setPower(-frontLeftPower*0.6);
+            motorBackLeft.setPower(-backLeftPower*0.6);
+            motorFrontRight.setPower(-frontRightPower*0.6);
+            motorBackRight.setPower(-backRightPower*0.6);
             
         }
     }
