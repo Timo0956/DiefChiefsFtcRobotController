@@ -28,7 +28,6 @@ public class startGoingLeft extends LinearOpMode{
         rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         waitForStart();
-
         //sequence starts here
         closeServo();
         pause(700); //grab cone
