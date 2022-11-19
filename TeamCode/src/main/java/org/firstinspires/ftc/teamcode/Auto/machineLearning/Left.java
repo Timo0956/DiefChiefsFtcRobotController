@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Auto.machineLearning;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -54,6 +55,7 @@ import java.util.List;
  * is explained below.
  */
 @Autonomous(name = "Left", group = "Concept")
+@Disabled
 public class Left extends LinearOpMode {
     static Servo ClawL = null;
     static Servo ClawR = null;
