@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 
 @Autonomous
-public class startGoingLeft extends LinearOpMode{
+public class startGoingLeft1 extends LinearOpMode{
     static Servo ClawL = null;
     static Servo ClawR = null;
     static DcMotor motorFrontLeft = null;
@@ -36,11 +36,11 @@ public class startGoingLeft extends LinearOpMode{
         leftStrafe(-power,msPerCm*103);
         pause(100);
         moveLinSlidePosition(3000,0.9, 2000); //lift cone
-        forwardBackwardDrive(power,msPerCm*10); //get to position
+        forwardBackwardDrive(power,msPerCm*13); //get to position
         pause(100);
         openServo(); // drop cone
         pause(100);
-        forwardBackwardDrive(-power,msPerCm*10);
+        forwardBackwardDrive(-power,msPerCm*13);
         pause(100);
         moveLinSlidePosition(0,0.9, 2000); // lower linslide
      /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
@@ -68,7 +68,8 @@ public class startGoingLeft extends LinearOpMode{
         pause(200);
 
       */
-        rightStrafe(-power,msPerCm*30); //parking
+        rightStrafe(-power,msPerCm*35); //parking
+        forwardBackwardDrive(-power, msPerCm*40);
 
     }
     public static void pause(long time)throws InterruptedException{

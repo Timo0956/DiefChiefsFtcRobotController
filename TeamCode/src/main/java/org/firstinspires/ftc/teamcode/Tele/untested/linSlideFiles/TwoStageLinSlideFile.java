@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class TwoStageLinSlideFile {
     static final int low = 0; // declares encoder variables
-    static final int lowOff = 500;
-    static final int mid = 2100;
+    static final int lowOff = 350;
+    static final int mid = 1750;
     static final int high = 4000;
     static final double power = 0.9;
 
