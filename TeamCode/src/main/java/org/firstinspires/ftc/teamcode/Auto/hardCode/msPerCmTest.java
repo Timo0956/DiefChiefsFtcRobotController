@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Auto.hardCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Autonomous
+@Disabled
 public class msPerCmTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{

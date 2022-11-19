@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
+@Disabled
 public class EncoderTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
