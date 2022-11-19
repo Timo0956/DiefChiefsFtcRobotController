@@ -317,10 +317,9 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             rightStrafe(-power,msPerCm*22); //parking
             pause(100);
             forwardBackwardDrive(power, msPerCm*50);
-
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
+       // while (opModeIsActive()) {sleep(20);}
     }
 
     void tagToTelemetry(AprilTagDetection detection)
