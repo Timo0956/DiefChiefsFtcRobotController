@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Auto.machineLearning;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -51,6 +52,7 @@ import java.util.List;
  * is explained below.
  */
 @Autonomous
+@Disabled
 public class Test extends LinearOpMode {
 
     /*
