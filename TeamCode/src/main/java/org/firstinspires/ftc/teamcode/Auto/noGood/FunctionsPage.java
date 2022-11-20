@@ -32,7 +32,7 @@ public class FunctionsPage {
         motorBackRight.setPower(-power);
         Thread.sleep(time);
     }
-    public static void toLowLinSlide(){
+   /* public static void toLowLinSlide(){
         TwoStageLinSlideFile.moveStates(0,true,false,0);
     }
     public static void toMidLinSlide(){
@@ -41,7 +41,7 @@ public class FunctionsPage {
     public static void toHighLinSlide(){
         TwoStageLinSlideFile.moveStates(1,false,false,0);
     }
-    public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);}
+    public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */
     public static void closeServo(){
         ServoTele.close(true);
     }
