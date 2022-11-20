@@ -89,9 +89,11 @@ public class modesTeleOp extends LinearOpMode {
                     telemetry.addData("Slide Mode = ", "Manual");
                     telemetry.update();
                     if (gamepad1.right_trigger > 0.3){
+                        rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         rightLinSlide.setPower(0.9);
                     }
                     if(gamepad1.left_trigger>0.3){
+                        rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         rightLinSlide.setPower(0.9);
                     }
                 }
