@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tele.untested.servoStuff;
+package org.firstinspires.ftc.teamcode.Tele.untested;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 @TeleOp
 public class modesTeleOp extends LinearOpMode {
