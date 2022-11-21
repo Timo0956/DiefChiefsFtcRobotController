@@ -56,8 +56,9 @@ public class modesTeleOp extends LinearOpMode {
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
-        int Modes = 0;
+        int Modes = 1;
         int slideModes = 1;
+
         TwoStageLinSlideFile.setLSMotor(rightLinSlide/*, leftLinSlide*/); //defines motors in terms of the seperate file
         waitForStart();
         while(opModeIsActive()){
@@ -73,10 +74,6 @@ public class modesTeleOp extends LinearOpMode {
             if(gamepad2.y && rightLinSlide.getCurrentPosition() <=0){
                 slideModes = 2;
             }
-            if(Modes == 0){
-                telemetry.addData("Mode = ", "Select Mode");
-                telemetry.update();
-            }
             if(Modes == 1){
                 telemetry.addData("Mode = ", "Manual");
                 telemetry.update();
@@ -90,11 +87,19 @@ public class modesTeleOp extends LinearOpMode {
                     telemetry.update();
                     if (gamepad1.right_trigger > 0.3&&rightLinSlide.getCurrentPosition() <=4000){
                         rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        rightLinSlide.setPower(0.9);
+                        rightLinSlide.setPower(1);
                     }
                     if(gamepad1.left_trigger>0.3 && rightLinSlide.getCurrentPosition() >=0){
                         rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        rightLinSlide.setPower(0.9);
+                        rightLinSlide.setPower(1);
+                    }
+                    if(gamepad1.right_bumper &&rightLinSlide.getCurrentPosition() <=4000){
+                        rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        rightLinSlide.setPower(0.4);
+                    }
+                    if(gamepad1.left_bumper&&rightLinSlide.getCurrentPosition() >=0){
+                        rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        rightLinSlide.setPower(0.4);
                     }
                 }
                 ServoTele.open(gamepad1.x);
@@ -103,6 +108,7 @@ public class modesTeleOp extends LinearOpMode {
                 telemetry.addData("ServoPositionR", ClawServoR.getPosition());
                 telemetry.addData("ServoPositionL", ClawServoL.getPosition());
                 telemetry.update();
+                double speedPosition = -gamepad2.left_stick_y;
                 double y = -gamepad1.left_stick_y; // Remember, this is reversed!
                 double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
                 double rx = gamepad1.right_stick_x ;
@@ -110,14 +116,23 @@ public class modesTeleOp extends LinearOpMode {
                 // This ensures all the powers maintain the same ratio, but only when
                 // at least one is out of the range [-1, 1]
                 double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-                double frontLeftPower = (y + x + rx) * 0.65/ denominator;
-                double backLeftPower = (y - x + rx) * 0.65/ denominator;
-                double frontRightPower = (y - x - rx) * 0.65/ denominator;
-                double backRightPower = (y + x - rx)* 0.65/ denominator;
-                motorFrontLeft.setPower(-frontLeftPower*0.6);
-                motorBackLeft.setPower(-backLeftPower*0.6);
-                motorFrontRight.setPower(-frontRightPower*0.6);
-                motorBackRight.setPower(-backRightPower*0.6);
+                double frontLeftPower = (y + x + rx)/ denominator;
+                double backLeftPower = (y - x + rx)/ denominator;
+                double frontRightPower = (y - x - rx)/ denominator;
+                double backRightPower = (y + x - rx)/ denominator;
+                if(speedPosition == 0){
+                    motorFrontLeft.setPower(-frontLeftPower*0.65);
+                    motorBackLeft.setPower(-backLeftPower*0.65);
+                    motorFrontRight.setPower(-frontRightPower*0.65);
+                    motorBackRight.setPower(-backRightPower*0.65);
+                }
+                else{
+                    motorFrontLeft.setPower(-frontLeftPower*speedPosition);
+                    motorBackLeft.setPower(-backLeftPower*speedPosition);
+                    motorFrontRight.setPower(-frontRightPower*speedPosition);
+                    motorBackRight.setPower(-backRightPower*speedPosition);
+                }
+
             }
             if(Modes == 2){
                 telemetry.addData("Mode = ", "Farm");
