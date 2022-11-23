@@ -194,7 +194,7 @@ public class modesTeleOp extends LinearOpMode {
     public void spin180(){
         resetAngle();
         int anglevalid = 0;
-        while (anglevalid == 0){
+        do{
             motorFrontLeft.setPower(1);
             motorBackLeft.setPower(1);
             motorBackRight.setPower(-1);
@@ -206,7 +206,7 @@ public class modesTeleOp extends LinearOpMode {
                 motorFrontRight.setPower(0);
                 anglevalid = 1;
             }
-        }
+        } while (anglevalid == 0);
         resetAngle();
     }
 
