@@ -1,0 +1,64 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Tele/untested/servoStuff/ServoTele.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.Tele.untested.servoStuff;\r\n\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport com.qualcomm.robotcore.hardware.CRServo;\r\nimport com.qualcomm.robotcore.hardware.Servo;\r\nimport com.qualcomm.robotcore.hardware.ServoController;\r\nimport com.qualcomm.robotcore.util.ElapsedTime;\r\nimport com.sun.tools.javac.jvm.ClassWriter;\r\n\r\n//edit if required to adapt to 2 servos\r\npublic class ServoTele {\r\n\r\n    static Servo ClawL;\r\n    static Servo ClawR;\r\n\r\n\r\n    static double startPos = 0;\r\n    static double closePos = 0.2;\r\n\r\n    \r\n    // Initializing both servos (Declared in main Teleop)\r\n    public static void setServos(Servo Cl, Servo Cr){\r\n        ClawL = Cl;\r\n        ClawR = Cr;\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n    public static void open(boolean x){\r\n        ClawL.setPosition(startPos);\r\n        ClawR.setPosition(startPos);\r\n    }\r\n\r\n    //closes claw\r\n    public static void close(boolean y){\r\n        ClawL.setPosition(closePos);\r\n        ClawR.setPosition(closePos);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Tele/untested/servoStuff/ServoTele.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Tele/untested/servoStuff/ServoTele.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Tele/untested/servoStuff/ServoTele.java	
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Tele/untested/servoStuff/ServoTele.java	
+@@ -10,34 +10,22 @@
+ 
+ //edit if required to adapt to 2 servos
+ public class ServoTele {
+-
+     static Servo ClawL;
+     static Servo ClawR;
+-
+-
+     static double startPos = 0;
+     static double closePos = 0.2;
+-
+-    
+     // Initializing both servos (Declared in main Teleop)
+     public static void setServos(Servo Cl, Servo Cr){
+         ClawL = Cl;
+         ClawR = Cr;
+-
+     }
+-
+-
+-
+-
+     public static void open(boolean x){
+         ClawL.setPosition(startPos);
+         ClawR.setPosition(startPos);
+     }
+-
+     //closes claw
+     public static void close(boolean y){
+         ClawL.setPosition(closePos);
+         ClawR.setPosition(closePos);
+     }
+-
+ }
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/**\r\n * Top-level build file for ftc_app project.\r\n *\r\n * It is extraordinarily rare that you will ever need to edit this file.\r\n */\r\n\r\nbuildscript {\r\n    repositories {\r\n        mavenCentral()\r\n        google()\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:7.2.0'\r\n    }\r\n}\r\n\r\n// This is now required because aapt2 has to be downloaded from the\r\n// google() repository beginning with version 3.2 of the Android Gradle Plugin\r\nallprojects {\r\n    repositories {\r\n        mavenCentral()\r\n        google()\r\n    }\r\n}\r\n\r\nrepositories {\r\n    mavenCentral()\r\n\r\n    flatDir {\r\n        dirs '../libs'\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	
++++ b/build.gradle	
+@@ -10,7 +10,7 @@
+         google()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:7.2.0'
++        classpath 'com.android.tools.build:gradle:7.3.0'
+     }
+ }
+ 
