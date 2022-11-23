@@ -199,7 +199,7 @@ public class modesTeleOp extends LinearOpMode {
             motorBackLeft.setPower(1);
             motorBackRight.setPower(-1);
             motorFrontRight.setPower(-1);
-            if(getAngle() == 180){
+            if(getAngle() >= 180){
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
