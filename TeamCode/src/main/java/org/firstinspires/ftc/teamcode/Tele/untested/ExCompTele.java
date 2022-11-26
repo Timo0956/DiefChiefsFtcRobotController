@@ -25,6 +25,12 @@ public class ExCompTele extends LinearOpMode {
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
         setServos(ClawServoL, ClawServoR);
+        //set zero power behavior to brake
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
