@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Tele.untested;
 
+import android.util.Log;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -34,6 +36,7 @@ public class IMUTest extends LinearOpMode {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = true;
 
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
@@ -66,7 +69,7 @@ public class IMUTest extends LinearOpMode {
             //moveForwardBack(power);
             //moveSideways(power);
 
-
+            halt();
         }
 
 
@@ -77,10 +80,13 @@ public class IMUTest extends LinearOpMode {
         motorFrontRight.setPower(power);
         motorBackRight.setPower(power);
 
-        for(int i=0; i<40; i++){
+        for(int i=0; i<20; i++){
             telemetry.addData("Heading (Z)"+i*50, angles.firstAngle); //Z
             telemetry.addData("Roll (Y)"+i*50, angles.secondAngle); // Y
             telemetry.addData("Pitch (X)"+i*50, angles.thirdAngle); // X
+            Log.v("Heading (Z)"+i*50,""+angles.firstAngle);
+            Log.v("Roll (Y)"+i*50,""+angles.secondAngle);
+            Log.v("Pitch (Z)"+i*50,""+angles.thirdAngle);
             telemetry.update();
             Thread.sleep(50);
 
@@ -93,11 +99,12 @@ public class IMUTest extends LinearOpMode {
         motorFrontRight.setPower(power);
         motorBackRight.setPower(power);
 
-        for(int i=0; i<40; i++){
+        for(int i=0; i<20; i++){
             telemetry.addData("Forward(Z)"+i*50, gravity.zAccel); //Z
 //            telemetry.addData("Sideways(Y)"+i*50, gravity.yAccel); // Y
 //            telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
             telemetry.update();
+            Log.v("Forward(Z)"+i*50,""+gravity.zAccel);
             Thread.sleep(50);
 
         }
@@ -109,13 +116,20 @@ public class IMUTest extends LinearOpMode {
         motorFrontRight.setPower(-power);
         motorBackRight.setPower(power);
 
-        for(int i=0; i<40; i++){
+        for(int i=0; i<20; i++){
 //            telemetry.addData("Forward(Z)"+i*50, gravity.zAccel); //Z
             telemetry.addData("Sideways(Y)"+i*50, gravity.yAccel); // Y
 //            telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
+            Log.v("Sideways(Y)"+i*50,""+gravity.yAccel);
             telemetry.update();
             Thread.sleep(50);
 
         }
+    }
+    public void halt(){
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackRight.setPower(0);
     }
 }
