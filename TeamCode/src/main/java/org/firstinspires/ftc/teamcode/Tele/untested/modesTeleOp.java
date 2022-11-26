@@ -9,19 +9,35 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 @TeleOp
 public class modesTeleOp extends LinearOpMode {
+    BNO055IMU               imu;
+    Orientation             lastAngles = new Orientation();
+    double                  globalAngle;
+    DcMotor motorFrontLeft;
+    DcMotor motorBackLeft;
+    DcMotor motorFrontRight;
+    DcMotor motorBackRight;
     @Override
+
     public void runOpMode() throws InterruptedException{
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         //DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+        motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
+        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
+        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
+        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
         setServos(ClawServoL, ClawServoR);
@@ -35,8 +51,8 @@ public class modesTeleOp extends LinearOpMode {
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
@@ -129,10 +145,10 @@ public class modesTeleOp extends LinearOpMode {
                 double frontRightPower = (y - x - rx)/ denominator;
                 double backRightPower = (y + x - rx)/ denominator;
                 if(speedPosition == 0){
-                    motorFrontLeft.setPower(-frontLeftPower*0.65);
-                    motorBackLeft.setPower(-backLeftPower*0.65);
-                    motorFrontRight.setPower(-frontRightPower*0.65);
-                    motorBackRight.setPower(-backRightPower*0.65);
+                    motorFrontLeft.setPower(frontLeftPower*0.65);
+                    motorBackLeft.setPower(backLeftPower*0.65);
+                    motorFrontRight.setPower(frontRightPower*0.65);
+                    motorBackRight.setPower(backRightPower*0.65);
                 }
                 else{
                     motorFrontLeft.setPower(-frontLeftPower*speedPosition);
@@ -145,11 +161,53 @@ public class modesTeleOp extends LinearOpMode {
             if(Modes == 2){
                 telemetry.addData("Mode = ", "Farm");
                 telemetry.update();
+                if(gamepad1.a){
+                    spin180();
+                }
 
             }
         }
+
     }
-    public static void spin180(){
-        
+    private double getAngle(){
+
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+
+        return globalAngle;
     }
+    private void resetAngle(){
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        globalAngle = 0;
+    }
+    public void spin180(){
+        resetAngle();
+        int anglevalid = 0;
+        do{
+            motorFrontLeft.setPower(1);
+            motorBackLeft.setPower(1);
+            motorBackRight.setPower(-1);
+            motorFrontRight.setPower(-1);
+            if(getAngle() >= 180){
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                motorFrontRight.setPower(0);
+                anglevalid = 1;
+            }
+        } while (anglevalid == 0);
+        resetAngle();
+    }
+
 }
