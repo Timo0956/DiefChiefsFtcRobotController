@@ -80,15 +80,15 @@ public class IMUTest extends LinearOpMode {
         motorFrontRight.setPower(power);
         motorBackRight.setPower(power);
 
-        for(int i=0; i<20; i++){
-            telemetry.addData("Heading (Z)"+i*50, angles.firstAngle); //Z
-            telemetry.addData("Roll (Y)"+i*50, angles.secondAngle); // Y
-            telemetry.addData("Pitch (X)"+i*50, angles.thirdAngle); // X
-            Log.v("Heading (Z)"+i*50,""+angles.firstAngle);
-            Log.v("Roll (Y)"+i*50,""+angles.secondAngle);
-            Log.v("Pitch (Z)"+i*50,""+angles.thirdAngle);
-            telemetry.update();
-            Thread.sleep(50);
+        for(int i=0; i<50; i++){
+            telemetry.addData("Heading (Z)"+i*20, angles.firstAngle); //Z
+            telemetry.addData("Roll (Y)"+i*20, angles.secondAngle); // Y
+            telemetry.addData("Pitch (X)"+i*20, angles.thirdAngle); // X
+            Log.v("Heading (Z)"+i*20,""+angles.firstAngle);
+            Log.v("Roll (Y)"+i*20,""+angles.secondAngle);
+            Log.v("Pitch (Z)"+i*20,""+angles.thirdAngle);
+//            telemetry.update();
+            Thread.sleep(20);
 
         }
     }
@@ -99,13 +99,13 @@ public class IMUTest extends LinearOpMode {
         motorFrontRight.setPower(power);
         motorBackRight.setPower(power);
 
-        for(int i=0; i<20; i++){
-            telemetry.addData("Forward(Z)"+i*50, gravity.zAccel); //Z
+        for(int i=0; i<50; i++){
+            telemetry.addData("Forward(Z)"+i*20, gravity.zAccel); //Z
 //            telemetry.addData("Sideways(Y)"+i*50, gravity.yAccel); // Y
 //            telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
-            telemetry.update();
-            Log.v("Forward(Z)"+i*50,""+gravity.zAccel);
-            Thread.sleep(50);
+//            telemetry.update();
+            Log.v("Forward(Z)"+i*20,""+gravity.zAccel);
+            Thread.sleep(20);
 
         }
     }
@@ -116,13 +116,13 @@ public class IMUTest extends LinearOpMode {
         motorFrontRight.setPower(-power);
         motorBackRight.setPower(power);
 
-        for(int i=0; i<20; i++){
+        for(int i=0; i<50; i++){
 //            telemetry.addData("Forward(Z)"+i*50, gravity.zAccel); //Z
-            telemetry.addData("Sideways(Y)"+i*50, gravity.yAccel); // Y
+            telemetry.addData("Sideways(Y)"+i*20, gravity.yAccel); // Y
 //            telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
-            Log.v("Sideways(Y)"+i*50,""+gravity.yAccel);
-            telemetry.update();
-            Thread.sleep(50);
+            Log.v("Sideways(Y)"+i*20,""+gravity.yAccel);
+//            telemetry.update();
+            Thread.sleep(20);
 
         }
     }
