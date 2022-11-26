@@ -56,18 +56,22 @@ public class IMUTest extends LinearOpMode {
 
         gravity = imu.getLinearAcceleration();
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
         telemetry.addData("IMU Status", imu.getSystemStatus());
         telemetry.addData("Calibration Status", imu.getCalibrationStatus());
-
         telemetry.update();
 
         waitForStart();
 
         while(opModeIsActive()) {
 
-            //turn(power);
-            //moveForwardBack(power);
-            //moveSideways(power);
+            if (gamepad1.x){
+                turn(power);
+            } else if(gamepad1.b){
+                moveForwardBack(power);
+            } else if (gamepad1.a){
+                moveSideways(power);
+            }
 
             halt();
         }
