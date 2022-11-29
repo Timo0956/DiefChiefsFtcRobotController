@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -54,7 +55,7 @@ public class IMUTest extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        gravity = imu.getLinearAcceleration();
+        gravity = imu.getAcceleration();
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         telemetry.addData("IMU Status", imu.getSystemStatus());
@@ -73,7 +74,7 @@ public class IMUTest extends LinearOpMode {
                 moveSideways(power);
             }
 
-            halt();
+           // halt();
         }
 
 
@@ -83,18 +84,20 @@ public class IMUTest extends LinearOpMode {
         motorBackLeft.setPower(-power);
         motorFrontRight.setPower(power);
         motorBackRight.setPower(power);
-
+        telemetry.addData("Status", " Run Turn");
+        telemetry.update();
         for(int i=0; i<50; i++){
             telemetry.addData("Heading (Z)"+i*20, angles.firstAngle); //Z
             telemetry.addData("Roll (Y)"+i*20, angles.secondAngle); // Y
             telemetry.addData("Pitch (X)"+i*20, angles.thirdAngle); // X
-            Log.v("Heading (Z)"+i*20,""+angles.firstAngle);
-            Log.v("Roll (Y)"+i*20,""+angles.secondAngle);
-            Log.v("Pitch (Z)"+i*20,""+angles.thirdAngle);
+           // Log.v("Heading (Z)"+i*20,""+angles.firstAngle);
+           // Log.v("Roll (Y)"+i*20,""+angles.secondAngle);
+            //Log.v("Pitch (Z)"+i*20,""+angles.thirdAngle);
 //            telemetry.update();
             Thread.sleep(20);
 
         }
+        halt();
     }
 
     public void moveForwardBack(double power) throws InterruptedException{
@@ -102,16 +105,18 @@ public class IMUTest extends LinearOpMode {
         motorBackLeft.setPower(power);
         motorFrontRight.setPower(power);
         motorBackRight.setPower(power);
-
+        telemetry.addData("Status", " Forward Backward");
+        telemetry.update();
         for(int i=0; i<50; i++){
             telemetry.addData("Forward(Z)"+i*20, gravity.zAccel); //Z
 //            telemetry.addData("Sideways(Y)"+i*50, gravity.yAccel); // Y
 //            telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
 //            telemetry.update();
-            Log.v("Forward(Z)"+i*20,""+gravity.zAccel);
+          //  Log.v("Forward(Z)"+i*20,""+gravity.zAccel);
             Thread.sleep(20);
 
         }
+        halt();
     }
 
     public void moveSideways(double power) throws InterruptedException{
@@ -123,12 +128,13 @@ public class IMUTest extends LinearOpMode {
         for(int i=0; i<50; i++){
 //            telemetry.addData("Forward(Z)"+i*50, gravity.zAccel); //Z
             telemetry.addData("Sideways(Y)"+i*20, gravity.yAccel); // Y
-//            telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
+//       //     telemetry.addData("Up (X)"+i*50, gravity.xAccel); // X
             Log.v("Sideways(Y)"+i*20,""+gravity.yAccel);
 //            telemetry.update();
             Thread.sleep(20);
 
         }
+        halt();
     }
     public void halt(){
         motorFrontLeft.setPower(0);
