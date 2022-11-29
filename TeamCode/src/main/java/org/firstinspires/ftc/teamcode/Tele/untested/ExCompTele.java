@@ -53,10 +53,10 @@ public class ExCompTele extends LinearOpMode {
             // This ensures all the powers maintain the same ratio, but only when
             // at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) * 0.65/ denominator;
-            double backLeftPower = (y - x + rx) * 0.65/ denominator;
-            double frontRightPower = (y - x - rx) * 0.65/ denominator;
-            double backRightPower = (y + x - rx)* 0.65/ denominator;
+            double frontLeftPower = (y + x + rx)/ denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx)/ denominator;
+            double backRightPower = (y + x - rx)/ denominator;
             motorFrontLeft.setPower(-frontLeftPower*0.6);
             motorBackLeft.setPower(-backLeftPower*0.6);
             motorFrontRight.setPower(-frontRightPower*0.6);
