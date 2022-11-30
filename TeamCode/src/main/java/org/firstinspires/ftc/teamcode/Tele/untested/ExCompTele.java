@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Tele.untested;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSli
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 @TeleOp
+@Disabled
 public class ExCompTele extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
