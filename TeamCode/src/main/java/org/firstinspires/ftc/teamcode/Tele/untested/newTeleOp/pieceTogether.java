@@ -16,9 +16,11 @@ public class pieceTogether {
         }
         else if(g1.y){
             ServoTele.close(g1.y);
+            //servotele vertical here
             Thread.sleep(500);
             load();
         }
+
 
     }
     public static void load() throws InterruptedException{
