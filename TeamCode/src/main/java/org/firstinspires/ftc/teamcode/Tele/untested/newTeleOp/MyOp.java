@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
-import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+
 
 @TeleOp
 public class MyOp extends LinearOpMode {
@@ -26,6 +26,10 @@ public class MyOp extends LinearOpMode {
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
         CRServo TopServo = hardwareMap.crservo.get("TopServo");
+        CRServo ClawServo = hardwareMap.crservo.get("clawServo");
+        Servo placeholderServo = hardwareMap.servo.get("placeHolderServo");
+        clawServoClass.clawServoInit(ClawServo);
+        servo180pullback.placeHolderServoInit(placeholderServo);
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topServo.initTopServo(TopServo);
@@ -47,9 +51,9 @@ public class MyOp extends LinearOpMode {
         while (opModeIsActive()){
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             topServo.manualTSControl(gamepad1.dpad_left, gamepad1.dpad_right);
-            ExtensionLinSlide.extendHori(gamepad1.a, gamepad1.b);
-            ServoTele.open(gamepad1.x);
-            ServoTele.close(gamepad1.y);
+
+            pieceTogether.pieceTogether(gamepad1);
+
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());

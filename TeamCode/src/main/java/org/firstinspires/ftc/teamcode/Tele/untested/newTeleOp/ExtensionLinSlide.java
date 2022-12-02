@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+
 public class ExtensionLinSlide {
     static DcMotor HL = null;
     static int extendPos = 1900;
@@ -14,25 +16,20 @@ public class ExtensionLinSlide {
         HL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         HL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public static void extendHori (boolean extend, boolean retract ){
-        int position = 0;
-        if(extend){
-            position = 1;
-        }
-        else if (retract){
-            position = 0;
-        }
-        if(position == 1){
-            if (HL.getCurrentPosition() < extendPos){
+    public static void extendHori () {
+        ServoTele.open(true);
+
+            if (HL.getCurrentPosition() < extendPos) {
                 HL.setTargetPosition(extendPos);
                 HL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 HL.setPower(power);
-            }
-            else{
+            } else {
                 HL.setPower(0);
             }
-        }
-        else if (position == 0){
+
+    }
+    public static void retractHori () {
+
             if(HL.getCurrentPosition() > closePos){
                 HL.setTargetPosition(closePos);
                 HL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -41,7 +38,10 @@ public class ExtensionLinSlide {
             else{
                 HL.setPower(0);
             }
-        }
+
+    }
+    public static void manualExtension(boolean a, boolean b){
+
     }
 
 }
