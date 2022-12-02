@@ -14,11 +14,11 @@ public class clawServoClass {
     public static void spinClawServo(boolean up, boolean down) throws InterruptedException{
         if(up) {
             clawServo.setPower(1);
-            Thread.sleep(750);
+            Thread.sleep(300);
             clawServo.setPower(0);
         } else if(down) {
             clawServo.setPower(-1);
-            Thread.sleep(750);
+            Thread.sleep(300);
             clawServo.setPower(0);
         } else {
             clawServo.setPower(0);
