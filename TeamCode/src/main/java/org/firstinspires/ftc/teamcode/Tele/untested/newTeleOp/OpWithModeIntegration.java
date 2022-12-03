@@ -56,9 +56,7 @@ public class OpWithModeIntegration extends LinearOpMode {
         int slideModes = 1;
         if (isStopRequested()) return;
         while (opModeIsActive()){
-            topServo.manualTSControl(gamepad1.dpad_left, gamepad1.dpad_right);
-            clawServoClass.spinClawServo(gamepad1.dpad_up,gamepad1.dpad_down);
-            pieceTogether.pieceTogether(gamepad1);
+
             if(gamepad2.a){
                 ModesTrans = true;
                 ModesTransTo = 1;
@@ -98,6 +96,9 @@ public class OpWithModeIntegration extends LinearOpMode {
                 slideModes = 2;
             }
             if (Modes == 1){
+                topServo.manualTSControl(gamepad1.dpad_left, gamepad1.dpad_right);
+                clawServoClass.spinClawServo(gamepad1.dpad_up,gamepad1.dpad_down);
+                pieceTogether.pieceTogether(gamepad1);
                 telemetry.addData("Mode = ", "Manual");
                 telemetry.update();
                 if(slideModes == 1){
