@@ -70,8 +70,10 @@ public class OpWithModeIntegration extends LinearOpMode {
             if(ModesTrans){
                 servo180pullback.placeHolder.setPosition(0);
                 if(rightLinSlide.getCurrentPosition() < 0){
-                    rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    leftLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    rightLinSlide.setTargetPosition(0);
+                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftLinSlide.setTargetPosition(0);
+                    leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-1);
                     leftLinSlide.setPower(-1);
                 }
