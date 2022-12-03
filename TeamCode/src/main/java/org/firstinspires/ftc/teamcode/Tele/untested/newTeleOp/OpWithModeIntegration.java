@@ -76,7 +76,6 @@ public class OpWithModeIntegration extends LinearOpMode {
                     leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-1);
                     leftLinSlide.setPower(-1);
-
                 }
                 else{
                     rightLinSlide.setPower(0);
@@ -92,7 +91,6 @@ public class OpWithModeIntegration extends LinearOpMode {
                     Modes =2;
                 }
             }
-
             if(gamepad2.x && rightLinSlide.getCurrentPosition() <= 0){
                 slideModes = 1;
             }
