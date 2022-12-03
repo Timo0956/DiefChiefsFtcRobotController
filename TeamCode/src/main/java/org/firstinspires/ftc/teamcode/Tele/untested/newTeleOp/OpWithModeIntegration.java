@@ -76,6 +76,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                     leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLinSlide.setPower(-1);
                     leftLinSlide.setPower(-1);
+                    ExtensionLinSlide.retractHori();
                 }
                 else{
                     rightLinSlide.setPower(0);
