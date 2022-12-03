@@ -51,9 +51,7 @@ public class MyOp extends LinearOpMode {
         while (opModeIsActive()){
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             topServo.manualTSControl(gamepad1.dpad_left, gamepad1.dpad_right);
-
             pieceTogether.pieceTogether(gamepad1);
-
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
