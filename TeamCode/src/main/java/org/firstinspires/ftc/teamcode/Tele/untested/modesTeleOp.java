@@ -158,14 +158,14 @@ public class modesTeleOp extends LinearOpMode {
                 }
 
             }
-            if(Modes == 2){
+           /* if(Modes == 2){
                 telemetry.addData("Mode = ", "Farm");
                 telemetry.update();
                 if(gamepad1.a){
                     spin180();
                 }
 
-            }
+            }*/
         }
 
     }
