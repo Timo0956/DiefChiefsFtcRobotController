@@ -20,6 +20,11 @@ public class pieceTogether {
             Thread.sleep(500);
             load();
         }
+        else if(g1.a){
+            upDrop();
+            Thread.sleep(4000);
+            armDown();
+        }
 
 
     }
@@ -32,5 +37,19 @@ public class pieceTogether {
         Thread.sleep(500);
         servo180pullback.placeHolder.setPosition(0);
         ServoTele.open(true);
+    }
+    public static void upDrop() throws InterruptedException{
+        TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
+        clawServoClass.spinClawServo(true, false);
+        clawServoClass.spinClawServo(false, false);
+        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+        topServo.turnTSOpen();
+        clawServoClass.spinClawServo(false, true);
+        clawServoClass.spinClawServo(false,false);
+    }
+    public static void armDown() throws InterruptedException{
+        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+        topServo.turnTSClose();
+
     }
 }
