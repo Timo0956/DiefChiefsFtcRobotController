@@ -88,6 +88,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                 else if (ModesTransTo ==2){
                     Modes =2;
                 }
+                ModesTrans = false;
             }
             if(gamepad2.x && rightLinSlide.getCurrentPosition() <= 0){
                 slideModes = 1;
