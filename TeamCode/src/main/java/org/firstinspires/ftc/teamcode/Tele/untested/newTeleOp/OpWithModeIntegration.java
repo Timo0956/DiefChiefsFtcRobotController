@@ -105,7 +105,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                     telemetry.update();
                     TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
                 }
-                if (slideModes == 2){
+                else if (slideModes == 2){
                     telemetry.addData("Slide Mode = ", "Manual");
                     telemetry.update();
                     if (gamepad1.right_trigger > 0.3&&rightLinSlide.getCurrentPosition() <=4000){
@@ -114,19 +114,19 @@ public class OpWithModeIntegration extends LinearOpMode {
                         rightLinSlide.setPower(1);
                         leftLinSlide.setPower(1);
                     }
-                    if(gamepad1.left_trigger>0.3 && rightLinSlide.getCurrentPosition() >=0){
+                    else if(gamepad1.left_trigger>0.3 && rightLinSlide.getCurrentPosition() >=0){
                         rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         leftLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         rightLinSlide.setPower(-1);
                         leftLinSlide.setPower(-1);
                     }
-                    if(gamepad1.right_bumper &&rightLinSlide.getCurrentPosition() <=4000){
+                    else if(gamepad1.right_bumper &&rightLinSlide.getCurrentPosition() <=4000){
                         rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         leftLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         rightLinSlide.setPower(0.4);
                         leftLinSlide.setPower(0.4);
                     }
-                    if(gamepad1.left_bumper&&rightLinSlide.getCurrentPosition() >=0){
+                    else if(gamepad1.left_bumper&&rightLinSlide.getCurrentPosition() >=0){
                         rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         leftLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         rightLinSlide.setPower(-0.4);
