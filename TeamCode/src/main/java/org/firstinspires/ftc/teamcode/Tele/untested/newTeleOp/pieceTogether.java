@@ -19,11 +19,16 @@ public class pieceTogether {
             //servotele vertical here
             Thread.sleep(500);
             load();
-        }
-        else if(g1.a){
-            upDrop();
-            Thread.sleep(4000);
-            armDown();
+
+        } else if (g1.x) {
+            ServoTele.open(g1.x);
+
+        } else if (g1.a) {
+            if(TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW){
+                TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+                Thread.sleep(500);
+            }
+            ExtensionLinSlide.retractHori();
         }
 
 
@@ -38,16 +43,20 @@ public class pieceTogether {
         servo180pullback.placeHolder.setPosition(0);
         ServoTele.open(true);
     }
-    public static void upDrop() throws InterruptedException{
+    public static void upDrop() throws InterruptedException{ //farm only
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
+        Thread.sleep(300);
         clawServoClass.spinClawServo(true, false);
         clawServoClass.spinClawServo(false, false);
+        Thread.sleep(500);
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         topServo.turnTSOpen();
+        Thread.sleep(1000);
         clawServoClass.spinClawServo(false, true);
         clawServoClass.spinClawServo(false,false);
+        Thread.sleep(300);
     }
-    public static void armDown() throws InterruptedException{
+    public static void armDown() throws InterruptedException{ // farm only
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         topServo.turnTSClose();
 
