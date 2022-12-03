@@ -47,6 +47,7 @@ public class MyOp extends LinearOpMode {
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
         waitForStart();
+
         if (isStopRequested()) return;
         while (opModeIsActive()){
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
