@@ -120,7 +120,7 @@ public class SensorBNO055IMU extends LinearOpMode
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity  = imu.getGravity();
+                gravity  = imu.getLinearAcceleration();
                 }
             });
 
@@ -154,19 +154,26 @@ public class SensorBNO055IMU extends LinearOpMode
                 });
 
         telemetry.addLine()
-            .addData("grvty", new Func<String>() {
+            .addData("acc", new Func<String>() {
                 @Override public String value() {
                     return gravity.toString();
                     }
-                })
-            .addData("mag", new Func<String>() {
+            })
+            .addData("Z", new Func<String>() {
                 @Override public String value() {
-                    return String.format(Locale.getDefault(), "%.3f",
-                            Math.sqrt(gravity.xAccel*gravity.xAccel
-                                    + gravity.yAccel*gravity.yAccel
-                                    + gravity.zAccel*gravity.zAccel));
-                    }
-                });
+                    return String.format(Locale.getDefault(), "%.3f",gravity.zAccel);
+                }
+            })
+            .addData("Y", new Func<String>() {
+                @Override public String value() {
+                    return String.format(Locale.getDefault(), "%.3f",gravity.yAccel);
+                }
+            })
+            .addData("X", new Func<String>() {
+                @Override public String value() {
+                    return String.format(Locale.getDefault(), "%.3f",gravity.xAccel);
+                }
+            });
     }
 
     //----------------------------------------------------------------------------------------------
