@@ -67,28 +67,31 @@ public class OpWithModeIntegration extends LinearOpMode {
             }
             if(ModesTrans){
                 servo180pullback.placeHolder.setPosition(0);
-                if(rightLinSlide.getCurrentPosition() < 0){
-                    rightLinSlide.setTargetPosition(0);
-                    rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftLinSlide.setTargetPosition(0);
-                    leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightLinSlide.setPower(-1);
-                    leftLinSlide.setPower(-1);
+                while (rightLinSlide.getCurrentPosition()!=0 && TopMotor.getCurrentPosition() != 0){
+                    if(rightLinSlide.getCurrentPosition() > 0){
+                        rightLinSlide.setTargetPosition(0);
+                        rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftLinSlide.setTargetPosition(0);
+                        leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        rightLinSlide.setPower(-1);
+                        leftLinSlide.setPower(-1);
+                    }
+                    else{
+                        rightLinSlide.setPower(0);
+                        leftLinSlide.setPower(0);
+                    }
+                    if(TopMotor.getCurrentPosition() > 0) {
+                        TopMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        TopMotor.setTargetPosition(0);
+                        TopMotor.setPower(0.9);
+                    }
+                    else{
+                        TopMotor.setPower(0);
+                    }
+                    ServoTele.open(true);
+                    ExtensionLinSlide.retractHori();
                 }
-                else{
-                    rightLinSlide.setPower(0);
-                    leftLinSlide.setPower(0);
-                }
-                if(TopMotor.getCurrentPosition() > 0) {
-                    TopMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    TopMotor.setTargetPosition(0);
-                    TopMotor.setPower(0.8);
-                }
-                else{
-                    TopMotor.setPower(0);
-                }
-                ServoTele.open(true);
-                ExtensionLinSlide.retractHori();
+
                 if(ModesTransTo == 1){
                     Modes = 1;
                 }
@@ -175,12 +178,13 @@ public class OpWithModeIntegration extends LinearOpMode {
                 }
             }
             if(Modes == 2){
-                pieceTogether.load();
+                farmMode.farm();
+               /* pieceTogether.load();
                 Thread.sleep(200);
                 pieceTogether.upDrop();
                 Thread.sleep(200);
                 pieceTogether.armDown();
-                Thread.sleep(200);
+                Thread.sleep(200); */
             }
 
 

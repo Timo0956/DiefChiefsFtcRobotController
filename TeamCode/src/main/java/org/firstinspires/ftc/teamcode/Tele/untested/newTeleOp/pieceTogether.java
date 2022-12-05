@@ -8,17 +8,15 @@ public class pieceTogether {
     public static void pieceTogether(Gamepad g1) throws InterruptedException {
 
         if(g1.b) {
-            if(TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW){
+            if(TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW || topMotor.TM.getCurrentPosition()!=0 ){
                 TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+                topMotor.autoMoveToOriginal();
                 Thread.sleep(500);
             }
             ExtensionLinSlide.extendHori();
         }
         else if(g1.y){
             ServoTele.close(g1.y);
-            //servotele vertical here
-            Thread.sleep(500);
-            load();
 
         } else if (g1.x) {
             ServoTele.open(g1.x);
@@ -28,7 +26,7 @@ public class pieceTogether {
                 TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
                 Thread.sleep(500);
             }
-            ExtensionLinSlide.retractHori();
+            load();
         }
 
 
@@ -57,8 +55,9 @@ public class pieceTogether {
         Thread.sleep(300);
     }
     public static void armDown() throws InterruptedException{ // farm only
-        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         topMotor.autoMoveToOriginal();
+        Thread.sleep(300);
+        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
 
     }
    /* public static void returnToPosition() throws InterruptedException{
