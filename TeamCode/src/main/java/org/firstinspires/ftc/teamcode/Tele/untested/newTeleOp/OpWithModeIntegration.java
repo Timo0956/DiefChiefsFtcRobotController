@@ -79,7 +79,14 @@ public class OpWithModeIntegration extends LinearOpMode {
                     rightLinSlide.setPower(0);
                     leftLinSlide.setPower(0);
                 }
-                // add the top spinning motor somehow
+                if(TopMotor.getCurrentPosition() > 0) {
+                    TopMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    TopMotor.setTargetPosition(0);
+                    TopMotor.setPower(0.8);
+                }
+                else{
+                    TopMotor.setPower(0);
+                }
                 ServoTele.open(true);
                 ExtensionLinSlide.retractHori();
                 if(ModesTransTo == 1){
