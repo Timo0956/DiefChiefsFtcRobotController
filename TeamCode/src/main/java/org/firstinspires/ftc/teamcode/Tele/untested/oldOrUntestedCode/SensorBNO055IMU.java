@@ -68,6 +68,10 @@ public class SensorBNO055IMU extends LinearOpMode
     Orientation angles;
     Acceleration gravity;
 
+    double zac;
+    double yac;
+    double xac;
+
     //----------------------------------------------------------------------------------------------
     // Main logic
     //----------------------------------------------------------------------------------------------
@@ -161,16 +165,19 @@ public class SensorBNO055IMU extends LinearOpMode
             })
             .addData("Z", new Func<String>() {
                 @Override public String value() {
+                    zac = gravity.zAccel;
                     return String.format(Locale.getDefault(), "%.3f",gravity.zAccel);
                 }
             })
             .addData("Y", new Func<String>() {
                 @Override public String value() {
+                    yac = gravity.yAccel;
                     return String.format(Locale.getDefault(), "%.3f",gravity.yAccel);
                 }
             })
             .addData("X", new Func<String>() {
                 @Override public String value() {
+                    xac = gravity.xAccel;
                     return String.format(Locale.getDefault(), "%.3f",gravity.xAccel);
                 }
             });
