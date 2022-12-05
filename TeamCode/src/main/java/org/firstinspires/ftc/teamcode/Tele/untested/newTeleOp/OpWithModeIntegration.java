@@ -36,6 +36,7 @@ public class OpWithModeIntegration extends LinearOpMode {
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topMotor.initTopMotor(TopMotor);
+        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -48,7 +49,7 @@ public class OpWithModeIntegration extends LinearOpMode {
         // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
+
         waitForStart();
         Boolean ModesTrans = false;
         int Modes = 1;
@@ -67,7 +68,7 @@ public class OpWithModeIntegration extends LinearOpMode {
             }
             if(ModesTrans){
                 servo180pullback.placeHolder.setPosition(0);
-                while (rightLinSlide.getCurrentPosition()!=0 && TopMotor.getCurrentPosition() != 0){
+                while (rightLinSlide.getCurrentPosition()!= 0 && TopMotor.getCurrentPosition() != 0){
                     if(rightLinSlide.getCurrentPosition() > 0){
                         rightLinSlide.setTargetPosition(0);
                         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -143,6 +144,9 @@ public class OpWithModeIntegration extends LinearOpMode {
                         leftLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         rightLinSlide.setPower(-0.4);
                         leftLinSlide.setPower(-0.4);
+                    } else {
+                        rightLinSlide.setPower(0);
+                        leftLinSlide.setPower(0);
                     }
 
                 }
@@ -152,7 +156,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                 telemetry.addData("ServoPositionR", ClawServoR.getPosition());
                 telemetry.addData("ServoPositionL", ClawServoL.getPosition());
                 telemetry.update();
-                double speedPosition = -gamepad2.left_stick_y;
+                double speedPosition = Math.abs(gamepad2.left_stick_y);
                 double y = -gamepad1.left_stick_y; // Remember, this is reversed!
                 double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
                 double rx = gamepad1.right_stick_x ;
@@ -171,10 +175,10 @@ public class OpWithModeIntegration extends LinearOpMode {
                     motorBackRight.setPower(backRightPower*0.65);
                 }
                 else{
-                    motorFrontLeft.setPower(-frontLeftPower*speedPosition);
-                    motorBackLeft.setPower(-backLeftPower*speedPosition);
-                    motorFrontRight.setPower(-frontRightPower*speedPosition);
-                    motorBackRight.setPower(-backRightPower*speedPosition);
+                    motorFrontLeft.setPower(frontLeftPower*speedPosition);
+                    motorBackLeft.setPower(backLeftPower*speedPosition);
+                    motorFrontRight.setPower(frontRightPower*speedPosition);
+                    motorBackRight.setPower(backRightPower*speedPosition);
                 }
             }
             if(Modes == 2){
