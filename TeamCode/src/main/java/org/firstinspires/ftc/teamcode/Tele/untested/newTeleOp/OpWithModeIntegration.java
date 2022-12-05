@@ -30,9 +30,10 @@ public class OpWithModeIntegration extends LinearOpMode {
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
         DcMotor TopMotor = hardwareMap.dcMotor.get("TopMotor");
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
-        Servo placeholderServo = hardwareMap.servo.get("placeHolderServo");
+        CRServo placeholderServo = hardwareMap.crservo.get("placeHolderServo");
+        CRServo placeholderServo1 = hardwareMap.crservo.get("placeholderServo1");
         clawServoClass.clawServoInit(ClawServo);
-        servo180pullback.placeHolderServoInit(placeholderServo);
+        servo180pullback.placeHolderServoInit(placeholderServo, placeholderServo1);
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topMotor.initTopMotor(TopMotor);
@@ -67,7 +68,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                 ModesTransTo = 2;
             }
             if(ModesTrans){
-                servo180pullback.placeHolder.setPosition(0);
+                //code at home: statemachine for servos
                 while (rightLinSlide.getCurrentPosition()!= 0 && TopMotor.getCurrentPosition() != 0){
                     if(rightLinSlide.getCurrentPosition() > 0){
                         rightLinSlide.setTargetPosition(0);

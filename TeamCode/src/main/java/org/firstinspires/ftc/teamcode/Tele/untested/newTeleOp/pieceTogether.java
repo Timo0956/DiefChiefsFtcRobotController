@@ -33,12 +33,12 @@ public class pieceTogether {
     }
     public static void load() throws InterruptedException{
         ExtensionLinSlide.retractHori();
-        servo180pullback.placeHolder.setPosition(1);
+        servo180pullback.pullIn();
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         Thread.sleep(500);
-        servo180pullback.placeHolder.setPosition(0);
+        servo180pullback.pushOut();
         ServoTele.open(true);
     }
     public static void upDrop() throws InterruptedException{ //farm only
