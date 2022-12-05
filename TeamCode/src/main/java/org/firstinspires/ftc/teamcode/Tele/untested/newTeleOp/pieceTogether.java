@@ -50,7 +50,7 @@ public class pieceTogether {
         clawServoClass.spinClawServo(false, false);
         Thread.sleep(500);
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
-        topServo.turnTSOpen();
+        topMotor.autoMoveToPosition();
         Thread.sleep(1000);
         clawServoClass.spinClawServo(false, true);
         clawServoClass.spinClawServo(false,false);
@@ -58,10 +58,10 @@ public class pieceTogether {
     }
     public static void armDown() throws InterruptedException{ // farm only
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
-        topServo.turnTSClose();
+        topMotor.autoMoveToOriginal();
 
     }
-    public static void returnToPosition() throws InterruptedException{
+   /* public static void returnToPosition() throws InterruptedException{
 
-    }
+    }*/
 }

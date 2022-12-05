@@ -25,14 +25,14 @@ public class MyOp extends LinearOpMode {
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-        CRServo TopServo = hardwareMap.crservo.get("TopServo");
+        DcMotor TopMotor = hardwareMap.dcMotor.get("TopMotor");
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
         Servo placeholderServo = hardwareMap.servo.get("placeHolderServo");
         clawServoClass.clawServoInit(ClawServo);
         servo180pullback.placeHolderServoInit(placeholderServo);
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
-        topServo.initTopServo(TopServo);
+        topMotor.initTopMotor(TopMotor);
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -51,7 +51,7 @@ public class MyOp extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()){
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
-            topServo.manualTSControl(gamepad1.dpad_left, gamepad1.dpad_right);
+            topMotor.moveTopMotor(gamepad1.dpad_right, gamepad1.dpad_left);
             clawServoClass.spinClawServo(gamepad1.dpad_up,gamepad1.dpad_down);
             pieceTogether.pieceTogether(gamepad1);
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
