@@ -35,6 +35,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -70,6 +72,7 @@ public class SensorBNO055IMU extends LinearOpMode
     Orientation angles;
     Acceleration gravity;
 
+    double power =1;
     double zac;
     double yac;
     double xac;
@@ -78,7 +81,21 @@ public class SensorBNO055IMU extends LinearOpMode
     // Main logic
     //----------------------------------------------------------------------------------------------
 
-    @Override public void runOpMode() {
+    @Override public void runOpMode() throws InterruptedException{
+        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
+        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+
+        // Reverse the right side motors
+        // Reverse left motors if you are using NeveRests
+        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -107,8 +124,38 @@ public class SensorBNO055IMU extends LinearOpMode
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         // Loop and update the dashboard
-        while (opModeIsActive()) {
-            telemetry.update();
+        while (opModeIsActive()){
+            if(gamepad1.a){
+                motorFrontLeft.setPower(power);
+                motorBackLeft.setPower(power);
+                motorFrontRight.setPower(power);
+                motorBackRight.setPower(power);
+                for(int i=0; i<50;i++){
+                    telemetry.update();
+                    Thread.sleep(20);
+                }
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackRight.setPower(0);
+            }
+            else if(gamepad1.b){
+                motorFrontLeft.setPower(-power);
+                motorBackLeft.setPower(power);
+                motorFrontRight.setPower(power);
+                motorBackRight.setPower(-power);
+                for(int i=0; i<50;i++){
+                    telemetry.update();
+                    Thread.sleep(20);
+                }
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackRight.setPower(0);
+            }
+
+
+
         }
     }
 
