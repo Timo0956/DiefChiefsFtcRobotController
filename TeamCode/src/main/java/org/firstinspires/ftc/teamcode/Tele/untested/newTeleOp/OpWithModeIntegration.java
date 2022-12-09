@@ -22,22 +22,30 @@ public class OpWithModeIntegration extends LinearOpMode {
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
         DcMotor HL = hardwareMap.dcMotor.get("HL");
+
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+
+        DcMotor TopMotor = hardwareMap.dcMotor.get("TopMotor");
+
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-        DcMotor TopMotor = hardwareMap.dcMotor.get("TopMotor");
+
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
-        CRServo placeholderServo = hardwareMap.crservo.get("placeHolderServo");
-        CRServo placeholderServo1 = hardwareMap.crservo.get("placeholderServo1");
+        CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
+        CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
+        CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
+        CRServo fourArmOuterLeft = hardwareMap.crservo.get("fourArmOuterLeft");
+
+
         clawServoClass.clawServoInit(ClawServo);
-        servo180pullback.placeHolderServoInit(placeholderServo, placeholderServo1);
+        servo180pullback.placeHolderServoInit(fourArmInnerRight, fourArmInnerLeft, fourArmOuterRight, fourArmOuterLeft );
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topMotor.initTopMotor(TopMotor);
-        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
+
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -50,7 +58,7 @@ public class OpWithModeIntegration extends LinearOpMode {
         // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
         waitForStart();
         Boolean ModesTrans = false;
         int Modes = 1;

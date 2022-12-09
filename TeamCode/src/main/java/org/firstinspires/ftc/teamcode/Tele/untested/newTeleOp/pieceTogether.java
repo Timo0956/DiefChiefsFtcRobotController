@@ -17,6 +17,7 @@ public class pieceTogether {
         }
         else if(g1.y){
             ServoTele.close(g1.y);
+            servo180pullback.raiseUpOffGround();
 
         } else if (g1.x) {
             ServoTele.open(g1.x);
@@ -33,12 +34,12 @@ public class pieceTogether {
     }
     public static void load() throws InterruptedException{
         ExtensionLinSlide.retractHori();
-        servo180pullback.pullIn();
+        servo180pullback.raiseIntoIntake();
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         Thread.sleep(500);
-        servo180pullback.pushOut();
+        servo180pullback.setToZero();
         ServoTele.open(true);
     }
     public static void upDrop() throws InterruptedException{ //farm only
