@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode;
 
+import android.util.Log;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -165,19 +167,19 @@ public class SensorBNO055IMU extends LinearOpMode
             })
             .addData("Z", new Func<String>() {
                 @Override public String value() {
-                    zac = gravity.zAccel;
+                    Log.v("zac",""+gravity.zAccel);
                     return String.format(Locale.getDefault(), "%.3f",gravity.zAccel);
                 }
             })
             .addData("Y", new Func<String>() {
                 @Override public String value() {
-                    yac = gravity.yAccel;
+                    Log.v("yac",""+gravity.zAccel);
                     return String.format(Locale.getDefault(), "%.3f",gravity.yAccel);
                 }
             })
             .addData("X", new Func<String>() {
                 @Override public String value() {
-                    xac = gravity.xAccel;
+                    Log.v("xac",""+gravity.zAccel);
                     return String.format(Locale.getDefault(), "%.3f",gravity.xAccel);
                 }
             });
