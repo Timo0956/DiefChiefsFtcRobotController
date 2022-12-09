@@ -47,6 +47,18 @@ public class servo180pullback {
         modeOfFourBar = 2;
 
     }
+    public static void pullOut() throws InterruptedException{
+        fourarmHighLeft.setPower(-1);
+        fourarmLowLeft.setPower(-1);
+        fourarmHighRight.setPower(1);
+        fourarmLowRight.setPower(1);
+        Thread.sleep(800);
+        fourarmHighLeft.setPower(0);
+        fourarmLowLeft.setPower(0);
+        fourarmHighRight.setPower(0);
+        fourarmLowRight.setPower(0);
+        modeOfFourBar = 3;
+    }
     public static void setToZero() throws InterruptedException{
         if(modeOfFourBar == 1){
             fourarmHighLeft.setPower(-1);
