@@ -70,6 +70,7 @@ public class servo180pullback {
             fourarmLowLeft.setPower(0);
             fourarmHighRight.setPower(0);
             fourarmLowRight.setPower(0);
+
         }
         else if (modeOfFourBar == 2){
             fourarmHighLeft.setPower(-1);
@@ -77,6 +78,17 @@ public class servo180pullback {
             fourarmHighRight.setPower(1);
             fourarmLowRight.setPower(1);
             Thread.sleep(600);
+            fourarmHighLeft.setPower(0);
+            fourarmLowLeft.setPower(0);
+            fourarmHighRight.setPower(0);
+            fourarmLowRight.setPower(0);
+        }
+        else if (modeOfFourBar == 3){
+            fourarmHighLeft.setPower(-1);
+            fourarmLowLeft.setPower(-1);
+            fourarmHighRight.setPower(1);
+            fourarmLowRight.setPower(1);
+            Thread.sleep(800);
             fourarmHighLeft.setPower(0);
             fourarmLowLeft.setPower(0);
             fourarmHighRight.setPower(0);

@@ -14,6 +14,7 @@ public class pieceTogether {
                 Thread.sleep(500);
             }
             ExtensionLinSlide.extendHori();
+            servo180pullback.pullOut();
         }
         else if(g1.y){
             ServoTele.close(g1.y);

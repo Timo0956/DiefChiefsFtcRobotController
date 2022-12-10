@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+/*package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -26,7 +26,7 @@ public class acceleration extends LinearOpMode {
     public static float velocity = 0;
     public static float distance = 0;
 
-    public static accel() {
+    public static void accel() {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -47,3 +47,4 @@ public class acceleration extends LinearOpMode {
         distance += velocity;
     }
 }
+*/

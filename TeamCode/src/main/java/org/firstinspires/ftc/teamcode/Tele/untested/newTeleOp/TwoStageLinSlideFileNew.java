@@ -6,7 +6,7 @@ public class TwoStageLinSlideFileNew {
     static final int low = 0; // declares encoder variables
     static final int lowOff = 350;
     static final int mid = 1750;
-    static final int high = 4000;
+    static final int high = 4200;
     static final double power = 0.9;
     static final boolean mode = true;
 
@@ -162,9 +162,9 @@ public class TwoStageLinSlideFileNew {
         rightLinSlide.setTargetPosition(position);
         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLinSlide.setPower(power);
-        leftLinSlide.setTargetPosition(position);
+        leftLinSlide.setTargetPosition(-position);
         leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLinSlide.setPower(power);
+        leftLinSlide.setPower(-power);
     }
 }
 
