@@ -56,8 +56,8 @@ public class OpWithModeIntegration extends LinearOpMode {
         HL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
         waitForStart();
         Boolean ModesTrans = false;

@@ -13,31 +13,31 @@ public class topMotor {
     public static void moveTopMotor(boolean Right, boolean Left){
         if(Right){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            TM.setPower(-0.8);
+            TM.setPower(0.05);
         }
         else if (Left){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            TM.setPower(0.8);
+            TM.setPower(-0.05);
         }
         else{
             TM.setPower(0);
         }
     }
     public static void autoMoveToPosition(){
-        if(TM.getCurrentPosition() < 275) {
+        if(TM.getCurrentPosition() > -275) {
+            TM.setTargetPosition(-275);
             TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            TM.setTargetPosition(275);
-            TM.setPower(-0.8);
+            TM.setPower(0.1);
         }
         else{
             TM.setPower(0);
         }
     }
     public static void autoMoveToOriginal(){
-        if(TM.getCurrentPosition() > 0) {
-            TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(TM.getCurrentPosition() < 0) {
             TM.setTargetPosition(0);
-            TM.setPower(0.8);
+            TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            TM.setPower(-0.1);
         }
         else{
             TM.setPower(0);

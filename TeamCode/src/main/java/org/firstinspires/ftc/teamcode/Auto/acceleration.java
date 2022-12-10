@@ -26,7 +26,7 @@ public class acceleration extends LinearOpMode {
     public static float velocity = 0;
     public static float distance = 0;
 
-    public static void accel() {
+    public static accel() {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -46,5 +46,4 @@ public class acceleration extends LinearOpMode {
         velocity += acceleration;
         distance += velocity;
     }
-}
-*/
+}*/
