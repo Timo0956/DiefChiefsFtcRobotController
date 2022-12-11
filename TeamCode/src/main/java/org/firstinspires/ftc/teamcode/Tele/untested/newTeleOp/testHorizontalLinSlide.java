@@ -15,14 +15,14 @@ public class testHorizontalLinSlide extends LinearOpMode {
 
 
         while(opModeIsActive()) {
-            moveHorizontalLin(gamepad1.left_bumper, gamepad1.right_bumper); //Placeholder Buttons
+            moveHorizontalLinManual(gamepad1.left_bumper, gamepad1.right_bumper); //Placeholder Buttons
         }
     }
 
     public enum states {in, out, goIn, goOut};
     public static states state = states.in;
 
-    public static void moveHorizontalLin(Boolean left, Boolean right) {
+    public static void moveHorizontalLinManual(Boolean left, Boolean right) {
         switch(state) {
             case in:
                 if(right) {
