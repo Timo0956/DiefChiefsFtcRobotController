@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -18,32 +18,36 @@ import java.util.Locale;
 @TeleOp
 public class acceleration extends LinearOpMode {
 
-    BNO055IMU imu;
-    Acceleration acceleration;
-    Orientation angles;
+    BNO055IMU imu; //Gets the IMU
+    Acceleration acceleration; //Gets the acceleration
+    Orientation angles; //Gets the heading in degrees
 
-    public static float heading = 0;
-    public static float velocity = 0;
-    public static float distance = 0;
+    public static float heading = 0; //The heading of the robot in degrees
+    public static float velocity = 0; //The speed of the robot in m/s
+    public static float distance = 0; //The displacement of the robot in meters
 
-    public static accel() {
+    public static accel() { //The acceleration method accessed from within the other autonomous code that runs the robot during the autonomous session
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); //Sets up the parameters
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES; //Gets the angle units in degrees from the IMU
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC; //Gets the units of acceleration from the IMU in m/s^2
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+        imu = hardwareMap.get(BNO055IMU.class, "imu"); //Gets the IMU hardware map to know which port to read from
+        imu.initialize(parameters); //Initializes the IMU at the set parameters above
 
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        acceleration = imu.getAcceleration();
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the angles of the IMU in the control hub
+        acceleration = imu.getAcceleration(); //Gets the acceleration of the control hub
 
         //Just putting here for later to use. Need to delay to not make it think velocity is extremely fast
-        heading = formatAngle(angles.angleUnit, angles.firstAngle);
+        heading = formatAngle(angles.angleUnit, angles.firstAngle); //Gets the heading of the robot to make sure it turns accurately during the autonomous time.
 
         //delay by 1/4 of a second and 1/4 the accel to get velocity
-        velocity += acceleration;
-        distance += velocity;
+        while(true) { //While the variable is true it will continue looping the code
+            velocity += (acceleration/4); //Divides the acceleration by time (Or multiplied by 0.25s) to get the velocity
+            distance += (velocity/4); //Divides the velocity by time (Or multiplied by 0.25s) to get the distance
+            pause(250); //Stops the loop for the amount of time in the brackets in miliseconds
+        }
+
     }
-}*/
+}
