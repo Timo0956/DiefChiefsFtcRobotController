@@ -21,7 +21,7 @@ public class servo180pullback {
         fourarmHighRight = fourarmHR;
 
     }
-    public static void raiseUpOffGround() throws InterruptedException{
+    public static String raiseUpOffGround() throws InterruptedException{
         fourarmHighLeft.setPower(1);
         fourarmLowLeft.setPower(1);
         fourarmHighRight.setPower(-1);
@@ -32,6 +32,7 @@ public class servo180pullback {
         fourarmHighRight.setPower(0);
         fourarmLowRight.setPower(0);
         modeOfFourBar = 1;
+        return "done";
 
     }
     public static void raiseIntoIntake() throws InterruptedException{
@@ -48,15 +49,15 @@ public class servo180pullback {
 
     }
     public static void pullOut() throws InterruptedException{
-        fourarmHighLeft.setPower(-1);
-        fourarmLowLeft.setPower(-1);
-        fourarmHighRight.setPower(1);
-        fourarmLowRight.setPower(1);
-        Thread.sleep(800);
+        fourarmHighLeft.setPower(1);
+        fourarmLowLeft.setPower(1);
+        fourarmHighRight.setPower(-1);
+        //fourarmLowRight.setPower(-1);
+        Thread.sleep(300);
         fourarmHighLeft.setPower(0);
         fourarmLowLeft.setPower(0);
         fourarmHighRight.setPower(0);
-        fourarmLowRight.setPower(0);
+      //  fourarmLowRight.setPower(0);
         modeOfFourBar = 3;
     }
     public static void setToZero() throws InterruptedException{
@@ -64,12 +65,12 @@ public class servo180pullback {
             fourarmHighLeft.setPower(-1);
             fourarmLowLeft.setPower(-1);
             fourarmHighRight.setPower(1);
-            fourarmLowRight.setPower(1);
+            //fourarmLowRight.setPower(1);
             Thread.sleep(200);
             fourarmHighLeft.setPower(0);
             fourarmLowLeft.setPower(0);
             fourarmHighRight.setPower(0);
-            fourarmLowRight.setPower(0);
+          //  fourarmLowRight.setPower(0);
 
         }
         else if (modeOfFourBar == 2){
