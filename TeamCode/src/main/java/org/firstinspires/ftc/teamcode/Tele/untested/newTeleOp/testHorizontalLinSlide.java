@@ -8,6 +8,9 @@ public class    testHorizontalLinSlide extends LinearOpMode {
     static DcMotor linSlide;
     static int counter;
     static Boolean isOut;
+
+    public enum states {in, out, goIn, goOut};
+    public static states state = states.in;
     @Override
 
     public void runOpMode() throws InterruptedException {
@@ -15,35 +18,13 @@ public class    testHorizontalLinSlide extends LinearOpMode {
         linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        counter = 0;
-        isOut = false;
 
+        waitForStart();
         while(opModeIsActive()) {
-            if(counter == 0) {
-                moveHorizontalLinAuto();
-                moveHorizontalLinAuto();
-                counter++;
-            }
             moveHorizontalLinManual(gamepad1.left_bumper, gamepad1.right_bumper); //Placeholder Buttons
         }
     }
 
-    public static void moveHorizontalLinAuto() {
-        if(isOut) {
-            linSlide.setTargetPosition(0);
-            linSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            linSlide.setPower(-1);
-            isOut = false;
-        } else {
-            linSlide.setTargetPosition(1000);
-            linSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            linSlide.setPower(1);
-            isOut = true;
-        }
-    }
-
-    public enum states {in, out, goIn, goOut};
-    public static states state = states.in;
 
     public static void moveHorizontalLinManual(Boolean left, Boolean right) {
         switch(state) {
