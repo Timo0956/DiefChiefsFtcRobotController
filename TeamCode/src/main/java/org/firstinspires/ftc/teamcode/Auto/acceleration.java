@@ -22,11 +22,11 @@ public class acceleration extends LinearOpMode {
     Acceleration acceleration; //Gets the acceleration
     Orientation angles; //Gets the heading in degrees
 
-    public static float heading = 0; //The heading of the robot in degrees
-    public static float velocity = 0; //The speed of the robot in m/s
-    public static float distance = 0; //The displacement of the robot in meters
+    public static double heading = 0; //The heading of the robot in degrees
+    public static double velocity = 0; //The speed of the robot in m/s
+    public static double distance = 0; //The displacement of the robot in meters
 
-    public static accel() { //The acceleration method accessed from within the other autonomous code that runs the robot during the autonomous session
+    public void runOpMode() throws InterruptedException { //The acceleration method accessed from within the other autonomous code that runs the robot during the autonomous session
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(); //Sets up the parameters
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES; //Gets the angle units in degrees from the IMU
@@ -37,17 +37,19 @@ public class acceleration extends LinearOpMode {
         imu.initialize(parameters); //Initializes the IMU at the set parameters above
 
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the angles of the IMU in the control hub
-        acceleration = imu.getAcceleration(); //Gets the acceleration of the control hub
+        acceleration = imu.getLinearAcceleration(); //Gets the acceleration of the control hub
 
         //Just putting here for later to use. Need to delay to not make it think velocity is extremely fast
-        heading = formatAngle(angles.angleUnit, angles.firstAngle); //Gets the heading of the robot to make sure it turns accurately during the autonomous time.
+ //     heading = formatAngle(angles.angleUnit, angles.firstAngle); //Gets the heading of the robot to make sure it turns accurately during the autonomous time.
+        heading = angles.firstAngle; //change which angle if needed
 
         //delay by 1/4 of a second and 1/4 the accel to get velocity
         while(true) { //While the variable is true it will continue looping the code
-            velocity += (acceleration/4); //Divides the acceleration by time (Or multiplied by 0.25s) to get the velocity
-            distance += (velocity/4); //Divides the velocity by time (Or multiplied by 0.25s) to get the distance
-            pause(250); //Stops the loop for the amount of time in the brackets in miliseconds
+            velocity += (acceleration.zAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
+            distance += (velocity/100); //Divides the velocity by time (Or multiplied by 0.01s) to get the distance
+            Thread.sleep(10); //Stops the loop for the amount of time in the brackets in miliseconds
         }
 
     }
 }
+
