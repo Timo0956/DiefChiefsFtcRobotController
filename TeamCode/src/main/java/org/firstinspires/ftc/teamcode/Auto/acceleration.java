@@ -23,8 +23,8 @@ public class acceleration extends LinearOpMode {
     Orientation angles; //Gets the heading in degrees
 
     public static double heading = 0; //The heading of the robot in degrees
-    public static double velocity = 0; //The speed of the robot in m/s
-    public static double distance = 0; //The displacement of the robot in meters
+    public static double[] velocity = {0,0,0}; //The speed of the robot in m/s (z,x,y)
+    public static double[] distance = {0,0,0}; //The displacement of the robot in meters (z,x,y)
 
     public void runOpMode() throws InterruptedException { //The acceleration method accessed from within the other autonomous code that runs the robot during the autonomous session
 
@@ -45,8 +45,12 @@ public class acceleration extends LinearOpMode {
 
         //delay by 1/4 of a second and 1/4 the accel to get velocity
         while(true) { //While the variable is true it will continue looping the code
-            velocity += (acceleration.zAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
-            distance += (velocity/100); //Divides the velocity by time (Or multiplied by 0.01s) to get the distance
+            velocity[0] = (acceleration.zAccel/100);
+            velocity[1] = (acceleration.yAccel/100);
+            velocity[2] = (acceleration.xAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
+            distance[0] = velocity[0]/100;
+            distance[1] = velocity[1]/100;
+            distance[2] = velocity[2]/100;//Divides the velocity by time (Or multiplied by 0.01s) to get the distance
             Thread.sleep(10); //Stops the loop for the amount of time in the brackets in miliseconds
         }
 
