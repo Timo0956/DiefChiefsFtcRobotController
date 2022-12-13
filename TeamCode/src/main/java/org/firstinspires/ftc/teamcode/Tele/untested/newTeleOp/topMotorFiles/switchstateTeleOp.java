@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.servo180pullback;
 
@@ -15,15 +16,16 @@ public class switchstateTeleOp extends LinearOpMode {
         CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
         CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
         CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
-        CRServo fourArmOuterLeft = hardwareMap.crservo.get("fourArmOuterLeft");
+        Servo fourArmOuterLeft = hardwareMap.servo.get("fourArmOuterLeft");
         topMotorSwitchState.initTopMotor(TopMotor1);
-        testFiles.initMotors(fourArmInnerRight,fourArmOuterRight, fourArmInnerLeft, fourArmOuterLeft);
+        testFile2.init(fourArmOuterLeft);
+        //testFiles.initMotors(fourArmInnerRight,fourArmOuterRight, fourArmInnerLeft, fourArmOuterLeft);
         waitForStart();
-        testFiles.moveOut();
+        testFile2.turnOpen();
 
         while (opModeIsActive()){
             topMotorSwitchState.moveTopMotorStates(gamepad1.dpad_right, gamepad1.dpad_left);
-            telemetry.addData("dpadStat", gamepad1.dpad_right );
+            telemetry.addData("dpadStat", gamepad1.dpad_right);
             telemetry.update();
         }
     }

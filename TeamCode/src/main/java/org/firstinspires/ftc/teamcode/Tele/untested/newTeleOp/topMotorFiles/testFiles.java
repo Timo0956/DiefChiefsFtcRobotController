@@ -16,12 +16,12 @@ public class testFiles {
     public static void moveOut() throws InterruptedException{
         L.setPower(1);
         L1.setPower(1);
-        R.setPower(-1);
-        R1.setPower(-1);
+        //R.setPower(-1);
+        //R1.setPower(-1);
         Thread.sleep(300);
         L.setPower(0);
         L1.setPower(0);
-        R.setPower(0);
-        R1.setPower(0);
+        //R.setPower(0);
+        //R1.setPower(0);
     }
 }
