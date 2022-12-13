@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
+package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.trash;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.trash.ExtensionLinSlide;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
@@ -21,7 +21,7 @@ public class OpWithModeIntegration extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
-        DcMotor HL = hardwareMap.dcMotor.get("HL");
+        DcMotor HL = hardwareMap.dcMotor.get("Horizontal LinSlide");
 
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
@@ -34,14 +34,14 @@ public class OpWithModeIntegration extends LinearOpMode {
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
 
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
-        CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
+        //CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
         CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
-        CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
-        CRServo fourArmOuterLeft = hardwareMap.crservo.get("fourArmOuterLeft");
+        //CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
+        Servo fourArmOuterLeft = hardwareMap.servo.get("fourArmOuterLeft");
 
 
         clawServoClass.clawServoInit(ClawServo);
-        servo180pullback.placeHolderServoInit(fourArmInnerRight, fourArmInnerLeft, fourArmOuterRight, fourArmOuterLeft );
+        servo180pullback.placeHolderServoInit(fourArmInnerLeft,fourArmOuterLeft);
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topMotor.initTopMotor(TopMotor);
@@ -54,6 +54,8 @@ public class OpWithModeIntegration extends LinearOpMode {
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        HL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        HL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);

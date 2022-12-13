@@ -1,54 +1,51 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 public class servo180pullback {
 
-    static CRServo fourarmLowRight;
+    //static CRServo fourarmLowRight;
     static CRServo fourarmLowLeft;
-    static CRServo fourarmHighRight;
-    static CRServo fourarmHighLeft;
+    // static CRServo fourarmHighRight;
+    static Servo fourarmHighLeft;
 
-    static int modeOfFourBar = 0;
+    static double outPos = 1;
+    static double inPos = 0;
 
 
 
-    public static void placeHolderServoInit(CRServo fourarmLR, CRServo fourarmLL, CRServo fourarmHR, CRServo fourarmHL) {
+    public static void placeHolderServoInit(CRServo fourarmLL, Servo fourarmHL) {
         fourarmLowLeft = fourarmLL;
-        fourarmLowRight = fourarmLR;
+        //fourarmLowRight = fourarmLR;
         fourarmHighLeft = fourarmHL;
-        fourarmHighRight = fourarmHR;
+        //fourarmHighRight = fourarmHR;
 
     }
-    public static String raiseUpOffGround() throws InterruptedException{
-        fourarmHighLeft.setPower(1);
+    public static void out() throws InterruptedException{
+        fourarmHighLeft.setPosition(outPos);
         fourarmLowLeft.setPower(1);
-        fourarmHighRight.setPower(-1);
-        fourarmLowRight.setPower(-1);
-        Thread.sleep(200);
-        fourarmHighLeft.setPower(0);
+        //fourarmHighRight.setPower(-1);
+        //fourarmLowRight.setPower(-1);
+        Thread.sleep(300);
         fourarmLowLeft.setPower(0);
-        fourarmHighRight.setPower(0);
-        fourarmLowRight.setPower(0);
-        modeOfFourBar = 1;
-        return "done";
+        //fourarmHighRight.setPower(0);
+        //fourarmLowRight.setPower(0);
 
     }
-    public static void raiseIntoIntake() throws InterruptedException{
-        fourarmHighLeft.setPower(1);
-        fourarmLowLeft.setPower(1);
-        fourarmHighRight.setPower(-1);
-        fourarmLowRight.setPower(-1);
-        Thread.sleep(600);
-        fourarmHighLeft.setPower(0);
+    public static void in() throws InterruptedException{
+        fourarmHighLeft.setPosition(inPos);
+        fourarmLowLeft.setPower(-1);
+        //fourarmHighRight.setPower(-1);
+        //fourarmLowRight.setPower(-1);
+        Thread.sleep(300);
         fourarmLowLeft.setPower(0);
-        fourarmHighRight.setPower(0);
-        fourarmLowRight.setPower(0);
-        modeOfFourBar = 2;
+        //fourarmHighRight.setPower(0);
+        //fourarmLowRight.setPower(0);
 
     }
-    public static void pullOut() throws InterruptedException{
+   /* public static void pullOut() throws InterruptedException{
         fourarmHighLeft.setPower(1);
         fourarmLowLeft.setPower(1);
         fourarmHighRight.setPower(-1);
@@ -103,7 +100,7 @@ public class servo180pullback {
         }
         modeOfFourBar = 0;
 
-    }
+    }*/
 
 
 

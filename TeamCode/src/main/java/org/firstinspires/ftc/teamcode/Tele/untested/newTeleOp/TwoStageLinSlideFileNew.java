@@ -42,7 +42,7 @@ public class TwoStageLinSlideFileNew {
         switch(state){ //define state machine
             case LOW:
                 rightLinSlide.setPower(0); //Linslide power 0
-                //leftLinSlide.setPower(0);
+                leftLinSlide.setPower(0);
                 if (rightBumper){ // if right bumper clicked, go to mid state
                     state = states.TOMEDIUM;
                 }
@@ -75,7 +75,7 @@ public class TwoStageLinSlideFileNew {
                 break;
             case MEDIUM:
                 rightLinSlide.setPower(0);
-                //leftLinSlide.setPower(0);
+                leftLinSlide.setPower(0);
                 if(leftBumper){
                     state = states.TOLOW;
                 }
@@ -91,7 +91,7 @@ public class TwoStageLinSlideFileNew {
                 break;
             case HIGH:
                 rightLinSlide.setPower(0);
-                //leftLinSlide.setPower(0);
+                leftLinSlide.setPower(0);
                 if(rightBumper){
                     state = states.TOMEDIUM;
                 }

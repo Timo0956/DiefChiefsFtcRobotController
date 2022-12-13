@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.trash.ExtensionLinSlide;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class pieceTogether {
@@ -14,11 +15,10 @@ public class pieceTogether {
                 Thread.sleep(500);
             }
             ExtensionLinSlide.extendHori();
-            servo180pullback.pullOut();
+            servo180pullback.out();
         }
         else if(g1.y){
             ServoTele.close(g1.y);
-            servo180pullback.raiseUpOffGround();
 
         } else if (g1.x) {
             ServoTele.open(g1.x);
@@ -35,12 +35,11 @@ public class pieceTogether {
     }
     public static void load() throws InterruptedException{
         ExtensionLinSlide.retractHori();
-        servo180pullback.raiseIntoIntake();
+        servo180pullback.in();
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         Thread.sleep(500);
-        servo180pullback.setToZero();
         ServoTele.open(true);
     }
     public static void upDrop() throws InterruptedException{ //farm only

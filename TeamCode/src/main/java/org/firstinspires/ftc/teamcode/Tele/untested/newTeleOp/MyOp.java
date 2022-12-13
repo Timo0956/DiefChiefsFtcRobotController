@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.trash.ExtensionLinSlide;
+
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
 
 
@@ -31,14 +33,14 @@ public class MyOp extends LinearOpMode {
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
 
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
-        CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
+        //CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
         CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
-        CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
-        CRServo fourArmOuterLeft = hardwareMap.crservo.get("fourArmOuterLeft");
+        //CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
+        Servo fourArmOuterLeft = hardwareMap.servo.get("fourArmOuterLeft");
 
 
         clawServoClass.clawServoInit(ClawServo);
-        servo180pullback.placeHolderServoInit(fourArmInnerRight, fourArmInnerLeft, fourArmOuterRight, fourArmOuterLeft );
+        servo180pullback.placeHolderServoInit(fourArmInnerLeft, fourArmOuterLeft);
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topMotor.initTopMotor(TopMotor);

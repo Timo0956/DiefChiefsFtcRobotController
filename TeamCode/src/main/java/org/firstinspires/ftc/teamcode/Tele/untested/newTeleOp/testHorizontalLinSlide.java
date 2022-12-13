@@ -3,39 +3,26 @@ package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-@TeleOp
-public class    testHorizontalLinSlide extends LinearOpMode {
+public class testHorizontalLinSlide {
     static DcMotor linSlide;
-    static int counter;
-    static Boolean isOut;
 
     public enum states {in, out, goIn, goOut};
     public static states state = states.in;
-    @Override
 
-    public void runOpMode() throws InterruptedException {
-        linSlide = hardwareMap.dcMotor.get("Horizontal LinSlide");
-        linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        waitForStart();
-        while(opModeIsActive()) {
-            moveHorizontalLinManual(gamepad1.left_bumper, gamepad1.right_bumper); //Placeholder Buttons
-        }
+    public void initHori(DcMotor HL){
+        linSlide = HL;
     }
 
-
-    public static void moveHorizontalLinManual(Boolean left, Boolean right) {
+    public static void moveHorizontalLinManual(Boolean a, Boolean b) {
         switch(state) {
             case in:
-                if(right) {
+                if(b) {
                     state = states.goOut;
                 }
                 break;
 
             case out:
-                if(left) {
+                if(a) {
                     state = states.goIn;
                 }
                 break;
@@ -53,8 +40,8 @@ public class    testHorizontalLinSlide extends LinearOpMode {
                 break;
 
             case goOut:
-                if(linSlide.getCurrentPosition() < 1000) {
-                    linSlide.setTargetPosition(1000);
+                if(linSlide.getCurrentPosition() < 2000) {
+                    linSlide.setTargetPosition(2000);
                     linSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     linSlide.setPower(1);
 
