@@ -32,7 +32,6 @@ public class OpWithModeIntegration extends LinearOpMode {
 
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
         //CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
         CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
@@ -43,8 +42,9 @@ public class OpWithModeIntegration extends LinearOpMode {
         clawServoClass.clawServoInit(ClawServo);
         servo180pullback.placeHolderServoInit(fourArmInnerLeft,fourArmOuterLeft);
         setServos(ClawServoL, ClawServoR);
-        ExtensionLinSlide.initMotorsHoriLin(HL);
+        testHorizontalLinSlide.initHori(HL);
         topMotor.initTopMotor(TopMotor);
+        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
 
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -54,13 +54,14 @@ public class OpWithModeIntegration extends LinearOpMode {
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        TopMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         HL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
+
         waitForStart();
         Boolean ModesTrans = false;
         int Modes = 1;
@@ -101,7 +102,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                         TopMotor.setPower(0);
                     }
                     ServoTele.open(true);
-                    ExtensionLinSlide.retractHori();
+                    testHorizontalLinSlide.moveHorizontalLinManual(true, false);
                 }
 
                 if(ModesTransTo == 1){
@@ -161,8 +162,8 @@ public class OpWithModeIntegration extends LinearOpMode {
                     }
 
                 }
-                ServoTele.open(gamepad1.x);
-                ServoTele.close(gamepad1.y);
+                //ServoTele.open(gamepad1.x);
+                //ServoTele.close(gamepad1.y);
                 telemetry.addData("Position", rightLinSlide.getCurrentPosition());
                 telemetry.addData("ServoPositionR", ClawServoR.getPosition());
                 telemetry.addData("ServoPositionL", ClawServoL.getPosition());

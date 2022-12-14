@@ -3,24 +3,34 @@ package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+
 public class testHorizontalLinSlide {
     static DcMotor linSlide;
 
-    public enum states {in, out, goIn, goOut};
+    public enum states {in, mid, out, goIn, goMid, goOut};
     public static states state = states.in;
 
-    public void initHori(DcMotor HL){
+    public static void initHori(DcMotor HL){
         linSlide = HL;
     }
 
     public static void moveHorizontalLinManual(Boolean a, Boolean b) {
         switch(state) {
             case in:
+                ServoTele.open(true);
                 if(b) {
-                    state = states.goOut;
+                    state = states.goMid;
                 }
                 break;
-
+            case mid:
+                if(b){
+                    state = states.goOut;
+                } else if (a){
+                    state = states.goIn;
+                }
+                break;
             case out:
                 if(a) {
                     state = states.goIn;
@@ -38,7 +48,20 @@ public class testHorizontalLinSlide {
                     state = states.in;
                 }
                 break;
-
+            case goMid:
+                if(linSlide.getCurrentPosition() < 1000) {
+                    linSlide.setTargetPosition(1000);
+                    linSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    linSlide.setPower(1);
+                } else if(linSlide.getCurrentPosition() > 1000) {
+                    linSlide.setTargetPosition(1000);
+                    linSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    linSlide.setPower(-1);
+                } else {
+                    linSlide.setPower(0);
+                    state = states.mid;
+                }
+                break;
             case goOut:
                 if(linSlide.getCurrentPosition() < 2000) {
                     linSlide.setTargetPosition(2000);

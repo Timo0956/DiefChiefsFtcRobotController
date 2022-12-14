@@ -11,8 +11,8 @@ public class servo180pullback {
     // static CRServo fourarmHighRight;
     static Servo fourarmHighLeft;
 
-    static double outPos = 1;
-    static double inPos = 0;
+    static double outPos = 0;
+    static double inPos = -1;
 
 
 

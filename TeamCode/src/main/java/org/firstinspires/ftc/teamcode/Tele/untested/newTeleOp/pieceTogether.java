@@ -9,12 +9,12 @@ public class pieceTogether {
     public static void pieceTogether(Gamepad g1) throws InterruptedException {
 
         if(g1.b) {
-            if(TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW || topMotor.TM.getCurrentPosition()!=0 ){
-                TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+            if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
+                TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
                 topMotor.autoMoveToOriginal();
                 Thread.sleep(500);
             }
-            ExtensionLinSlide.extendHori();
+            testHorizontalLinSlide.moveHorizontalLinManual(false, true);
             servo180pullback.out();
         }
         else if(g1.y){
@@ -24,8 +24,9 @@ public class pieceTogether {
             ServoTele.open(g1.x);
 
         } else if (g1.a) {
-            if(TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW){
-                TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+            if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
+                TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
+                topMotor.autoMoveToOriginal();
                 Thread.sleep(500);
             }
             load();
@@ -34,7 +35,7 @@ public class pieceTogether {
 
     }
     public static void load() throws InterruptedException{
-        ExtensionLinSlide.retractHori();
+        testHorizontalLinSlide.moveHorizontalLinManual(true, false);
         servo180pullback.in();
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
@@ -43,14 +44,15 @@ public class pieceTogether {
         ServoTele.open(true);
     }
     public static void upDrop() throws InterruptedException{ //farm only
-        TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
-        Thread.sleep(300);
-        clawServoClass.spinClawServo(true, false);
-        clawServoClass.spinClawServo(false, false);
-        Thread.sleep(500);
+        //TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
+        //Thread.sleep(300);
+        //clawServoClass.spinClawServo(true, false);
+        //clawServoClass.spinClawServo(false, false);
+        //Thread.sleep(500);
         TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         topMotor.autoMoveToPosition();
-        Thread.sleep(1000);
+        farmMode.horiFarm();
+        //Thread.sleep(800);
         clawServoClass.spinClawServo(false, true);
         clawServoClass.spinClawServo(false,false);
         Thread.sleep(300);
