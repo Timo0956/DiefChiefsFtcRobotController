@@ -37,11 +37,12 @@ public class pieceTogether {
     public static void load() throws InterruptedException{
         testHorizontalLinSlide.moveHorizontalLinManual(true, false);
         servo180pullback.in();
+        ServoTele.open(true);
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
-        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
         Thread.sleep(500);
-        ServoTele.open(true);
+        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+
     }
     public static void upDrop() throws InterruptedException{ //farm only
         //TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
@@ -60,7 +61,8 @@ public class pieceTogether {
     public static void armDown() throws InterruptedException{ // farm only
         topMotor.autoMoveToOriginal();
         Thread.sleep(300);
-        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
+        load();
 
     }
    /* public static void returnToPosition() throws InterruptedException{

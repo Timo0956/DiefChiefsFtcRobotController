@@ -4,10 +4,14 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.trash.ExtensionLin
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class farmMode {
-    public static void farm() throws InterruptedException{
+    public static void initFarm() throws InterruptedException{
         horiFarm();
         Thread.sleep(500);
         pieceTogether.load();
+
+    }
+    public static void farm() throws InterruptedException{
+
         pieceTogether.upDrop();
         pieceTogether.armDown();
         Thread.sleep(250);

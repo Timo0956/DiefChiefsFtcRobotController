@@ -110,6 +110,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                 }
                 else if (ModesTransTo ==2){
                     Modes =2;
+                    farmMode.initFarm();
                 }
                 ModesTrans = false;
             }
