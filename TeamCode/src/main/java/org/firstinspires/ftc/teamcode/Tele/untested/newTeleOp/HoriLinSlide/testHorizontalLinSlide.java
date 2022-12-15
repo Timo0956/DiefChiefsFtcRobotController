@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
+package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.HoriLinSlide;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,12 +14,14 @@ public class testHorizontalLinSlide {
 
     public static void initHori(DcMotor HL){
         linSlide = HL;
+        linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public static void moveHorizontalLinManual(Boolean a, Boolean b) {
         switch(state) {
             case in:
-                ServoTele.open(true);
                 if(b) {
                     state = states.goMid;
                 }
@@ -33,7 +35,7 @@ public class testHorizontalLinSlide {
                 break;
             case out:
                 if(a) {
-                    state = states.goIn;
+                    state = states.goMid;
                 }
                 break;
 
@@ -48,6 +50,7 @@ public class testHorizontalLinSlide {
                     state = states.in;
                 }
                 break;
+
             case goMid:
                 if(linSlide.getCurrentPosition() < 1000) {
                     linSlide.setTargetPosition(1000);
