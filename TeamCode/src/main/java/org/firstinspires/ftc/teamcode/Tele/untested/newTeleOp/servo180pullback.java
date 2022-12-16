@@ -8,16 +8,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class servo180pullback {
 
     //static CRServo fourarmLowRight;
-    static CRServo fourarmLowLeft;
+    static Servo fourarmLowLeft;
     // static CRServo fourarmHighRight;
     static Servo fourarmHighLeft;
 
-    static double outPos = 0;
-    static double inPos = -1;
 
-
-
-    public static void placeHolderServoInit(CRServo fourarmLL, Servo fourarmHL) {
+    public static void placeHolderServoInit(Servo fourarmLL, Servo fourarmHL) {
         fourarmLowLeft = fourarmLL;
         //fourarmLowRight = fourarmLR;
         fourarmHighLeft = fourarmHL;
@@ -25,25 +21,14 @@ public class servo180pullback {
 
     }
     public static void out() throws InterruptedException{
-        fourarmHighLeft.setPosition(outPos);
-        fourarmLowLeft.setPower(1);
-        //fourarmHighRight.setPower(-1);
-        //fourarmLowRight.setPower(-1);
-        Thread.sleep(300);
-        fourarmLowLeft.setPower(0);
-        //fourarmHighRight.setPower(0);
-        //fourarmLowRight.setPower(0);
+        fourarmHighLeft.setPosition(0.40);
+        fourarmLowLeft.setPosition(0.65);
+
 
     }
     public static void in() throws InterruptedException{
-        fourarmHighLeft.setPosition(inPos);
-        fourarmLowLeft.setPower(-1);
-        //fourarmHighRight.setPower(-1);
-        //fourarmLowRight.setPower(-1);
-        Thread.sleep(300);
-        fourarmLowLeft.setPower(0);
-        //fourarmHighRight.setPower(0);
-        //fourarmLowRight.setPower(0);
+        fourarmHighLeft.setPosition(1);
+        fourarmLowLeft.setPosition(0);
 
     }
    /* public static void pullOut() throws InterruptedException{

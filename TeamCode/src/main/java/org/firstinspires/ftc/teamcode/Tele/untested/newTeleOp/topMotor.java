@@ -18,11 +18,11 @@ public class topMotor {
         TM.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public static void moveTopMotor(boolean Right, boolean Left){
-        if(Right){
+        if(Right && TwoStageLinSlideFileNew.rightLinSlide.getCurrentPosition()< 1800){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             TM.setPower(0.05);
         }
-        else if (Left){
+        else if (Left && TwoStageLinSlideFileNew.rightLinSlide.getCurrentPosition()< 1800){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             TM.setPower(-0.05);
         }
