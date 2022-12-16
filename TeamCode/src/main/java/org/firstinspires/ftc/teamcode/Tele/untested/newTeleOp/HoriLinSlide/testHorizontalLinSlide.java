@@ -3,7 +3,12 @@ package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.HoriLinSlide;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.dualServoForearm;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.pieceTogether;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.topMotor;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class testHorizontalLinSlide {
@@ -17,12 +22,20 @@ public class testHorizontalLinSlide {
         linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
     }
 
-    public static void moveHorizontalLinManual(Boolean a, Boolean b) {
+    public static void moveHorizontalLinManual(Boolean a, Boolean b) throws InterruptedException {
         switch(state) {
             case in:
                 if(b) {
+                    if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
+                        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
+                        topMotor.autoMoveToOriginal();
+                        Thread.sleep(1000);
+                    }
+                    dualServoForearm.out();
                     state = states.goMid;
                 }
                 break;
@@ -30,12 +43,36 @@ public class testHorizontalLinSlide {
                 if(b){
                     state = states.goOut;
                 } else if (a){
-                    state = states.goIn;
+                    if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
+                        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
+                        topMotor.autoMoveToOriginal();
+                        state = states.goIn;
+                        Thread.sleep(1000);
+                    } else{
+                        state = states.goIn;
+                        Thread.sleep(1000);
+                        //pieceTogether.load();
+                    }
+                    Thread.sleep(1000);
+                    dualServoForearm.in();
+
+
                 }
                 break;
             case out:
                 if(a) {
-                    state = states.goMid;
+                    if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
+                        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
+                        topMotor.autoMoveToOriginal();
+                        state = states.goIn;
+                        Thread.sleep(1000);
+                    } else{
+                        state = states.goIn;
+                        Thread.sleep(1000);
+                        //pieceTogether.load();
+                    }
+                    Thread.sleep(1000);
+                    dualServoForearm.in();
                 }
                 break;
 

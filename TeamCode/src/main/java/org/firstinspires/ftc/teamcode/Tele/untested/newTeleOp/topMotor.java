@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class topMotor {
-    static DcMotor TM = null;
+    public static DcMotor TM = null;
     static int position = -225;
 
     static Boolean burst = false;
@@ -18,11 +18,11 @@ public class topMotor {
         TM.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public static void moveTopMotor(boolean Right, boolean Left){
-        if(Right){
+        if(Right && TwoStageLinSlideFileNew.rightLinSlide.getCurrentPosition()> 1400){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             TM.setPower(0.05);
         }
-        else if (Left){
+        else if (Left && TwoStageLinSlideFileNew.rightLinSlide.getCurrentPosition() >1400){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             TM.setPower(-0.05);
         }

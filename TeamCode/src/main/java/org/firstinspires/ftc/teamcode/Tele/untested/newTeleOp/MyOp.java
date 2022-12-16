@@ -35,14 +35,14 @@ public class MyOp extends LinearOpMode {
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
 
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
-        //CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
-        CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
-        //CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
-        Servo fourArmOuterLeft = hardwareMap.servo.get("fourArmOuterLeft");
+
+        //Servos for forearm
+        Servo servo3A = hardwareMap.servo.get("3a"); //Forearm - 3a
+        Servo servo2A = hardwareMap.servo.get("2a"); //Forearm - 2a
 
 
         clawServoClass.clawServoInit(ClawServo);
-        servo180pullback.placeHolderServoInit(fourArmInnerLeft, fourArmOuterLeft);
+        dualServoForearm.initForearmServos(servo3A, servo2A);
         setServos(ClawServoL, ClawServoR);
         ExtensionLinSlide.initMotorsHoriLin(HL);
         topMotor.initTopMotor(TopMotor);
