@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
+/*
 public class servo180pullback {
 
     //static CRServo fourarmLowRight;
@@ -100,9 +101,9 @@ public class servo180pullback {
         }
         modeOfFourBar = 0;
 
-    }*/
+    }
 
 
 
 
-}
+}*/

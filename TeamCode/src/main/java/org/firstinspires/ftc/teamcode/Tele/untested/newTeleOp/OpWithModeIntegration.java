@@ -16,33 +16,40 @@ import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 
 @TeleOp
+
 public class OpWithModeIntegration extends LinearOpMode {
     @Override
+
     public void runOpMode() throws InterruptedException{
-        DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
-        DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
-        DcMotor HL = hardwareMap.dcMotor.get("Horizontal LinSlide");
 
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+        //Linear slides
+        DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //Right vertical linear slide motor
+        DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide"); //Left vertical linear slide motor
+        DcMotor HL = hardwareMap.dcMotor.get("Horizontal LinSlide"); //Motor for horizontal linear slide
 
-        DcMotor TopMotor = hardwareMap.dcMotor.get("TopMotor");
+        //Wheels
+        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft"); //Motor for front left wheel
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft"); //Motor for back left wheel
+        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight"); //Motor for front right wheel
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight"); //Motor for back right wheel
 
-        Servo ClawServoL = hardwareMap.servo.get("clawServoL");
-        Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-        CRServo ClawServo = hardwareMap.crservo.get("clawServo");
-        //CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
-        CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
-        //CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
-        Servo fourArmOuterLeft = hardwareMap.servo.get("fourArmOuterLeft");
+        //Motor/CRServo for top arm
+        DcMotor TopMotor = hardwareMap.dcMotor.get("TopMotor"); //Motor for spinning blue cone picker upper around the robot (front to back)
+        CRServo ClawServo = hardwareMap.crservo.get("clawServo"); //CRServo to spin blue cone picker upper thing
 
+        //Servos for intake claw
+        Servo ClawServoL = hardwareMap.servo.get("clawServoL"); //Left side intake claw servo
+        Servo ClawServoR = hardwareMap.servo.get("clawServoR"); //Right side intake claw servo
 
-        clawServoClass.clawServoInit(ClawServo);
-        servo180pullback.placeHolderServoInit(fourArmInnerLeft,fourArmOuterLeft);
-        setServos(ClawServoL, ClawServoR);
-        testHorizontalLinSlide.initHori(HL);
+        //Servos for forearm
+        Servo servo3A = hardwareMap.servo.get("3a"); //Forearm - 3a
+        Servo servo2A = hardwareMap.servo.get("2a"); //Forearm - 2a
+
+        //Initializing hardware
+        clawServoClass.clawServoInit(ClawServo);  //Initializes CRServo for blue cone picky uppy
+        dualServoForearm.initForearmServos(servo3A, servo2A); //Initializes Servos for forearm
+        ServoTele.setServos(ClawServoL, ClawServoR); //Initializes 2 servos for claw
+        testHorizontalLinSlide.initHori(HL); //Initializes DcMotor for horizontal linear slide
         topMotor.initTopMotor(TopMotor);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide); //defines motors in terms of the seperate file
 
