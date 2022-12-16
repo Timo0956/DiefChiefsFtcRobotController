@@ -22,6 +22,7 @@ public class topMotorBurst {
         TM.setPower(0);
     }
 
+
     public static void moveTopMotor(boolean left, boolean right){
         if(left){
             TM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
