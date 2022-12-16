@@ -34,7 +34,7 @@ public class OpWithModeIntegration extends LinearOpMode {
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
         CRServo ClawServo = hardwareMap.crservo.get("clawServo");
         //CRServo fourArmInnerRight = hardwareMap.crservo.get("fourArmInnerRight");
-        CRServo fourArmInnerLeft = hardwareMap.crservo.get("fourArmInnerLeft");
+        Servo fourArmInnerLeft = hardwareMap.servo.get("fourArmInnerLeft");
         //CRServo fourArmOuterRight = hardwareMap.crservo.get("fourArmOuterRight");
         Servo fourArmOuterLeft = hardwareMap.servo.get("fourArmOuterLeft");
 
