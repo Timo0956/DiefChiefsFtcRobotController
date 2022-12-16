@@ -51,8 +51,10 @@ public class testHorizontalLinSlide {
                     } else{
                         state = states.goIn;
                         Thread.sleep(1000);
-                        pieceTogether.load();
+                        //pieceTogether.load();
                     }
+                    Thread.sleep(1000);
+                    dualServoForearm.in();
 
 
                 }
@@ -67,8 +69,10 @@ public class testHorizontalLinSlide {
                     } else{
                         state = states.goIn;
                         Thread.sleep(1000);
-                        pieceTogether.load();
+                        //pieceTogether.load();
                     }
+                    Thread.sleep(1000);
+                    dualServoForearm.in();
                 }
                 break;
 

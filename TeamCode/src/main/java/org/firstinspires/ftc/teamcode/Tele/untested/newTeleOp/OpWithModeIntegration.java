@@ -69,8 +69,7 @@ public class OpWithModeIntegration extends LinearOpMode {
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
-        pieceTogether.load();
+
 
         waitForStart();
         Boolean ModesTrans = false;
@@ -245,5 +244,6 @@ public class OpWithModeIntegration extends LinearOpMode {
 
         }
     }
+
 }
 

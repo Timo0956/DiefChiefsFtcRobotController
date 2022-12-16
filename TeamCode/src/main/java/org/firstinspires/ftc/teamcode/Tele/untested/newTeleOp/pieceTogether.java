@@ -37,8 +37,8 @@ public class pieceTogether {
     }
     public static void load() throws InterruptedException{
         //testHorizontalLinSlide.moveHorizontalLinManual(true, false);
-        dualServoForearm.in();
-        Thread.sleep(500);
+        //dualServoForearm.in();
+        //Thread.sleep(500);
         ServoTele.open(true);
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
