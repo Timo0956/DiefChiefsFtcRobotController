@@ -69,6 +69,9 @@ public class OpWithModeIntegration extends LinearOpMode {
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
+        pieceTogether.load();
+
         waitForStart();
         Boolean ModesTrans = false;
         int Modes = 1;
@@ -130,7 +133,8 @@ public class OpWithModeIntegration extends LinearOpMode {
             if (Modes == 1){
                 topMotor.moveTopMotor(gamepad1.dpad_right, gamepad1.dpad_left);
                 clawServoClass.spinClawServo(gamepad1.dpad_up,gamepad1.dpad_down);
-                pieceTogether.pieceTogether(gamepad1);
+                testHorizontalLinSlide.moveHorizontalLinManual(gamepad1.a,gamepad1.b);
+                //pieceTogether.pieceTogether(gamepad1);
                 telemetry.addData("Mode = ", "Manual");
                 telemetry.update();
                 if(slideModes == 1){
@@ -175,6 +179,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                 telemetry.addData("Position", rightLinSlide.getCurrentPosition());
                 telemetry.addData("ServoPositionR", ClawServoR.getPosition());
                 telemetry.addData("ServoPositionL", ClawServoL.getPosition());
+                telemetry.addData("PositionH", HL.getCurrentPosition());
                 telemetry.update();
                 double speedPosition = Math.abs(gamepad2.left_stick_y);
                 double y = -gamepad1.left_stick_y; // Remember, this is reversed!

@@ -8,40 +8,42 @@ import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 public class pieceTogether {
     public static void pieceTogether(Gamepad g1) throws InterruptedException {
 
-        if(g1.b) {
+       /* if(g1.b) {
             if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
                 TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
                 topMotor.autoMoveToOriginal();
-                Thread.sleep(500);
+                Thread.sleep(1000);
             }
-            testHorizontalLinSlide.moveHorizontalLinManual(false, true);
+            //testHorizontalLinSlide.moveHorizontalLinManual(false, true);
+
             dualServoForearm.out();
         }
-        else if(g1.y){
+        else */if(g1.y){
             ServoTele.close(g1.y);
 
         } else if (g1.x) {
             ServoTele.open(g1.x);
 
-        } else if (g1.a) {
+        } /*else if (g1.a) {
             if(TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.MEDIUM || topMotor.TM.getCurrentPosition()!=0 ){
                 TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
                 topMotor.autoMoveToOriginal();
-                Thread.sleep(500);
+                Thread.sleep(1000);
             }
             load();
-        }
+        }*/
 
 
     }
     public static void load() throws InterruptedException{
-        testHorizontalLinSlide.moveHorizontalLinManual(true, false);
+        //testHorizontalLinSlide.moveHorizontalLinManual(true, false);
         dualServoForearm.in();
+        Thread.sleep(500);
         ServoTele.open(true);
         TwoStageLinSlideFileNew.moveStates(0, true,false, 0, false, false);
         clawServoClass.spinClawServo(true,false);
         Thread.sleep(500);
-        TwoStageLinSlideFileNew.moveStates(0, false,false, 1, false, false);
+        TwoStageLinSlideFileNew.moveStates(0, false,true, 0, false, false);
 
     }
     public static void upDrop() throws InterruptedException{ //farm only

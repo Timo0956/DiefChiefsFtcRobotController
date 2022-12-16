@@ -7,8 +7,6 @@ public class dualServoForearm {
     static Servo servo3A; //Right side attached to claw
     static Servo servo2A; //Left side attached to slide
 
-    static double positionWhileOut = 0.65;
-    static double positionWhileIn = 0;
 
     public static void initForearmServos(Servo servo3a, Servo servo2a) {
         servo3A = servo3a;
@@ -16,11 +14,13 @@ public class dualServoForearm {
     }
 
     public static void out() {
-        servo2A.setPosition(positionWhileOut);
+        servo2A.setPosition(0.65);
+        servo3A.setPosition(0.4);
     }
 
     public static void in() {
-        servo2A.setPosition(positionWhileIn);
+        servo2A.setPosition(0);
+        servo3A.setPosition(1);
     }
 
 }

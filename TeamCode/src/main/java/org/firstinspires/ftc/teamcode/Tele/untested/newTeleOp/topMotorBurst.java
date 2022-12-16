@@ -15,11 +15,36 @@ public class topMotorBurst {
     }
 
     public static void burstMotor() throws InterruptedException{
-        TM.setTargetPosition(-225);
-        TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        TM.setPower(-0.05);
-        Thread.sleep(100);
-        TM.setPower(0);
+        if(TM.getCurrentPosition() < -225){
+            TM.setTargetPosition(-225);
+            TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            TM.setPower(0.05);
+            Thread.sleep(100);
+            TM.setPower(0);
+        }
+        else if (TM.getCurrentPosition() > -225){
+            TM.setTargetPosition(-225);
+            TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            TM.setPower(-0.05);
+            Thread.sleep(100);
+            TM.setPower(0);
+        }
+    }
+    public static void burstMotorOriginalPos() throws InterruptedException{
+        if(TM.getCurrentPosition() > 0){
+            TM.setTargetPosition(0);
+            TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            TM.setPower(-0.05);
+            Thread.sleep(100);
+            TM.setPower(0);
+        }
+        else if(TM.getCurrentPosition() < 0){
+            TM.setTargetPosition(0);
+            TM.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            TM.setPower(0.05);
+            Thread.sleep(100);
+            TM.setPower(0);
+        }
     }
 
 
