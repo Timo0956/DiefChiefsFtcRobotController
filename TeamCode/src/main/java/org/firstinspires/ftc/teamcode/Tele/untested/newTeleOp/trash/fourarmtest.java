@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
+@Disabled
 public class fourarmtest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{

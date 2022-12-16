@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode;
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSli
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 @TeleOp
+@Disabled
 public class modesTeleOp extends LinearOpMode {
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();

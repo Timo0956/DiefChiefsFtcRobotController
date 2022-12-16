@@ -21,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import java.util.Locale;
 
 @TeleOp
+@Disabled
 public class IMUTest extends LinearOpMode {
 
     static DcMotor motorFrontLeft = null;

@@ -11,15 +11,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 @TeleOp
-@Disabled
 public class ExCompTele extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
-        //DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
+        DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
@@ -37,11 +37,11 @@ public class ExCompTele extends LinearOpMode {
         // Reverse left motors if you are using NeveRests
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        TwoStageLinSlideFile.setLSMotor(rightLinSlide/*, leftLinSlide*/); //defines motors in terms of the seperate file
+        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive()){
-            TwoStageLinSlideFile.linSlideDouble(gamepad1); //takes gamepad input
+            TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
