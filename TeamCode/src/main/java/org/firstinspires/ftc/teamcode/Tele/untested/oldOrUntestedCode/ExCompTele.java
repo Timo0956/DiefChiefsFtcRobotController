@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,14 +11,31 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
+    BNO055IMU imu; //Gets the IMU
+    Acceleration acceleration; //Gets the acceleration
+    Orientation angles; //Gets the heading in degrees
+
     @Override
     public void runOpMode() throws InterruptedException{
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = true;
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
@@ -26,28 +44,37 @@ public class ExCompTele extends LinearOpMode {
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-        setServos(ClawServoL, ClawServoR);
+
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
+        newFarm.initFarmNew(imu,acceleration,angles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
+
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive()){
-            TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
-            ServoTele.open(gamepad1.x);
-            ServoTele.close(gamepad1.y);
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
+
+            newFarm.farmFromPark(gamepad1.a);
+            TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
+            ServoTele.open(gamepad1.x);
+            ServoTele.close(gamepad1.y);
+
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x ;
@@ -59,10 +86,10 @@ public class ExCompTele extends LinearOpMode {
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx)/ denominator;
             double backRightPower = (y + x - rx)/ denominator;
-            motorFrontLeft.setPower(-frontLeftPower*0.6);
-            motorBackLeft.setPower(-backLeftPower*0.6);
-            motorFrontRight.setPower(-frontRightPower*0.6);
-            motorBackRight.setPower(-backRightPower*0.6);
+            motorFrontLeft.setPower(frontLeftPower*0.6);
+            motorBackLeft.setPower(backLeftPower*0.6);
+            motorFrontRight.setPower(frontRightPower*0.6);
+            motorBackRight.setPower(backRightPower*0.6);
             
         }
     }
