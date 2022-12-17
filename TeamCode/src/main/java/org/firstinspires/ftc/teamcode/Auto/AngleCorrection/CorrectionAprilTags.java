@@ -20,20 +20,14 @@
  */
 //170-196
 
-package org.firstinspires.ftc.teamcode.Auto.AngleCorrection;
+package org.firstinspires.ftc.teamcode.Auto.Tested;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Auto.AngleCorrection.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -43,8 +37,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous
-public class CorrectionAprilTags extends LinearOpMode
-{
+public class CorrectionAprilTags extends LinearOpMode {
     static Servo ClawL = null;
     static Servo ClawR = null;
     static DcMotor motorFrontLeft = null;
@@ -73,17 +66,11 @@ public class CorrectionAprilTags extends LinearOpMode
     int two = 9;
     int three = 10;// Tag ID 18 from the 36h11 family
 
-    BNO055IMU imu;
-    Orientation             lastAngles = new Orientation();
-    double                  globalAngle, power = .30, correction;
-    boolean                 aButton, bButton, touched;
-
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode() throws InterruptedException
-    {
-        long msPerCm = 1500/89;
+    public void runOpMode() throws InterruptedException {
+        long msPerCm = 1500 / 89;
         double power = 0.5;
         ClawL = hardwareMap.servo.get("clawServoL");
         ClawR = hardwareMap.servo.get("clawServoR");
@@ -105,17 +92,14 @@ public class CorrectionAprilTags extends LinearOpMode
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened() {
+                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
         });
@@ -126,82 +110,40 @@ public class CorrectionAprilTags extends LinearOpMode
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
-
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-        imu.initialize(parameters);
-
-        telemetry.addData("Mode", "calibrating...");
-        telemetry.update();
-
-        while (!isStopRequested() && !imu.isGyroCalibrated())
-        {
-            sleep(50);
-            idle();
-        }
-
-        telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
-        telemetry.update();
-
-        while (!isStarted() && !isStopRequested())
-        {
+        while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0)
-            {
+            if (currentDetections.size() != 0) {
                 boolean tagFound = false;
 
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    if(tag.id == one || tag.id == two || tag.id == three)
-                    {
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == one || tag.id == two || tag.id == three) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
                     }
                 }
 
-                if(tagFound)
-                {
+                if (tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
+                    if (tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
-                    }
-                    else
-                    {
+                    } else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
                 }
 
-            }
-            else
-            {
+            } else {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if(tagOfInterest == null)
-                {
+                if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
@@ -218,27 +160,24 @@ public class CorrectionAprilTags extends LinearOpMode
          */
 
         /* Update the telemetry */
-        if(tagOfInterest != null)
-        {
+        if (tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
             telemetry.update();
-        }
-        else
-        {
+        } else {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
 
         /* Actually do something useful */
-        if( tagOfInterest.id == one){
+        if (tagOfInterest.id == one) {
             closeServo();
             pause(700); //grab cone
-            moveLinSlidePosition(100,0.9, 900);
+            moveLinSlidePosition(100, 0.9, 900);
             pause(100);
-            leftStrafe(-power, msPerCm*15);
+            leftStrafe(-power, msPerCm * 15);
             pause(100);
-            forwardBackwardDrive(-power,msPerCm*45); //103
+            forwardBackwardDrive(-power, msPerCm * 45); //103
             /*pause(100);
             moveLinSlidePosition(3000,0.9, 2000); //lift cone
             forwardBackwardDrive(power,msPerCm*13); //get to position
@@ -275,19 +214,18 @@ public class CorrectionAprilTags extends LinearOpMode
       */
             //rightStrafe(-power,msPerCm*35); //parking
             pause(1000);
-            leftStrafe(-power, msPerCm*70);
-            forwardBackwardDrive(power,msPerCm*5);
+            leftStrafe(-power, msPerCm * 70);
+            forwardBackwardDrive(power, msPerCm * 5);
             openServo();
-            moveLinSlidePosition(00,0.9, 900);
-        }
-        else if (tagOfInterest.id == two){
+            moveLinSlidePosition(00, 0.9, 900);
+        } else if (tagOfInterest.id == two) {
             closeServo();
             pause(700); //grab cone
-            moveLinSlidePosition(100,0.9, 900);
+            moveLinSlidePosition(100, 0.9, 900);
             pause(100);
-            leftStrafe(-power,msPerCm*65); //103
+            leftStrafe(-power, msPerCm * 65); //103
             openServo();
-            moveLinSlidePosition(00,0.9, 900);
+            moveLinSlidePosition(00, 0.9, 900);
          /*   pause(100);
             moveLinSlidePosition(3000,0.9, 2000); //lift cone
             forwardBackwardDrive(power,msPerCm*13); //get to position
@@ -322,16 +260,15 @@ public class CorrectionAprilTags extends LinearOpMode
         pause(200);
 
       */
-           // rightStrafe(-power,msPerCm*30); //parking
+            // rightStrafe(-power,msPerCm*30); //parking
 
 
-        }
-        else if (tagOfInterest.id == three){
+        } else if (tagOfInterest.id == three) {
             closeServo();
             pause(700); //grab cone
-            moveLinSlidePosition(100,0.9, 900);
+            moveLinSlidePosition(100, 0.9, 900);
             pause(100);
-            forwardBackwardDrive(power,msPerCm*45);
+            forwardBackwardDrive(power, msPerCm * 45);
             pause(500);
             /*moveLinSlidePosition(3000,0.9, 2000); //lift cone
             forwardBackwardDrive(power,msPerCm*13); //get to position
@@ -368,52 +305,56 @@ public class CorrectionAprilTags extends LinearOpMode
       */
             //rightStrafe(-power,msPerCm*22); //parking
             pause(100);
-            leftStrafe(-power, msPerCm*70);
+            leftStrafe(-power, msPerCm * 70);
             openServo();
-            moveLinSlidePosition(00,0.9, 900);
+            moveLinSlidePosition(00, 0.9, 900);
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-       // while (opModeIsActive()) {sleep(20);}
+        // while (opModeIsActive()) {sleep(20);}
     }
 
-    void tagToTelemetry(AprilTagDetection detection)
-    {
+    void tagToTelemetry(AprilTagDetection detection) {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z * FEET_PER_METER));
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
-    public static void pause(long time)throws InterruptedException{
+
+    public static void pause(long time) throws InterruptedException {
         motorFrontLeft.setPower(0);
         motorFrontRight.setPower(0);
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
         Thread.sleep(time);
     }
-    public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
+
+    public static void forwardBackwardDrive(double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(-power);
         motorFrontRight.setPower(power);
         motorBackLeft.setPower(-power);
         motorBackRight.setPower(power);
         Thread.sleep(time);
     }
-    public static void leftStrafe (double power, long time) throws InterruptedException{
+
+    public static void leftStrafe(double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(-power);
         motorFrontRight.setPower(-power);
         motorBackLeft.setPower(power);
         motorBackRight.setPower(power);
         Thread.sleep(time);
     }
-    public static void rightStrafe (double power, long time) throws InterruptedException {
+
+    public static void rightStrafe(double power, long time) throws InterruptedException {
         motorFrontLeft.setPower(power);
         motorFrontRight.setPower(power);
         motorBackLeft.setPower(-power);
         motorBackRight.setPower(-power);
         Thread.sleep(time);
     }
+
     /*    public static void toLowLinSlide(){
             TwoStageLinSlideFile.moveStates(0,true,false,0);
         }
@@ -424,67 +365,22 @@ public class CorrectionAprilTags extends LinearOpMode
             TwoStageLinSlideFile.moveStates(1,false,false,0);
         }
         public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */// commented out extra linside functions
-    public static void closeServo(){
+    public static void closeServo() {
         // ServoTele.close(true);
         ClawL.setPosition(0.15);
         ClawR.setPosition(0.15);
     }
-    public static void openServo(){
+
+    public static void openServo() {
         //   ServoTele.open(true);
         ClawL.setPosition(0);
         ClawR.setPosition(0);
     }
-    public static void moveLinSlidePosition (int position, double speed, long time)throws InterruptedException{
+
+    public static void moveLinSlidePosition(int position, double speed, long time) throws InterruptedException {
         rightLinSlide.setTargetPosition(position);
         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLinSlide.setPower(speed);
         Thread.sleep(time);
-    }
-    private double getAngle()
-    {
-        // We experimentally determined the Z axis is the axis we want to use for heading angle.
-        // We have to process the angle because the imu works in euler angles so the Z axis is
-        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
-        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
-
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-
-        if (deltaAngle < -180)
-            deltaAngle += 360;
-        else if (deltaAngle > 180)
-            deltaAngle -= 360;
-
-        globalAngle += deltaAngle;
-
-        lastAngles = angles;
-
-        return globalAngle;
-    }
-    private void resetAngle()
-    {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        globalAngle = 0;
-    }
-
-    private double checkDirection()
-    {
-        // The gain value determines how sensitive the correction is to direction changes.
-        // You will have to experiment with your robot to get small smooth direction changes
-        // to stay on a straight line.
-        double correction, angle, gain = .10;
-
-        angle = getAngle();
-
-        if (angle == 0)
-            correction = 0;             // no adjustment.
-        else
-            correction = -angle;        // reverse sign of angle for correction.
-
-        correction = correction * gain;
-
-        return correction;
     }
 }

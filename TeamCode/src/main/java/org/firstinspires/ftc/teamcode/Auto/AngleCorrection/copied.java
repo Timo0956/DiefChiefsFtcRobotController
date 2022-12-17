@@ -81,7 +81,6 @@ public class copied extends LinearOpMode
         telemetry.addData("Mode", "running");
         telemetry.update();
 
-        sleep(1000);
 
         // drive until end of period.
 
