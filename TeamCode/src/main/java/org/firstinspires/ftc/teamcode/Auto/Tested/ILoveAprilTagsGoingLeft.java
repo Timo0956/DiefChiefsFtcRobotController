@@ -194,110 +194,24 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
 
         /* Actually do something useful */
         if( tagOfInterest.id == one){
-
-            rightStrafe(0.5, msPerCm*50);
-            motorFrontLeft.setPower(0.5);
-            motorFrontRight.setPower(0.5);
-            motorBackLeft.setPower(0.5);
-            motorBackRight.setPower(0.5);
-            sleep(100);
+            closeServo();
+            pause(700); //grab cone
+            moveLinSlidePosition(100,0.9, 900);
             pause(100);
-
-            //Minhs code
-            //closeServo();
-            //pause(700); //grab cone
-            //moveLinSlidePosition(100,0.9, 900);
-            //pause(300);
-            //forwardBackwardDrive(0.5, msPerCm*6);
-            //pause(200);
-            //leftStrafe(-power, msPerCm*75);
-            //pause(300);
-            //forwardBackwardDrive(power,msPerCm*60); //103
-
-
-            /*pause(100);
-            moveLinSlidePosition(3000,0.9, 2000); //lift cone
-            forwardBackwardDrive(power,msPerCm*13); //get to position
-            pause(100);
-            openServo(); // drop cone
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*13);
-            pause(100);
-            moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
-     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
-        pause(100);
-        moveLinSlidePosition(400,0.9, 0); // move ls into position
-        openServo();
-        forwardBackwardDrive(power,msPerCm*202); // move to stack
-        pause(1000);
-        closeServo();
-        pause(1000);
-        moveLinSlidePosition(1000,0.9, 2000);
-        forwardBackwardDrive(-power,msPerCm*205);
-        pause(500);
-        rightStrafe(-power,msPerCm*33);
-        pause(100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        pause(200);
-        forwardBackwardDrive(power,msPerCm*8);
-        pause(200);
-        openServo();
-        pause(200);
-        forwardBackwardDrive(-power,msPerCm*10);
-        pause(200);
-        moveLinSlidePosition(0,0.9, 2000);
-        pause(200);
-
-      */
-            //rightStrafe(-power,msPerCm*35); //parking
-            pause(1000);
-
+            forwardBackwardDrive(-power, msPerCm *75);
+            leftStrafe(-power, msPerCm *75);
             openServo();
             moveLinSlidePosition(00,0.9, 900);
+
         }
         else if (tagOfInterest.id == two){
             closeServo();
             pause(700); //grab cone
             moveLinSlidePosition(100,0.9, 900);
             pause(100);
-            forwardBackwardDrive(-power,msPerCm*65); //103
+            leftStrafe(-power,msPerCm*65); //103
             openServo();
             moveLinSlidePosition(00,0.9, 900);
-         /*   pause(100);
-            moveLinSlidePosition(3000,0.9, 2000); //lift cone
-            forwardBackwardDrive(power,msPerCm*13); //get to position
-            pause(100);
-            openServo(); // drop cone
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*10);
-            pause(100);
-            moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
-     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
-        pause(100);
-        moveLinSlidePosition(400,0.9, 0); // move ls into position
-        openServo();
-        forwardBackwardDrive(power,msPerCm*202); // move to stack
-        pause(1000);
-        closeServo();
-        pause(1000);
-        moveLinSlidePosition(1000,0.9, 2000);
-        forwardBackwardDrive(-power,msPerCm*205);
-        pause(500);
-        rightStrafe(-power,msPerCm*33);
-        pause(100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        pause(200);
-        forwardBackwardDrive(power,msPerCm*8);
-        pause(200);
-        openServo();
-        pause(200);
-        forwardBackwardDrive(-power,msPerCm*10);
-        pause(200);
-        moveLinSlidePosition(0,0.9, 2000);
-        pause(200);
-
-      */
-           // rightStrafe(-power,msPerCm*30); //parking
 
 
         }
@@ -306,46 +220,11 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             pause(700); //grab cone
             moveLinSlidePosition(100,0.9, 900);
             pause(300);
-            forwardBackwardDrive(0.5, msPerCm*6);
+            leftStrafe(-power, msPerCm * 10);
+            forwardBackwardDrive(0.5, msPerCm*75);
             pause(200);
-            rightStrafe(-power, msPerCm*75);
+            leftStrafe(-power, msPerCm*75);
             pause(300);
-            forwardBackwardDrive(power,msPerCm*60); //103
-            /*pause(100);
-            moveLinSlidePosition(3000,0.9, 2000); //lift cone
-            forwardBackwardDrive(power,msPerCm*13); //get to position
-            pause(100);
-            openServo(); // drop cone
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*13);
-            pause(100);
-            moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
-     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
-        pause(100);
-        moveLinSlidePosition(400,0.9, 0); // move ls into position
-        openServo();
-        forwardBackwardDrive(power,msPerCm*202); // move to stack
-        pause(1000);
-        closeServo();
-        pause(1000);
-        moveLinSlidePosition(1000,0.9, 2000);
-        forwardBackwardDrive(-power,msPerCm*205);
-        pause(500);
-        rightStrafe(-power,msPerCm*33);
-        pause(100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        pause(200);
-        forwardBackwardDrive(power,msPerCm*8);
-        pause(200);
-        openServo();
-        pause(200);
-        forwardBackwardDrive(-power,msPerCm*10);
-        pause(200);
-        moveLinSlidePosition(0,0.9, 2000);
-        pause(200);
-
-      */
-            //rightStrafe(-power,msPerCm*35); //parking
             pause(1000);
 
             openServo();
