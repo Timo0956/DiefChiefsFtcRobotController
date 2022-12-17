@@ -77,7 +77,7 @@ public class ExCompTele extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive()){
-            //composeTelemetry();
+
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
@@ -106,84 +106,5 @@ public class ExCompTele extends LinearOpMode {
             
         }
     }
-    public void composeTelemetry() {
 
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {public void run()
-        {
-            // Acquiring the angles is relatively expensive; we don't want
-            // to do that in each of the three items that need that info, as that's
-            // three times the necessary expense.
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            acceleration  = imu.getLinearAcceleration();
-        }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    public String value() {
-                        return imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                     public String value() {
-                        return imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("acc", new Func<String>() {
-                    public String value() {
-                        return acceleration.toString();
-                    }
-                })
-                .addData("Z", new Func<String>() {
-                    public String value() {
-                        Log.v("zac",""+acceleration.zAccel);
-                        return String.format(Locale.getDefault(), "%.3f",acceleration.zAccel);
-                    }
-                })
-                .addData("Y", new Func<String>() {
-                    public String value() {
-                        Log.v("yac",""+acceleration.zAccel);
-                        return String.format(Locale.getDefault(), "%.3f",acceleration.yAccel);
-                    }
-                })
-                .addData("X", new Func<String>() {
-                    public String value() {
-                        Log.v("xac",""+acceleration.zAccel);
-                        return String.format(Locale.getDefault(), "%.3f",acceleration.xAccel);
-                    }
-                });
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // Formatting
-    //----------------------------------------------------------------------------------------------
-
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees(double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
-    }
 }
