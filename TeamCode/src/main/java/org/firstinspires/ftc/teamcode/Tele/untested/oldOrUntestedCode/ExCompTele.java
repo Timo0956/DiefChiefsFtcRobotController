@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
+import android.util.Log;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -20,11 +23,13 @@ import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSli
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
+import java.util.Locale;
+
 @TeleOp
 public class ExCompTele extends LinearOpMode {
     BNO055IMU imu; //Gets the IMU
-    Acceleration acceleration; //Gets the acceleration
-    Orientation angles; //Gets the heading in degrees
+    Acceleration acceleration = new Acceleration(); //Gets the acceleration
+    Orientation angles = new Orientation(); //Gets the heading in degrees
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -64,6 +69,7 @@ public class ExCompTele extends LinearOpMode {
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         acceleration = imu.getLinearAcceleration();
 
+        drive.initDrive(motorFrontLeft, motorBackLeft, motorFrontRight, motorBackRight);
         setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
         newFarm.initFarmNew(imu,acceleration,angles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
@@ -71,38 +77,99 @@ public class ExCompTele extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive()){
+            composeTelemetry();
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
-            telemetry.addData("zacc", acceleration.zAccel);
-            telemetry.addData("yacc", acceleration.yAccel);
-            telemetry.addData("xacc", acceleration.xAccel);
-            telemetry.addData("Zhead", angles.firstAngle);
-            telemetry.addData("Yhead", angles.secondAngle);
-            telemetry.addData("Xhead", angles.thirdAngle);
             telemetry.update();
 
             newFarm.farmFromPark(gamepad1.a);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
+            drive.driveTele(gamepad1);
 
-            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x ;
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio, but only when
-            // at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx)/ denominator;
-            double backLeftPower = (y - x + rx) / denominator;
-            double frontRightPower = (y - x - rx)/ denominator;
-            double backRightPower = (y + x - rx)/ denominator;
-            motorFrontLeft.setPower(frontLeftPower*0.6);
-            motorBackLeft.setPower(backLeftPower*0.6);
-            motorFrontRight.setPower(frontRightPower*0.6);
-            motorBackRight.setPower(backRightPower*0.6);
             
         }
+    }
+    public void composeTelemetry() {
+
+        // At the beginning of each telemetry update, grab a bunch of data
+        // from the IMU that we will then display in separate lines.
+        telemetry.addAction(new Runnable() { @Override public void run()
+        {
+            // Acquiring the angles is relatively expensive; we don't want
+            // to do that in each of the three items that need that info, as that's
+            // three times the necessary expense.
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            acceleration  = imu.getLinearAcceleration();
+        }
+        });
+
+        telemetry.addLine()
+                .addData("status", new Func<String>() {
+                    @Override public String value() {
+                        return imu.getSystemStatus().toShortString();
+                    }
+                })
+                .addData("calib", new Func<String>() {
+                    @Override public String value() {
+                        return imu.getCalibrationStatus().toString();
+                    }
+                });
+
+        telemetry.addLine()
+                .addData("heading", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.firstAngle);
+                    }
+                })
+                .addData("roll", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.secondAngle);
+                    }
+                })
+                .addData("pitch", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+                    }
+                });
+
+        telemetry.addLine()
+                .addData("acc", new Func<String>() {
+                    @Override public String value() {
+                        return acceleration.toString();
+                    }
+                })
+                .addData("Z", new Func<String>() {
+                    @Override public String value() {
+                        Log.v("zac",""+acceleration.zAccel);
+                        return String.format(Locale.getDefault(), "%.3f",acceleration.zAccel);
+                    }
+                })
+                .addData("Y", new Func<String>() {
+                    @Override public String value() {
+                        Log.v("yac",""+acceleration.zAccel);
+                        return String.format(Locale.getDefault(), "%.3f",acceleration.yAccel);
+                    }
+                })
+                .addData("X", new Func<String>() {
+                    @Override public String value() {
+                        Log.v("xac",""+acceleration.zAccel);
+                        return String.format(Locale.getDefault(), "%.3f",acceleration.xAccel);
+                    }
+                });
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Formatting
+    //----------------------------------------------------------------------------------------------
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
