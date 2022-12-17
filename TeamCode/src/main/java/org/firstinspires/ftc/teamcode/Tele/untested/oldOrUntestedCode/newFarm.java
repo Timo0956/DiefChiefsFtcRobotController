@@ -71,7 +71,7 @@ public class newFarm {
         }
     }
     public static void moveFB(double power, double Tdist)throws InterruptedException{
-        while (Tdist != distance[0] || Tdist != distance[1]||Tdist != distance[2]) {
+        while (Tdist != Math.abs(distance[0])  || Tdist != Math.abs(distance[1])||Tdist != Math.abs(distance[2])) {
             fl.setPower(power);
             fr.setPower(power);
             bl.setPower(power);
