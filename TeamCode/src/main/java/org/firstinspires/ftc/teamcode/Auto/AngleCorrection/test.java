@@ -98,6 +98,11 @@ public class test extends LinearOpMode {
                  motorFrontLeft.setPower(-0.6 + correction);
                  motorFrontRight.setPower(-0.6 + correction);
 
+             } else {
+                 motorBackLeft.setPower(0);
+                 motorBackRight.setPower(0);
+                 motorFrontLeft.setPower(0);
+                 motorFrontRight.setPower(0);
              }
         }
     }

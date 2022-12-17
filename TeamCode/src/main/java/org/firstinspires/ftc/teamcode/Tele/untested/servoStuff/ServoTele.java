@@ -13,7 +13,7 @@ public class ServoTele {
     static Servo ClawL;
     static Servo ClawR;
     static double startPos = 0;
-    static double closePos = 0.15;
+    static double closePos = 0.28;
     // Initializing both servos (Declared in main Teleop)
 
 

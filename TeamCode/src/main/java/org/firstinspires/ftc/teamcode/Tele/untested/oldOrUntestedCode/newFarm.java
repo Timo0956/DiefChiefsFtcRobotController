@@ -55,16 +55,16 @@ public class newFarm {
 
     public static void farmFromPark(boolean a)throws InterruptedException{
         if(a) {
-            moveFB(1, 30);
+            moveFB(0.5, 0.30);
             ServoTele.close(true);
             pause(700);
-            moveFB(1, 30);
+            moveFB(0.5, 0.30);
             TwoStageLinSlideFileNew.goPosition(0.9, 4200);
             turn(0);
-            moveFB(1, 50);
+            moveFB(0.5, 0.50);
             ServoTele.open(true);
             pause(700);
-            moveFB(-1, 50);
+            moveFB(-0.5, 0.50);
             TwoStageLinSlideFileNew.goPosition(-0.9, 0);
             turn(180);
             Thread.sleep(200);

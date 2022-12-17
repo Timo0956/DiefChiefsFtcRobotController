@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
@@ -58,6 +61,9 @@ public class ExCompTele extends LinearOpMode {
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        acceleration = imu.getLinearAcceleration();
+
         setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
         newFarm.initFarmNew(imu,acceleration,angles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
@@ -68,6 +74,12 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
+            telemetry.addData("zacc", acceleration.zAccel);
+            telemetry.addData("yacc", acceleration.yAccel);
+            telemetry.addData("xacc", acceleration.xAccel);
+            telemetry.addData("Zhead", angles.firstAngle);
+            telemetry.addData("Yhead", angles.secondAngle);
+            telemetry.addData("Xhead", angles.thirdAngle);
             telemetry.update();
 
             newFarm.farmFromPark(gamepad1.a);

@@ -87,6 +87,10 @@ public class TwoStageLinSlideFileNew {
                 }
                 else if(rightBumper){
                     state = states.TOMEDIUM;
+                } else{
+                    if (rightLinSlide.getCurrentPosition()<mid-50){
+                        state = states.TOMEDIUM;
+                    }
                 }
                 break;
             case HIGH:
@@ -103,6 +107,10 @@ public class TwoStageLinSlideFileNew {
                 }
                 else if(rightTrigger > 0.7){
                     state = states.TOHIGH;
+                } else{
+                    if (rightLinSlide.getCurrentPosition()<high-50){
+                        state = states.TOHIGH;
+                    }
                 }
                 break;
             case TOLOW:
