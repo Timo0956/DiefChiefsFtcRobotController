@@ -75,28 +75,28 @@ public class test extends LinearOpMode {
         while(opModeIsActive()){
             correction = checkDirection();
              if(gamepad1.dpad_up){ //front
-                 motorBackLeft.setPower(0.6 + correction);
-                 motorBackRight.setPower(0.6 - correction);
-                 motorFrontLeft.setPower(0.6 + correction);
-                 motorFrontRight.setPower(0.6-correction);
+                 motorBackLeft.setPower(0.5 + 0.1*correction);
+                 motorBackRight.setPower(0.5  + 0.1*correction);
+                 motorFrontLeft.setPower(0.5 - 0.1*correction);
+                 motorFrontRight.setPower(0.5- 0.1*correction);
              }
              else if(gamepad1.dpad_down){ //Back
-                 motorBackLeft.setPower(-0.6 - correction);
-                 motorBackRight.setPower(-0.6 + correction);
-                 motorFrontLeft.setPower(-0.6 - correction);
-                 motorFrontRight.setPower(-0.6 + correction);
+                 motorBackLeft.setPower(-0.6 - 0.2*correction);
+                 motorBackRight.setPower(-0.6 - 0.2*correction);
+                 motorFrontLeft.setPower(-0.6 + 0.2*correction);
+                 motorFrontRight.setPower(-0.6 + 0.2*correction);
              }
              else if(gamepad1.dpad_left){ //right strafe
-                 motorBackLeft.setPower(-0.6 + correction);
-                 motorBackRight.setPower(-0.6 + correction);
-                 motorFrontLeft.setPower(0.6 - correction);
-                 motorFrontRight.setPower(0.6 - correction);
+                 motorBackLeft.setPower(-0.6 + 0.2*correction);
+                 motorBackRight.setPower(-0.6 + 0.2*correction);
+                 motorFrontLeft.setPower(0.6 - 0.2*correction);
+                 motorFrontRight.setPower(0.6 - 0.2*correction);
              }
              else if (gamepad1.dpad_right){ //left strafe
-                 motorBackLeft.setPower(0.6 - correction);
-                 motorBackRight.setPower(0.6 - correction);
-                 motorFrontLeft.setPower(-0.6 + correction);
-                 motorFrontRight.setPower(-0.6 + correction);
+                 motorBackLeft.setPower(0.6 - 0.2*correction);
+                 motorBackRight.setPower(0.6 - 0.2*correction);
+                 motorFrontLeft.setPower(-0.6 + 0.2*correction);
+                 motorFrontRight.setPower(-0.6 + 0.2*correction);
 
              } else {
                  motorBackLeft.setPower(0);
@@ -140,7 +140,7 @@ public class test extends LinearOpMode {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
-        double correction, angle, gain = .10;
+        double correction, angle, gain = .1;
 
         angle = getAngle();
 
