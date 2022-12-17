@@ -58,28 +58,31 @@ public class newFarm {
         if(a) {
             moveFB(0.75, 300);
             ServoTele.close(true);
-            pause(700);
+            pause(200);
             TwoStageLinSlideFileNew.goPosition(0.9, 350);
             pause(350);
             moveFB(-0.75, 300);
-            TwoStageLinSlideFileNew.goPosition(0.7, 4200);
-            turn(1, 763);
-            moveFB(0.6, (int) Math.round(200/0.6));
-            pause(1700);
+            TwoStageLinSlideFileNew.goPosition(0.9, 4200);
+            turn(1, 760);
+            pause(400);
+            moveFB(0.5, (int) Math.round(300/0.5));
+            pause(1100);
             ServoTele.open(true);
-            pause(700);
-            moveFB(-0.6, (int) Math.round(200/0.6));
-            TwoStageLinSlideFileNew.goPosition(-0.7, 0);
-            turn(1, 763);
-            Thread.sleep(1700);
+            pause(500);
+            moveFB(-0.5, (int) Math.round(300/0.5));
+            TwoStageLinSlideFileNew.goPosition(-0.9, 0);
+            turn(1, 760);
+            Thread.sleep(1200);
+
         } else if (up){
             TwoStageLinSlideFileNew.goPosition(0.7, 4200);
-            turn(1, 763);
-            moveFB(0.7, (int) Math.round(200/0.7));
+            turn(1, 750);
+            pause(400);
+            moveFB(0.5, (int) Math.round(300/0.5));
         } else if(down){
-            moveFB(-0.7, (int) Math.round(200/0.7));
+            moveFB(-0.5, (int) Math.round(300/0.5));
             TwoStageLinSlideFileNew.goPosition(-0.7, 0);
-            turn(1, 763);
+            turn(1, 750);
         }
 
 

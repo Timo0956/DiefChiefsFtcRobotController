@@ -89,7 +89,7 @@ public class ExCompTele extends LinearOpMode {
             ServoTele.close(gamepad1.y);
 
 
-
+            double speedfactor = Math.abs(gamepad2.left_stick_y);
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x ;
@@ -101,11 +101,22 @@ public class ExCompTele extends LinearOpMode {
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx)/ denominator;
             double backRightPower = (y + x - rx)/ denominator;
-            motorFrontLeft.setPower(frontLeftPower*0.6);
-            motorBackLeft.setPower(backLeftPower*0.6);
-            motorFrontRight.setPower(frontRightPower*0.6);
-            motorBackRight.setPower(backRightPower*0.6);
-
+            if(speedfactor<0.05) {
+                motorFrontLeft.setPower(frontLeftPower * 0.6);
+                motorBackLeft.setPower(backLeftPower * 0.6);
+                motorFrontRight.setPower(frontRightPower * 0.6);
+                motorBackRight.setPower(backRightPower * 0.6);
+            } else if (speedfactor>=0.05 && TwoStageLinSlideFileNew.state== TwoStageLinSlideFileNew.states.HIGH){
+                motorFrontLeft.setPower(Math.min(frontLeftPower * speedfactor, 0.7));
+                motorBackLeft.setPower(Math.min(backLeftPower * speedfactor,0.7));
+                motorFrontRight.setPower(Math.min(frontRightPower * speedfactor,0.7));
+                motorBackRight.setPower(Math.min(backRightPower * speedfactor,0.7));
+            } else if (speedfactor>=0.05 && TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.HIGH){
+                motorFrontLeft.setPower(Math.min(frontLeftPower * speedfactor, 1));
+                motorBackLeft.setPower(Math.min(backLeftPower * speedfactor, 1));
+                motorFrontRight.setPower(Math.min(frontRightPower * speedfactor,1));
+                motorBackRight.setPower(Math.min(backRightPower * speedfactor,1 ));
+            }
             
         }
     }

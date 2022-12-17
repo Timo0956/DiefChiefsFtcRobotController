@@ -88,7 +88,7 @@ public class TwoStageLinSlideFileNew {
                 else if(rightBumper){
                     state = states.TOMEDIUM;
                 } else{
-                    if (rightLinSlide.getCurrentPosition()<mid-50){
+                    if (rightLinSlide.getCurrentPosition()<mid-20){
                         state = states.TOMEDIUM;
                     }
                 }
@@ -108,7 +108,7 @@ public class TwoStageLinSlideFileNew {
                 else if(rightTrigger > 0.7){
                     state = states.TOHIGH;
                 } else{
-                    if (rightLinSlide.getCurrentPosition()<high-50){
+                    if (rightLinSlide.getCurrentPosition()<high-20){
                         state = states.TOHIGH;
                     }
                 }
@@ -139,7 +139,10 @@ public class TwoStageLinSlideFileNew {
                 }
                 break;
             case TOMEDIUM:
-                if(rightLinSlide.getCurrentPosition() < mid /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
+                if(leftBumper){
+                    state=states.TOLOW;
+                }
+                else if(rightLinSlide.getCurrentPosition() < mid /*&& leftLinSlide.getCurrentPosition() < mid*/ ){
                     goPosition(power, mid);
 
                 }
@@ -154,7 +157,10 @@ public class TwoStageLinSlideFileNew {
                 }
                 break;
             case TOHIGH:
-                if(rightLinSlide.getCurrentPosition() < high){
+                if(leftBumper){
+                    state=states.TOLOW;
+                }
+                else if(rightLinSlide.getCurrentPosition() < high){
                     goPosition(power, high);
                 }
                 else{

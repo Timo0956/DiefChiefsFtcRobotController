@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.kian;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous
+@Disabled
 public class autoThingy extends LinearOpMode {
     static DcMotor motorFL;
     static DcMotor motorFR;

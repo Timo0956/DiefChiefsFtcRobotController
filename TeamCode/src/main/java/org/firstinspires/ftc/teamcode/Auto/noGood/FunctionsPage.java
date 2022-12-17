@@ -43,9 +43,9 @@ public class FunctionsPage {
     }
     public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */
     public static void closeServo(){
-        ServoTele.close(true);
+        //ServoTele.close(true);
     }
     public static void openServo(){
-        ServoTele.open(true);
+        //ServoTele.open(true);
     }
 }

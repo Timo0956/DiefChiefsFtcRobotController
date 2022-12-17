@@ -17,7 +17,7 @@ public class ExtensionLinSlide {
         HL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public static void extendHori () {
-        ServoTele.open(true);
+        //ServoTele.open(true);
 
             if (HL.getCurrentPosition() < extendPos) {
                 HL.setTargetPosition(extendPos);
