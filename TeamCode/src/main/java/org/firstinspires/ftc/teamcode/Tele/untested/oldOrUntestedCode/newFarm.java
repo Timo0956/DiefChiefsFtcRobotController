@@ -81,7 +81,7 @@ public class newFarm {
         pause(200);
     }
     public static void moveLR(double power, double Tdist)throws InterruptedException{ // positive = right, negative = left
-        while (Tdist != distance[1]) {
+        while (Tdist != Math.abs(distance[0])  || Tdist != Math.abs(distance[1])||Tdist != Math.abs(distance[2])) {
             fl.setPower(power);
             fr.setPower(-power);
             bl.setPower(-power);
