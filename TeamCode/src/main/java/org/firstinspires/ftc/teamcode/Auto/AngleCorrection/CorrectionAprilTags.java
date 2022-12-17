@@ -20,7 +20,7 @@
  */
 //170-196
 
-package org.firstinspires.ftc.teamcode.Auto.Tested;
+package org.firstinspires.ftc.teamcode.Auto.AngleCorrection;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -35,6 +35,13 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Autonomous
 public class CorrectionAprilTags extends LinearOpMode {
@@ -48,7 +55,18 @@ public class CorrectionAprilTags extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
+
+
     static final double FEET_PER_METER = 3.28084;
+    DcMotor                 leftMotor, rightMotor;
+    TouchSensor touch;
+    static BNO055IMU               imu;
+    static Orientation             lastAngles = new Orientation();
+    static double                  globalAngle, power = .30, correction;
+
+
+
+
 
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -70,6 +88,7 @@ public class CorrectionAprilTags extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         long msPerCm = 1500 / 89;
         double power = 0.5;
         ClawL = hardwareMap.servo.get("clawServoL");
@@ -85,6 +104,36 @@ public class CorrectionAprilTags extends LinearOpMode {
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        // get a reference to touch sensor.
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
+
+        telemetry.addData("Mode", "calibrating...");
+        telemetry.update();
+        while (!isStopRequested() && !imu.isGyroCalibrated())
+        {
+            sleep(50);
+            idle();
+        }
+
+        telemetry.addData("Mode", "waiting for start");
+        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        telemetry.update();
 
         TwoStageLinSlideFile.setLSMotor(rightLinSlide);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -158,7 +207,8 @@ public class CorrectionAprilTags extends LinearOpMode {
          * The START command just came in: now work off the latest snapshot acquired
          * during the init loop.
          */
-
+        telemetry.addData("Mode", "running");
+        telemetry.update();
         /* Update the telemetry */
         if (tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
@@ -171,143 +221,59 @@ public class CorrectionAprilTags extends LinearOpMode {
 
         /* Actually do something useful */
         if (tagOfInterest.id == one) {
+            correction = checkDirection();
             closeServo();
             pause(700); //grab cone
             moveLinSlidePosition(100, 0.9, 900);
             pause(100);
-            leftStrafe(-power, msPerCm * 15);
-            pause(100);
-            forwardBackwardDrive(-power, msPerCm * 45); //103
-            /*pause(100);
-            moveLinSlidePosition(3000,0.9, 2000); //lift cone
-            forwardBackwardDrive(power,msPerCm*13); //get to position
-            pause(100);
-            openServo(); // drop cone
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*13);
-            pause(100);
-            moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
-     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
-        pause(100);
-        moveLinSlidePosition(400,0.9, 0); // move ls into position
-        openServo();
-        forwardBackwardDrive(power,msPerCm*202); // move to stack
-        pause(1000);
-        closeServo();
-        pause(1000);
-        moveLinSlidePosition(1000,0.9, 2000);
-        forwardBackwardDrive(-power,msPerCm*205);
-        pause(500);
-        rightStrafe(-power,msPerCm*33);
-        pause(100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        pause(200);
-        forwardBackwardDrive(power,msPerCm*8);
-        pause(200);
-        openServo();
-        pause(200);
-        forwardBackwardDrive(-power,msPerCm*10);
-        pause(200);
-        moveLinSlidePosition(0,0.9, 2000);
-        pause(200);
+            forwardBackwardDrive(0.5,msPerCm * 45);
+            left180();
+            resetAngle();
+            Thread.sleep(300);
+            correction = checkDirection();
+            forwardBackwardDrive(0.5, msPerCm* 45);
 
-      */
-            //rightStrafe(-power,msPerCm*35); //parking
+            /*forwardBackwardDrive(-power, msPerCm * 45); //103
             pause(1000);
             leftStrafe(-power, msPerCm * 70);
-            forwardBackwardDrive(power, msPerCm * 5);
+            forwardBackwardDrive(power, msPerCm * 5);*/
             openServo();
-            moveLinSlidePosition(00, 0.9, 900);
+            moveLinSlidePosition(0, 0.9, 900);
         } else if (tagOfInterest.id == two) {
+            correction = checkDirection();
             closeServo();
             pause(700); //grab cone
             moveLinSlidePosition(100, 0.9, 900);
             pause(100);
-            leftStrafe(-power, msPerCm * 65); //103
-            openServo();
-            moveLinSlidePosition(00, 0.9, 900);
-         /*   pause(100);
-            moveLinSlidePosition(3000,0.9, 2000); //lift cone
-            forwardBackwardDrive(power,msPerCm*13); //get to position
-            pause(100);
-            openServo(); // drop cone
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*10);
-            pause(100);
-            moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
-     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
-        pause(100);
-        moveLinSlidePosition(400,0.9, 0); // move ls into position
-        openServo();
-        forwardBackwardDrive(power,msPerCm*202); // move to stack
-        pause(1000);
-        closeServo();
-        pause(1000);
-        moveLinSlidePosition(1000,0.9, 2000);
-        forwardBackwardDrive(-power,msPerCm*205);
-        pause(500);
-        rightStrafe(-power,msPerCm*33);
-        pause(100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        pause(200);
-        forwardBackwardDrive(power,msPerCm*8);
-        pause(200);
-        openServo();
-        pause(200);
-        forwardBackwardDrive(-power,msPerCm*10);
-        pause(200);
-        moveLinSlidePosition(0,0.9, 2000);
-        pause(200);
+            forwardBackwardDrive(0.5, msPerCm* 45);
 
-      */
-            // rightStrafe(-power,msPerCm*30); //parking
+            /*forwardBackwardDrive(-power, msPerCm * 45); //103
+            pause(1000);
+            leftStrafe(-power, msPerCm * 70);
+            forwardBackwardDrive(power, msPerCm * 5);*/
+            openServo();
+            moveLinSlidePosition(0, 0.9, 900);
 
 
         } else if (tagOfInterest.id == three) {
+            correction = checkDirection();
             closeServo();
             pause(700); //grab cone
             moveLinSlidePosition(100, 0.9, 900);
             pause(100);
-            forwardBackwardDrive(power, msPerCm * 45);
-            pause(500);
-            /*moveLinSlidePosition(3000,0.9, 2000); //lift cone
-            forwardBackwardDrive(power,msPerCm*13); //get to position
-            pause(100);
-            openServo(); // drop cone
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*10);
-            pause(100);
-            moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
-     /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
-        pause(100);
-        moveLinSlidePosition(400,0.9, 0); // move ls into position
-        openServo();
-        forwardBackwardDrive(power,msPerCm*202); // move to stack
-        pause(1000);
-        closeServo();
-        pause(1000);
-        moveLinSlidePosition(1000,0.9, 2000);
-        forwardBackwardDrive(-power,msPerCm*205);
-        pause(500);
-        rightStrafe(-power,msPerCm*33);
-        pause(100);
-        moveLinSlidePosition(3000,0.9, 2000);
-        pause(200);
-        forwardBackwardDrive(power,msPerCm*8);
-        pause(200);
-        openServo();
-        pause(200);
-        forwardBackwardDrive(-power,msPerCm*10);
-        pause(200);
-        moveLinSlidePosition(0,0.9, 2000);
-        pause(200);
+            forwardBackwardDrive(0.5,msPerCm * 45);
+            right180();
+            resetAngle();
+            Thread.sleep(300);
+            correction = checkDirection();
+            forwardBackwardDrive(0.5, msPerCm* 45);
 
-      */
-            //rightStrafe(-power,msPerCm*22); //parking
-            pause(100);
+            /*forwardBackwardDrive(-power, msPerCm * 45); //103
+            pause(1000);
             leftStrafe(-power, msPerCm * 70);
+            forwardBackwardDrive(power, msPerCm * 5);*/
             openServo();
-            moveLinSlidePosition(00, 0.9, 900);
+            moveLinSlidePosition(0, 0.9, 900);
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         // while (opModeIsActive()) {sleep(20);}
@@ -332,10 +298,8 @@ public class CorrectionAprilTags extends LinearOpMode {
     }
 
     public static void forwardBackwardDrive(double power, long time) throws InterruptedException {
-        motorFrontLeft.setPower(-power);
-        motorFrontRight.setPower(power);
-        motorBackLeft.setPower(-power);
-        motorBackRight.setPower(power);
+        motorBackLeft.setPower(power - correction);
+        motorBackRight.setPower(power + correction);
         Thread.sleep(time);
     }
 
@@ -383,4 +347,127 @@ public class CorrectionAprilTags extends LinearOpMode {
         rightLinSlide.setPower(speed);
         Thread.sleep(time);
     }
+    private static void resetAngle()
+    {
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        globalAngle = 0;
+    }
+
+    /**
+     * Get current cumulative angle rotation from last reset.
+     * @return Angle in degrees. + = left, - = right.
+     */
+    private static double getAngle()
+    {
+        // We experimentally determined the Z axis is the axis we want to use for heading angle.
+        // We have to process the angle because the imu works in euler angles so the Z axis is
+        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
+        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
+
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+
+        return globalAngle;
+    }
+
+    /**
+     * See if we are moving in a straight line and if not return a power correction value.
+     * @return Power adjustment, + is adjust left - is adjust right.
+     */
+    public static void right180() throws InterruptedException{
+        motorBackRight.setPower(-0.5);
+        motorFrontRight.setPower(-0.5);
+        motorBackLeft.setPower(0.5);
+        motorFrontLeft.setPower(0.5);
+        Thread.sleep(300);
+    }
+    public static void left180() throws InterruptedException{
+        motorBackRight.setPower(0.5);
+        motorFrontRight.setPower(0.5);
+        motorBackLeft.setPower(-0.5);
+        motorFrontLeft.setPower(-0.5);
+        Thread.sleep(300);
+    }
+    private static double checkDirection()
+    {
+        // The gain value determines how sensitive the correction is to direction changes.
+        // You will have to experiment with your robot to get small smooth direction changes
+        // to stay on a straight line.
+        double correction, angle, gain = .10;
+
+        angle = getAngle();
+
+        if (angle == 0)
+            correction = 0;             // no adjustment.
+        else
+            correction = -angle;        // reverse sign of angle for correction.
+
+        correction = correction * gain;
+
+        return correction;
+    }
+
+    /**
+     * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
+     * @param degrees Degrees to turn, + is left - is right
+     */
+    private void rotate(int degrees, double power)
+    {
+        double  leftPower, rightPower;
+
+        // restart imu movement tracking.
+        resetAngle();
+
+        // getAngle() returns + when rotating counter clockwise (left) and - when rotating
+        // clockwise (right).
+
+        if (degrees < 0)
+        {   // turn right.
+            leftPower = power;
+            rightPower = -power;
+        }
+        else if (degrees > 0)
+        {   // turn left.
+            leftPower = -power;
+            rightPower = power;
+        }
+        else return;
+
+        // set power to rotate.
+        motorBackLeft.setPower(leftPower);
+        motorBackRight.setPower(rightPower);
+
+        // rotate until turn is completed.
+        if (degrees < 0)
+        {
+            // On right turn we have to get off zero first.
+            while (opModeIsActive() && getAngle() == 0) {}
+
+            while (opModeIsActive() && getAngle() > degrees) {}
+        }
+        else    // left turn.
+            while (opModeIsActive() && getAngle() < degrees) {}
+
+        // turn the motors off.
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
+
+        // wait for rotation to stop.
+        sleep(1000);
+
+        // reset angle tracking on new heading.
+        resetAngle();
+    }
+
 }

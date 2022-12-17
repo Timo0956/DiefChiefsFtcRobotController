@@ -197,10 +197,12 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             closeServo();
             pause(700); //grab cone
             moveLinSlidePosition(100,0.9, 900);
-            pause(100);
-            leftStrafe(-power, msPerCm*15);
-            pause(100);
-            forwardBackwardDrive(-power,msPerCm*45); //103
+            pause(300);
+            forwardBackwardDrive(0.5, msPerCm*6);
+            pause(200);
+            leftStrafe(-power, msPerCm*75);
+            pause(300);
+            forwardBackwardDrive(power,msPerCm*60); //103
             /*pause(100);
             moveLinSlidePosition(3000,0.9, 2000); //lift cone
             forwardBackwardDrive(power,msPerCm*13); //get to position
@@ -237,8 +239,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
       */
             //rightStrafe(-power,msPerCm*35); //parking
             pause(1000);
-            leftStrafe(-power, msPerCm*70);
-            forwardBackwardDrive(power,msPerCm*5);
+
             openServo();
             moveLinSlidePosition(00,0.9, 900);
         }
@@ -247,7 +248,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             pause(700); //grab cone
             moveLinSlidePosition(100,0.9, 900);
             pause(100);
-            leftStrafe(-power,msPerCm*65); //103
+            forwardBackwardDrive(-power,msPerCm*65); //103
             openServo();
             moveLinSlidePosition(00,0.9, 900);
          /*   pause(100);
@@ -292,15 +293,19 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             closeServo();
             pause(700); //grab cone
             moveLinSlidePosition(100,0.9, 900);
-            pause(100);
-            forwardBackwardDrive(power,msPerCm*45);
-            pause(500);
-            /*moveLinSlidePosition(3000,0.9, 2000); //lift cone
+            pause(300);
+            forwardBackwardDrive(0.5, msPerCm*6);
+            pause(200);
+            rightStrafe(-power, msPerCm*75);
+            pause(300);
+            forwardBackwardDrive(power,msPerCm*60); //103
+            /*pause(100);
+            moveLinSlidePosition(3000,0.9, 2000); //lift cone
             forwardBackwardDrive(power,msPerCm*13); //get to position
             pause(100);
             openServo(); // drop cone
             pause(100);
-            forwardBackwardDrive(-power,msPerCm*10);
+            forwardBackwardDrive(-power,msPerCm*13);
             pause(100);
             moveLinSlidePosition(0,0.9, 2000); // lower linslide*/
      /*   leftStrafe(-power,msPerCm*28); // into position for moving forward
@@ -328,11 +333,11 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
         pause(200);
 
       */
-            //rightStrafe(-power,msPerCm*22); //parking
-            pause(100);
-            leftStrafe(-power, msPerCm*70);
+            //rightStrafe(-power,msPerCm*35); //parking
+            pause(1000);
+
             openServo();
-            moveLinSlidePosition(00,0.9, 900);
+            moveLinSlidePosition(0,0.9, 900);
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
        // while (opModeIsActive()) {sleep(20);}
