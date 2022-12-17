@@ -83,7 +83,7 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            newFarm.farmFromPark(gamepad1.a);
+            newFarm.farmFromPark(gamepad1.a, gamepad1.dpad_up, gamepad1.dpad_down);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
