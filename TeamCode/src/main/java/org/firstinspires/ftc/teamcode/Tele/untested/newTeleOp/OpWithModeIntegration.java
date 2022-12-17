@@ -133,6 +133,8 @@ public class OpWithModeIntegration extends LinearOpMode {
                 topMotor.moveTopMotor(gamepad1.dpad_right, gamepad1.dpad_left);
                 clawServoClass.spinClawServo(gamepad1.dpad_up,gamepad1.dpad_down);
                 testHorizontalLinSlide.moveHorizontalLinManual(gamepad1.a,gamepad1.b);
+                ServoTele.open(gamepad1.x);
+                ServoTele.close(gamepad1.y);
                 //pieceTogether.pieceTogether(gamepad1);
                 telemetry.addData("Mode = ", "Manual");
                 telemetry.update();
@@ -173,8 +175,7 @@ public class OpWithModeIntegration extends LinearOpMode {
                     }
 
                 }
-                //ServoTele.open(gamepad1.x);
-                //ServoTele.close(gamepad1.y);
+
                 telemetry.addData("Position", rightLinSlide.getCurrentPosition());
                 telemetry.addData("ServoPositionR", ClawServoR.getPosition());
                 telemetry.addData("ServoPositionL", ClawServoL.getPosition());

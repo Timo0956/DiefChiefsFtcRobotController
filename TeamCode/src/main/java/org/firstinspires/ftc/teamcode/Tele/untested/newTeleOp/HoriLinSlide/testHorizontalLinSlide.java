@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.dualServoForearm;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.pieceTogether;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.pieceTogetherButItMakesSense;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.topMotor;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
@@ -53,8 +54,9 @@ public class testHorizontalLinSlide {
                         Thread.sleep(1000);
                         //pieceTogether.load();
                     }
-                    Thread.sleep(1000);
-                    dualServoForearm.in();
+                    //Thread.sleep(1000);
+
+                    pieceTogetherButItMakesSense.intakeToJunction();
 
 
                 }
@@ -71,8 +73,7 @@ public class testHorizontalLinSlide {
                         Thread.sleep(1000);
                         //pieceTogether.load();
                     }
-                    Thread.sleep(1000);
-                    dualServoForearm.in();
+                    pieceTogetherButItMakesSense.intakeToJunction();
                 }
                 break;
 
