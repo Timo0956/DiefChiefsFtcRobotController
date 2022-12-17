@@ -194,15 +194,27 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
 
         /* Actually do something useful */
         if( tagOfInterest.id == one){
-            closeServo();
-            pause(700); //grab cone
-            moveLinSlidePosition(100,0.9, 900);
-            pause(300);
-            forwardBackwardDrive(0.5, msPerCm*6);
-            pause(200);
-            leftStrafe(-power, msPerCm*75);
-            pause(300);
-            forwardBackwardDrive(power,msPerCm*60); //103
+
+            rightStrafe(0.5, msPerCm*50);
+            motorFrontLeft.setPower(0.5);
+            motorFrontRight.setPower(0.5);
+            motorBackLeft.setPower(0.5);
+            motorBackRight.setPower(0.5);
+            sleep(100);
+            pause(100);
+
+            //Minhs code
+            //closeServo();
+            //pause(700); //grab cone
+            //moveLinSlidePosition(100,0.9, 900);
+            //pause(300);
+            //forwardBackwardDrive(0.5, msPerCm*6);
+            //pause(200);
+            //leftStrafe(-power, msPerCm*75);
+            //pause(300);
+            //forwardBackwardDrive(power,msPerCm*60); //103
+
+
             /*pause(100);
             moveLinSlidePosition(3000,0.9, 2000); //lift cone
             forwardBackwardDrive(power,msPerCm*13); //get to position
