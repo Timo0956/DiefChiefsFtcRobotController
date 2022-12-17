@@ -54,7 +54,7 @@ public class newFarm {
 
     }
 
-    public static void farmFromPark(boolean a)throws InterruptedException{
+    public static void farmFromPark(boolean a, boolean up, boolean down)throws InterruptedException{
         if(a) {
             moveFB(1, 200);
             ServoTele.close(true);
@@ -72,7 +72,17 @@ public class newFarm {
             TwoStageLinSlideFileNew.goPosition(-0.7, 0);
             turn(1, 763);
             Thread.sleep(1700);
+        } else if (up){
+            TwoStageLinSlideFileNew.goPosition(0.7, 4200);
+            turn(1, 763);
+            moveFB(0.7, (int) Math.round(200/0.7));
+        } else if(down){
+            moveFB(-0.7, (int) Math.round(200/0.7));
+            TwoStageLinSlideFileNew.goPosition(-0.7, 0);
+            turn(1, 763);
         }
+
+
     }
     public static void moveFB(double power, int time)throws InterruptedException{
             fl.setPower(power);
