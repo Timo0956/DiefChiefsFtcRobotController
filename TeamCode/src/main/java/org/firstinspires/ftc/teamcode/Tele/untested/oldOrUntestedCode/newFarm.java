@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFi
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class newFarm {
-    static double heading = 90; //The heading of the robot in degrees
+    static double[] heading = {90, 90, 90}; //The heading of the robot in degrees
     static double[] velocity = {0,0,0}; //The speed of the robot in m/s (z,x,y)
     static double[] distance = {0,0,0}; //The displacement of the robot in meters (z,x,y)
 
@@ -92,7 +92,7 @@ public class newFarm {
 
     }
     public static void turn(double degrees) throws InterruptedException { //positive = right, negative = left
-        while (degrees != heading) {
+        while (degrees != heading[0] || degrees != heading[1] || degrees != heading[2]) {
             fl.setPower(1);
             fr.setPower(-1);
             bl.setPower(1);
@@ -116,7 +116,9 @@ public class newFarm {
         Thread.sleep(time);
     }
     public static void updateDistMoved() throws InterruptedException {
-        heading = deg.firstAngle+90;
+        heading[0] = deg.firstAngle+90;
+        heading[1] = deg.secondAngle+90;
+        heading[2] = deg.thirdAngle+90;
         velocity[0] = (acc.zAccel/100);
         velocity[1] = (acc.yAccel/100);
         velocity[2] = (acc.xAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
