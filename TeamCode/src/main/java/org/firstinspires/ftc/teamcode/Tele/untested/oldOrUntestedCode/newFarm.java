@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFi
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class newFarm {
-    static double heading = 90; //The heading of the robot in degrees
+    static double[] heading = {90, 90, 90}; //The heading of the robot in degrees
     static double[] velocity = {0,0,0}; //The speed of the robot in m/s (z,x,y)
     static double[] distance = {0,0,0}; //The displacement of the robot in meters (z,x,y)
 
@@ -55,50 +56,55 @@ public class newFarm {
 
     public static void farmFromPark(boolean a)throws InterruptedException{
         if(a) {
-            moveFB(0.5, 0.30);
+            moveFB(1, 200);
             ServoTele.close(true);
             pause(700);
-            moveFB(0.5, 0.30);
-            TwoStageLinSlideFileNew.goPosition(0.9, 4200);
-            turn(0);
-            moveFB(0.5, 0.50);
+            TwoStageLinSlideFileNew.goPosition(0.9, 350);
+            pause(350);
+            moveFB(-1, 200);
+            TwoStageLinSlideFileNew.goPosition(0.7, 4200);
+            turn(1, 763);
+            moveFB(0.7, (int) Math.round(200/0.7));
+            pause(1700);
             ServoTele.open(true);
             pause(700);
-            moveFB(-0.5, 0.50);
-            TwoStageLinSlideFileNew.goPosition(-0.9, 0);
-            turn(180);
-            Thread.sleep(200);
+            moveFB(-0.7, (int) Math.round(200/0.7));
+            TwoStageLinSlideFileNew.goPosition(-0.7, 0);
+            turn(1, 763);
+            Thread.sleep(1700);
         }
     }
-    public static void moveFB(double power, double Tdist)throws InterruptedException{
-        while (Tdist != distance[0]) {
+    public static void moveFB(double power, int time)throws InterruptedException{
             fl.setPower(power);
             fr.setPower(power);
             bl.setPower(power);
             br.setPower(power);
-            updateDistMoved();
-        }
+            Thread.sleep(time);
+           // updateDistMoved();
+
         pause(200);
     }
-    public static void moveLR(double power, double Tdist)throws InterruptedException{ // positive = right, negative = left
-        while (Tdist != distance[1]) {
+    public static void moveLR(double power, int time)throws InterruptedException{ // positive = right, negative = left
             fl.setPower(power);
             fr.setPower(-power);
             bl.setPower(-power);
             br.setPower(power);
-            updateDistMoved();
-        }
+        Thread.sleep(time);
+
+        //updateDistMoved();
+
         pause(200);
 
     }
-    public static void turn(double degrees) throws InterruptedException { //positive = right, negative = left
-        while (degrees != heading) {
+    public static void turn(double power, int time) throws InterruptedException { //positive = right, negative = left
             fl.setPower(1);
             fr.setPower(-1);
             bl.setPower(1);
             br.setPower(-1);
-            updateDistMoved();
-        }
+        Thread.sleep(time);
+
+        //updateDistMoved();
+
         pause(200);
 
     }
@@ -115,14 +121,16 @@ public class newFarm {
         distance[2] = 0;
         Thread.sleep(time);
     }
-    public static void updateDistMoved() throws InterruptedException {
-        heading = deg.firstAngle+90;
-        velocity[0] = (acc.zAccel/100);
-        velocity[1] = (acc.yAccel/100);
-        velocity[2] = (acc.xAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
-        distance[0] = velocity[0]/100;
-        distance[1] = velocity[1]/100;
-        distance[2] = velocity[2]/100;//Divides the velocity by time (Or multiplied by 0.01s) to get the distance
+    /*public static void updateDistMoved() throws InterruptedException {
+        heading[0] = deg.firstAngle+90;
+        heading[1] = deg.secondAngle+90;
+        heading[2] = deg.thirdAngle+90;
+        velocity[0] += (acc.zAccel/100);
+        velocity[1] += (acc.yAccel/100);
+        velocity[2] += (acc.xAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
+        distance[0] += velocity[0]/100;
+        distance[1] += velocity[1]/100;
+        distance[2] += velocity[2]/100;//Divides the velocity by time (Or multiplied by 0.01s) to get the distance
         Thread.sleep(10); //Stops the loop for the amount of time in the brackets in miliseconds
-    }
+    }*/
 }
