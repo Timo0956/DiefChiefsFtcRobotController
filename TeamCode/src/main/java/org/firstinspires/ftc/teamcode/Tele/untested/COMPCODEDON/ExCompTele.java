@@ -7,9 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -22,9 +24,12 @@ import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 @TeleOp
 public class ExCompTele extends LinearOpMode {
     static BNO055IMU imu; //Gets the IMU
-    Acceleration acceleration = new Acceleration(); //Gets the acceleration
+    static Acceleration acceleration = new Acceleration(); //Gets the acceleration
     static Orientation lastAngles = new Orientation(); //Gets the heading in degrees
     static double globalAngle;
+    static double[] V = {0,0,0}; //The speed of the robot in m/s (z,x,y)
+    static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
+    static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
     static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
     @Override
     public void runOpMode() throws InterruptedException{
@@ -67,7 +72,7 @@ public class ExCompTele extends LinearOpMode {
         drive.initDrive(motorFrontLeft, motorBackLeft, motorFrontRight, motorBackRight);
         setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
-        newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
+       // newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
         while (!isStopRequested() && !imu.isGyroCalibrated())
         {
             sleep(50);
@@ -82,7 +87,7 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            newFarm.farmFromPark(gamepad1.a, gamepad2.dpad_up, gamepad2.dpad_down);
+            //newFarm.farmFromPark(gamepad1.a, gamepad2.dpad_up, gamepad2.dpad_down);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
@@ -116,21 +121,71 @@ public class ExCompTele extends LinearOpMode {
                 motorFrontRight.setPower(Math.min(frontRightPower * speedfactor,1));
                 motorBackRight.setPower(Math.min(backRightPower * speedfactor,1 ));
             }
-            if(gamepad1.dpad_right){
+            if(gamepad1.a){
+                moveFB(-1,0.2);
                 rotate(157,1);
+                calculateAdj();
                 TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);
             }
-            else if (gamepad1.dpad_left){
+            else if (gamepad1.b){
                 rotate(157,1);
             }
-            
+            if(gamepad1.dpad_down){ /**may not work bc this code may not trigger during runtime**/
+                adjustments[0]--;
+            } else if(gamepad1.dpad_up){
+                adjustments[0]++;
+            } else if(gamepad1.dpad_left){
+                adjustments[1]--;
+            } else if(gamepad1.dpad_right){
+                adjustments[1]++;
+            } else if(gamepad2.dpad_left){
+                adjustments[2]--;
+            } else if(gamepad2.dpad_right){
+                adjustments[2]++;
+            }
+
         }
     }
-    private static void resetAngle()
+    private static void resetAngleAcc()
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
+
+        V[0] = 0;
+        V[1] = 0;
+        V[2] = 0;
+        D[0] = 0;
+        D[1] = 0;
+        D[2] = 0;
+
+    }
+    private static void calculateAdj() throws InterruptedException {//this function lets us adjust our farming during operation
+
+        if(adjustments[0]==0 &&adjustments[1]==0 && adjustments[2]==0) return;
+
+        double denominator = Math.max(Math.abs(adjustments[0]) + Math.abs(adjustments[1]) + Math.abs(adjustments[2]), 1);
+        double fl = (adjustments[0] + adjustments[1] + adjustments[2])/denominator;
+        double bl = (adjustments[0] - adjustments[1] + adjustments[2])/denominator;
+        double fr = (adjustments[0] - adjustments[1] - adjustments[2])/denominator;
+        double br = (adjustments[0] + adjustments[1] - adjustments[2])/denominator;
+        double avg = (adjustments[0] + adjustments[1] + adjustments[2])/3;
+
+        motorFrontLeft.setPower(fl);
+        motorBackLeft.setPower(bl);
+        motorFrontRight.setPower(fr);
+        motorBackRight.setPower(br);
+        Thread.sleep((long) (avg*100));
+
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackRight.setPower(0);
+
+        adjustments[0] = 0;
+        adjustments[1] = 0;
+        adjustments[2] = 0;
+        avg = 0;
     }
 
     /**
@@ -158,6 +213,20 @@ public class ExCompTele extends LinearOpMode {
         lastAngles = angles;
 
         return globalAngle;
+    }
+    private static double[] getDist() throws InterruptedException {
+        acceleration = imu.getLinearAcceleration();
+
+        V[0] += (acceleration.zAccel/100);
+        V[1] += (acceleration.yAccel/100);
+        V[2] += (acceleration.xAccel/100); //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
+        D[0] += V[0]/100;
+        D[1] += V[1]/100;
+        D[2] += V[2]/100;//Divides the velocity by time (Or multiplied by 0.01s) to get the distance
+        Thread.sleep(10); //Stops the loop for the amount of time in the brackets in miliseconds
+
+        double[] distance = {D[0],D[1],D[2]};
+        return distance;
     }
 
     /**
@@ -187,12 +256,13 @@ public class ExCompTele extends LinearOpMode {
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
      * @param degrees Degrees to turn, + is left - is right
      */
-    public static void rotate(int degrees, double power) throws InterruptedException
+
+    public static void rotate(int degrees, double power)
     {
         double  leftPower, rightPower;
 
         // restart imu movement tracking.
-        resetAngle();
+        resetAngleAcc();
 
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
@@ -234,8 +304,37 @@ public class ExCompTele extends LinearOpMode {
        // Thread.sleep(300);
 
         // reset angle tracking on new heading.
-        resetAngle();
+        resetAngleAcc();
     }
+    public static void moveFB(double power, double dist) throws InterruptedException {
 
+        resetAngleAcc();
+
+        motorFrontLeft.setPower(power);
+        motorBackLeft.setPower(power);
+        motorFrontRight.setPower(power);
+        motorBackRight.setPower(power);
+
+        if (dist < 0)
+        {
+            // move back.
+            while (getDist()[0] == 0||getDist()[1] == 0||getDist()[2] == 0) {}
+
+            while  (getDist()[0] > dist||getDist()[1] > dist||getDist()[2] > dist) {
+
+            }
+        }
+        else    // move forward.
+            while (getDist()[0] < dist||getDist()[1] < dist||getDist()[2] < dist) {
+
+            }
+
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackRight.setPower(0);
+
+        resetAngleAcc();
+    }
 
 }
