@@ -118,6 +118,10 @@ public class ExCompTele extends LinearOpMode {
             }
             if(gamepad1.dpad_right){
                 rotate(157,1);
+                TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);
+            }
+            else if (gamepad1.dpad_left){
+                rotate(157,1);
             }
             
         }
@@ -227,7 +231,7 @@ public class ExCompTele extends LinearOpMode {
         motorBackLeft.setPower(0);
         motorFrontRight.setPower(0);
         motorBackRight.setPower(0);
-        Thread.sleep(500);
+       // Thread.sleep(300);
 
         // reset angle tracking on new heading.
         resetAngle();
