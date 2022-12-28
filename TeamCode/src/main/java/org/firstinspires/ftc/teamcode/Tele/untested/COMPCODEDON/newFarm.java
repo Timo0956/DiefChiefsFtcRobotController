@@ -1,17 +1,14 @@
-package org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode;
+package org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Auto.acceleration;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
@@ -62,8 +59,9 @@ public class newFarm {
             TwoStageLinSlideFileNew.goPosition(0.9, 350);
             pause(350);
             moveFB(-0.75, 300);
-            TwoStageLinSlideFileNew.goPosition(0.9, 4200);
-            turn(1, 760);
+            TwoStageLinSlideFileNew.goPosition(0.9, 4100);
+            //turn(1, 767);
+            ExCompTele.rotate(157,1);
             pause(400);
             moveFB(0.5, (int) Math.round(300/0.5));
             pause(1100);
@@ -71,11 +69,12 @@ public class newFarm {
             pause(500);
             moveFB(-0.5, (int) Math.round(300/0.5));
             TwoStageLinSlideFileNew.goPosition(-0.9, 0);
-            turn(1, 760);
+            //turn(1, 767);
+            ExCompTele.rotate(157,1);
             Thread.sleep(1200);
 
         } else if (up){
-            TwoStageLinSlideFileNew.goPosition(0.7, 4200);
+            TwoStageLinSlideFileNew.goPosition(0.7, 4100);
             turn(1, 750);
             pause(400);
             moveFB(0.5, (int) Math.round(300/0.5));

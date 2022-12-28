@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 
-import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;

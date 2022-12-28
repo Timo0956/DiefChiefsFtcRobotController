@@ -1,11 +1,8 @@
-package org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode;
+package org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
-import android.util.Log;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,24 +10,22 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.firstinspires.ftc.teamcode.Tele.tested.initialize2023;
-import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
+import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.drive;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
-
-import java.util.Locale;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
-    BNO055IMU imu; //Gets the IMU
+    static BNO055IMU imu; //Gets the IMU
     Acceleration acceleration = new Acceleration(); //Gets the acceleration
-    Orientation angles = new Orientation(); //Gets the heading in degrees
-
+    static Orientation lastAngles = new Orientation(); //Gets the heading in degrees
+    static double globalAngle;
+    static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
     @Override
     public void runOpMode() throws InterruptedException{
 
@@ -46,10 +41,10 @@ public class ExCompTele extends LinearOpMode {
 
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+        motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
+        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
+        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
+        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         Servo ClawServoL = hardwareMap.servo.get("clawServoL");
         Servo ClawServoR = hardwareMap.servo.get("clawServoR");
 
@@ -66,14 +61,18 @@ public class ExCompTele extends LinearOpMode {
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        lastAngles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         acceleration = imu.getLinearAcceleration();
 
         drive.initDrive(motorFrontLeft, motorBackLeft, motorFrontRight, motorBackRight);
         setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
-        newFarm.initFarmNew(imu,acceleration,angles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
-
+        newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
+        while (!isStopRequested() && !imu.isGyroCalibrated())
+        {
+            sleep(50);
+            idle();
+        }
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive()){
@@ -83,7 +82,7 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            newFarm.farmFromPark(gamepad1.a, gamepad1.dpad_up, gamepad1.dpad_down);
+            newFarm.farmFromPark(gamepad1.a, gamepad2.dpad_up, gamepad2.dpad_down);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
@@ -117,8 +116,122 @@ public class ExCompTele extends LinearOpMode {
                 motorFrontRight.setPower(Math.min(frontRightPower * speedfactor,1));
                 motorBackRight.setPower(Math.min(backRightPower * speedfactor,1 ));
             }
+            if(gamepad1.dpad_right){
+                rotate(157,1);
+            }
             
         }
     }
+    private static void resetAngle()
+    {
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        globalAngle = 0;
+    }
+
+    /**
+     * Get current cumulative angle rotation from last reset.
+     * @return Angle in degrees. + = left, - = right.
+     */
+    private static double getAngle()
+    {
+        // We experimentally determined the Z axis is the axis we want to use for heading angle.
+        // We have to process the angle because the imu works in euler angles so the Z axis is
+        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
+        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
+
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+
+        return globalAngle;
+    }
+
+    /**
+     * See if we are moving in a straight line and if not return a power correction value.
+     * @return Power adjustment, + is adjust left - is adjust right.
+     */
+    private double checkDirection()
+    {
+        // The gain value determines how sensitive the correction is to direction changes.
+        // You will have to experiment with your robot to get small smooth direction changes
+        // to stay on a straight line.
+        double correction, angle, gain = .10;
+
+        angle = getAngle();
+
+        if (angle == 0)
+            correction = 0;             // no adjustment.
+        else
+            correction = -angle;        // reverse sign of angle for correction.
+
+        correction = correction * gain;
+
+        return correction;
+    }
+
+    /**
+     * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
+     * @param degrees Degrees to turn, + is left - is right
+     */
+    public static void rotate(int degrees, double power) throws InterruptedException
+    {
+        double  leftPower, rightPower;
+
+        // restart imu movement tracking.
+        resetAngle();
+
+        // getAngle() returns + when rotating counter clockwise (left) and - when rotating
+        // clockwise (right).
+
+        if (degrees < 0)
+        {   // turn right.
+            leftPower = power;
+            rightPower = -power;
+        }
+        else if (degrees > 0)
+        {   // turn left.
+            leftPower = -power;
+            rightPower = power;
+        }
+        else return;
+
+        // set power to rotate.
+        motorFrontLeft.setPower(leftPower);
+        motorBackLeft.setPower(leftPower);
+        motorFrontRight.setPower(rightPower);
+        motorBackRight.setPower(rightPower);
+
+        // rotate until turn is completed.
+        if (degrees < 0)
+        {
+            // On right turn we have to get off zero first.
+            while (getAngle() == 0) {}
+
+            while  (getAngle() > degrees) {}
+        }
+        else    // left turn.
+            while (getAngle() < degrees) {}
+
+        // turn the motors off.
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackRight.setPower(0);
+        Thread.sleep(500);
+
+        // reset angle tracking on new heading.
+        resetAngle();
+    }
+
 
 }

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.HoriLinSlide.testHorizontalLinSlide;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class pieceTogether {

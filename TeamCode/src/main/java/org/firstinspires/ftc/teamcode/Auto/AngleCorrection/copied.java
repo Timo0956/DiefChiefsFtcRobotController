@@ -12,6 +12,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -25,24 +26,28 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 //@Disabled
 public class copied extends LinearOpMode
 {
-    DcMotor                 leftMotor, rightMotor;
-    TouchSensor             touch;
+    DcMotor                 backleftMotor, backrightMotor, frontrightMotor, frontleftMotor;
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
-    double                  globalAngle, power = .30, correction;
-    boolean                 aButton, bButton, touched;
+    double                  globalAngle;
+
 
     // called when init button is  pressed.
     @Override
     public void runOpMode() throws InterruptedException
     {
-        leftMotor = hardwareMap.dcMotor.get("motorBackLeft");
-        rightMotor = hardwareMap.dcMotor.get("motorBackRight");
+        frontleftMotor = hardwareMap.dcMotor.get("motorFrontLeft");
+        frontrightMotor = hardwareMap.dcMotor.get("motorFrontRight");
+        backleftMotor = hardwareMap.dcMotor.get("motorBackLeft");
+        backrightMotor = hardwareMap.dcMotor.get("motorBackRight");
 
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backleftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontleftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // get a reference to touch sensor.
 
@@ -86,23 +91,8 @@ public class copied extends LinearOpMode
 
         while (opModeIsActive())
         {
-            // Use gyro to drive in a straight line.
-            correction = checkDirection();
-
-            telemetry.addData("1 imu heading", lastAngles.firstAngle);
-            telemetry.addData("2 global heading", globalAngle);
-            telemetry.addData("3 correction", correction);
-            telemetry.update();
-            if(gamepad1.dpad_up){
-                leftMotor.setPower(power - correction);
-                rightMotor.setPower(power + correction);
-            }
-            else if (gamepad1.a){
-                rotate(90,0.5);
-            }
-            else{
-                leftMotor.setPower(0);
-                rightMotor.setPower(0);
+            if(gamepad1.a){
+                rotate(155,1);
             }
 
 
@@ -199,8 +189,10 @@ public class copied extends LinearOpMode
         else return;
 
         // set power to rotate.
-        leftMotor.setPower(leftPower);
-        rightMotor.setPower(rightPower);
+        frontleftMotor.setPower(leftPower);
+        backleftMotor.setPower(leftPower);
+        frontrightMotor.setPower(rightPower);
+        backrightMotor.setPower(rightPower);
 
         // rotate until turn is completed.
         if (degrees < 0)
@@ -214,8 +206,10 @@ public class copied extends LinearOpMode
             while (opModeIsActive() && getAngle() < degrees) {}
 
         // turn the motors off.
-        rightMotor.setPower(0);
-        leftMotor.setPower(0);
+        frontleftMotor.setPower(0);
+        backleftMotor.setPower(0);
+        frontrightMotor.setPower(0);
+        backrightMotor.setPower(0);
 
         // wait for rotation to stop.
         sleep(1000);
@@ -223,4 +217,5 @@ public class copied extends LinearOpMode
         // reset angle tracking on new heading.
         resetAngle();
     }
+
 }

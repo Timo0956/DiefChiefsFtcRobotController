@@ -1,15 +1,9 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.servoStuff;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.sun.tools.javac.jvm.ClassWriter;
 
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
-import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.newFarm;
+import org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON.newFarm;
 
 //edit if required to adapt to 2 servos
 public class ServoTele {
@@ -32,10 +26,10 @@ public class ServoTele {
 
             //newFarm.moveFB(-0.5, 200);
             if (TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.LOW){
-                Thread.sleep(400);
+                newFarm.pause(300);
                 TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.TOLOW;
                 //TwoStageLinSlideFileNew.moveStates(0,true,false, 0, false, false);
-                Thread.sleep(400);
+                Thread.sleep(200);
             }
         }
     }
@@ -44,9 +38,11 @@ public class ServoTele {
         if(y) {
             ClawL.setPosition(closePos);
             ClawR.setPosition(closePos);
-            Thread.sleep(400);
+            newFarm.pause(300);
             TwoStageLinSlideFileNew.goPosition(1,350);
-            Thread.sleep(400);
+            TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.LOWOFF;
+
+            Thread.sleep(200);
         }
     }
 

@@ -1,22 +1,20 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.HoriLinSlide;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.dualServoForearm;
-import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.pieceTogether;
-import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.pieceTogetherButItMakesSense;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.topMotor;
-import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class testHorizontalLinSlide {
     static DcMotor linSlide;
 
     public enum states {in, mid, out, goIn, goMid, goOut};
     public static states state = states.in;
+    static BNO055IMU imu;
+    static Orientation lastAngles = new Orientation();
 
     public static void initHori(DcMotor HL){
         linSlide = HL;
@@ -56,7 +54,7 @@ public class testHorizontalLinSlide {
                     }
                     //Thread.sleep(1000);
 
-                    pieceTogetherButItMakesSense.intakeToJunction();
+                    TwoStageLinSlideFileNew.pieceTogetherButItMakesSense.intakeToJunction();
 
 
                 }
@@ -73,7 +71,7 @@ public class testHorizontalLinSlide {
                         Thread.sleep(1000);
                         //pieceTogether.load();
                     }
-                    pieceTogetherButItMakesSense.intakeToJunction();
+                    TwoStageLinSlideFileNew.pieceTogetherButItMakesSense.intakeToJunction();
                 }
                 break;
 
