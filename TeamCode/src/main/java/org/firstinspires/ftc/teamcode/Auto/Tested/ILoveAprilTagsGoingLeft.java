@@ -199,7 +199,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             moveLinSlidePosition(100,0.9, 900);
             pause(100);
             leftStrafe(-power, msPerCm * 10);
-            forwardBackwardDrive(-power, msPerCm *65);
+            forwardBackwardDrive(-power, msPerCm *57);
             leftStrafe(-power, msPerCm *90);
             pause(100);
             openServo();
@@ -212,7 +212,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             moveLinSlidePosition(100,0.9, 900);
             pause(100);
             leftStrafe(-power,msPerCm*90); //103
-            forwardBackwardDrive(-power, msPerCm *10);
+            forwardBackwardDrive(-power, msPerCm *5);
             pause(100);
             openServo();
             moveLinSlidePosition(00,0.9, 900);

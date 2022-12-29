@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class TwoStageLinSlideFileNew {
     static final int low = 0; // declares encoder variables
-    static final int lowOff = 1750;
-    static final int mid = 2500;
+    static final int lowOff = 1850;
+    static final int mid = 2900;
     static final int high = 4050;
     static final double power = 0.9;
     static final boolean mode = true;

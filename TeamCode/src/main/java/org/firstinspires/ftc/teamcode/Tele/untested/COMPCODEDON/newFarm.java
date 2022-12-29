@@ -51,7 +51,7 @@ public class newFarm {
 
     }
 
-    public static void farmFromPark(boolean a, boolean up, boolean down)throws InterruptedException{
+    public static void farmFromPark(boolean a)throws InterruptedException{
         if(a) {
             moveFB(0.75, 300);
             ServoTele.close(true);
@@ -61,27 +61,18 @@ public class newFarm {
             moveFB(-0.75, 300);
             TwoStageLinSlideFileNew.goPosition(0.9, 4100);
             //turn(1, 767);
-            ExCompTele.rotate(157,1);
+            ExCompTele.rotate(155,1);
             pause(400);
-            moveFB(0.5, (int) Math.round(300/0.5));
+            moveFB(0.5, (int) Math.round(320/0.5));
             pause(1100);
             ServoTele.open(true);
             pause(500);
-            moveFB(-0.5, (int) Math.round(300/0.5));
+            moveFB(-0.5, (int) Math.round(320/0.5));
             TwoStageLinSlideFileNew.goPosition(-0.9, 0);
             //turn(1, 767);
-            ExCompTele.rotate(157,1);
+            ExCompTele.rotate(155,1);
             Thread.sleep(1200);
 
-        } else if (up){
-            TwoStageLinSlideFileNew.goPosition(0.7, 4100);
-            turn(1, 750);
-            pause(400);
-            moveFB(0.5, (int) Math.round(300/0.5));
-        } else if(down){
-            moveFB(-0.5, (int) Math.round(300/0.5));
-            TwoStageLinSlideFileNew.goPosition(-0.7, 0);
-            turn(1, 750);
         }
 
 
@@ -108,7 +99,7 @@ public class newFarm {
         pause(200);
 
     }
-    public static void turn(double power, int time) throws InterruptedException { //positive = right, negative = left
+  /*  public static void turn(double power, int time) throws InterruptedException { //positive = right, negative = left
             fl.setPower(1);
             fr.setPower(-1);
             bl.setPower(1);
@@ -119,7 +110,7 @@ public class newFarm {
 
         pause(200);
 
-    }
+    } */
     public static void pause(int time) throws InterruptedException {
         fl.setPower(0);
         fr.setPower(0);

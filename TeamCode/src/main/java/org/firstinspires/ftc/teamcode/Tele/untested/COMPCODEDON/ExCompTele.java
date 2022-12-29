@@ -72,7 +72,7 @@ public class ExCompTele extends LinearOpMode {
         drive.initDrive(motorFrontLeft, motorBackLeft, motorFrontRight, motorBackRight);
         setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
-       // newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
+        newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
         while (!isStopRequested() && !imu.isGyroCalibrated())
         {
             sleep(50);
@@ -87,13 +87,13 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            //newFarm.farmFromPark(gamepad1.a, gamepad2.dpad_up, gamepad2.dpad_down);
+            newFarm.farmFromPark(gamepad1.a);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
 
 
-            double speedfactor = Math.abs(gamepad2.left_stick_y);
+            //double speedfactor = Math.abs(gamepad2.left_stick_y);
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x ;
@@ -105,43 +105,63 @@ public class ExCompTele extends LinearOpMode {
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx)/ denominator;
             double backRightPower = (y + x - rx)/ denominator;
-            if(speedfactor<0.05) {
+            if(!gamepad2.y&&!gamepad2.x) {
                 motorFrontLeft.setPower(frontLeftPower * 0.6);
                 motorBackLeft.setPower(backLeftPower * 0.6);
                 motorFrontRight.setPower(frontRightPower * 0.6);
                 motorBackRight.setPower(backRightPower * 0.6);
-            } else if (speedfactor>=0.05 && TwoStageLinSlideFileNew.state== TwoStageLinSlideFileNew.states.HIGH){
-                motorFrontLeft.setPower(Math.min(frontLeftPower * speedfactor, 0.7));
-                motorBackLeft.setPower(Math.min(backLeftPower * speedfactor,0.7));
-                motorFrontRight.setPower(Math.min(frontRightPower * speedfactor,0.7));
-                motorBackRight.setPower(Math.min(backRightPower * speedfactor,0.7));
-            } else if (speedfactor>=0.05 && TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.HIGH){
-                motorFrontLeft.setPower(Math.min(frontLeftPower * speedfactor, 1));
-                motorBackLeft.setPower(Math.min(backLeftPower * speedfactor, 1));
-                motorFrontRight.setPower(Math.min(frontRightPower * speedfactor,1));
-                motorBackRight.setPower(Math.min(backRightPower * speedfactor,1 ));
+            } else if (gamepad2.y && TwoStageLinSlideFileNew.state== TwoStageLinSlideFileNew.states.HIGH){
+                motorFrontLeft.setPower(frontLeftPower * 0.6);
+                motorBackLeft.setPower(backLeftPower * 0.6);
+                motorFrontRight.setPower(frontRightPower * 0.6);
+                motorBackRight.setPower(backRightPower * 0.6);
+            } else if (gamepad2.y && TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.HIGH){
+                motorFrontLeft.setPower(frontLeftPower);
+                motorBackLeft.setPower(backLeftPower);
+                motorFrontRight.setPower(frontRightPower);
+                motorBackRight.setPower(backRightPower);
+            } else if (gamepad2.x){
+                motorFrontLeft.setPower(frontLeftPower * 0.3);
+                motorBackLeft.setPower(backLeftPower * 0.3);
+                motorFrontRight.setPower(frontRightPower * 0.3);
+                motorBackRight.setPower(backRightPower * 0.3);
             }
-            if(gamepad1.a){
-                moveFB(-1,0.2);
-                rotate(157,1);
-                calculateAdj();
-                TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);
+            if(gamepad1.dpad_right){
+               // TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);
+                TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.HIGH;
+                TwoStageLinSlideFileNew.goPosition(1, 4050);
+                //Thread.sleep(300);
+                rotate(156,1);
+                //Thread.sleep(200);
+
             }
-            else if (gamepad1.b){
-                rotate(157,1);
+            else if (gamepad1.dpad_left){
+                rotate(156,1);
             }
-            if(gamepad1.dpad_down){ /**may not work bc this code may not trigger during runtime**/
+            if(gamepad2.dpad_down){
                 adjustments[0]--;
-            } else if(gamepad1.dpad_up){
+                calculateAdj();
+                while(gamepad2.dpad_down){}
+            } else if(gamepad2.dpad_up){
                 adjustments[0]++;
-            } else if(gamepad1.dpad_left){
-                adjustments[1]--;
-            } else if(gamepad1.dpad_right){
-                adjustments[1]++;
+                calculateAdj();
+                while(gamepad2.dpad_up){}
             } else if(gamepad2.dpad_left){
-                adjustments[2]--;
+                adjustments[1]--;
+                calculateAdj();
+                while(gamepad2.dpad_left){}
             } else if(gamepad2.dpad_right){
+                adjustments[1]++;
+                calculateAdj();
+                while(gamepad2.dpad_right){}
+            } else if(gamepad2.a){
+                adjustments[2]--;
+                calculateAdj();
+                while(gamepad2.a){}
+            } else if(gamepad2.b){
                 adjustments[2]++;
+                calculateAdj();
+                while(gamepad2.b){}
             }
 
         }
@@ -175,7 +195,7 @@ public class ExCompTele extends LinearOpMode {
         motorBackLeft.setPower(bl);
         motorFrontRight.setPower(fr);
         motorBackRight.setPower(br);
-        Thread.sleep((long) (avg*100));
+        Thread.sleep((long) (avg*300));
 
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
@@ -186,6 +206,8 @@ public class ExCompTele extends LinearOpMode {
         adjustments[1] = 0;
         adjustments[2] = 0;
         avg = 0;
+
+
     }
 
     /**
