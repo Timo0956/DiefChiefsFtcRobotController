@@ -349,14 +349,10 @@ public class ExCompTele extends LinearOpMode {
             // move back.
             while (getDist()[0] == 0||getDist()[1] == 0||getDist()[2] == 0) {}
 
-            while  (getDist()[0] > dist||getDist()[1] > dist||getDist()[2] > dist) {
-
-            }
+            while  (getDist()[0] > dist||getDist()[1] > dist||getDist()[2] > dist) {}
         }
         else    // move forward.
-            while (getDist()[0] < dist||getDist()[1] < dist||getDist()[2] < dist) {
-
-            }
+            while (getDist()[0] < dist||getDist()[1] < dist||getDist()[2] < dist) {}
 
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
@@ -377,17 +373,11 @@ public class ExCompTele extends LinearOpMode {
 
 
         if(yDisplacement > 0){
-            while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){
-
-            }
-            while (yDisplacement == 0){
-
-            }
+            while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){}
+            while (yDisplacement == 0){}
         }
         else if (yDisplacement < 0){
-            while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){
-
-            }
+            while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){}
         }
 
         motorBackRight.setPower(0);
@@ -395,7 +385,7 @@ public class ExCompTele extends LinearOpMode {
         motorFrontRight.setPower(0);
         motorFrontLeft.setPower(0);
 
-
+        resetAngleAcc();
 
     }
 
