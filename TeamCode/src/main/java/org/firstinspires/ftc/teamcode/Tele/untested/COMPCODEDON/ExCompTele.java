@@ -255,7 +255,7 @@ public class ExCompTele extends LinearOpMode {
      * See if we are moving in a straight line and if not return a power correction value.
      * @return Power adjustment, + is adjust left - is adjust right.
      */
-    private double checkDirection()
+    public static double checkDirection()
     {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
@@ -279,12 +279,12 @@ public class ExCompTele extends LinearOpMode {
      * @param degrees Degrees to turn, + is left - is right
      */
 
-    public static void rotate(int degrees, double power)
+    public static void rotateIMU(int degrees, double power)
     {
         double  leftPower, rightPower;
 
         // restart imu movement tracking.
-        resetAngleAcc();
+
 
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
@@ -326,16 +326,23 @@ public class ExCompTele extends LinearOpMode {
        // Thread.sleep(300);
 
         // reset angle tracking on new heading.
+
+    }
+    public static void rotate(int degrees, double speed){
+        resetAngleAcc();
+        rotateIMU(degrees, speed);
+        rotateIMU(degrees, 0.5 * speed);
         resetAngleAcc();
     }
     public static void moveFB(double power, double dist) throws InterruptedException {
 
         resetAngleAcc();
 
-        motorFrontLeft.setPower(power);
-        motorBackLeft.setPower(power);
-        motorFrontRight.setPower(power);
-        motorBackRight.setPower(power);
+        double correction =  checkDirection();
+        motorFrontLeft.setPower(power-correction);
+        motorBackLeft.setPower(power-correction);
+        motorFrontRight.setPower(power+correction);
+        motorBackRight.setPower(power+correction);
 
         if (dist < 0)
         {
@@ -357,6 +364,39 @@ public class ExCompTele extends LinearOpMode {
         motorBackRight.setPower(0);
 
         resetAngleAcc();
+    }
+    public static void strafeSideToSide(double power, double yDisplacement) throws InterruptedException{
+        resetAngleAcc();
+        double correction = checkDirection();
+
+        motorBackRight.setPower(power + correction);
+        motorBackLeft.setPower(power - correction);
+        motorFrontRight.setPower(-power + correction);
+        motorFrontLeft.setPower(-power - correction);
+
+
+
+        if(yDisplacement > 0){
+            while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){
+
+            }
+            while (yDisplacement == 0){
+
+            }
+        }
+        else if (yDisplacement < 0){
+            while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){
+
+            }
+        }
+
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+
+
+
     }
 
 }
