@@ -338,21 +338,33 @@ public class ExCompTele extends LinearOpMode {
 
         resetAngleAcc();
 
-        double correction =  checkDirection();
-        motorFrontLeft.setPower(power-correction);
-        motorBackLeft.setPower(power-correction);
-        motorFrontRight.setPower(power+correction);
-        motorBackRight.setPower(power+correction);
-
         if (dist < 0)
         {
             // move back.
-            while (getDist()[0] == 0||getDist()[1] == 0||getDist()[2] == 0) {}
+            while (getDist()[0] == 0||getDist()[1] == 0||getDist()[2] == 0) {
+                double correction = checkDirection();
+                motorFrontLeft.setPower(power-correction);
+                motorBackLeft.setPower(power-correction);
+                motorFrontRight.setPower(power+correction);
+                motorBackRight.setPower(power+correction);
+            }
 
-            while  (getDist()[0] > dist||getDist()[1] > dist||getDist()[2] > dist) {}
+            while  (getDist()[0] > dist||getDist()[1] > dist||getDist()[2] > dist) {
+                double correction = checkDirection();
+                motorFrontLeft.setPower(power-correction);
+                motorBackLeft.setPower(power-correction);
+                motorFrontRight.setPower(power+correction);
+                motorBackRight.setPower(power+correction);
+            }
         }
         else    // move forward.
-            while (getDist()[0] < dist||getDist()[1] < dist||getDist()[2] < dist) {}
+            while (getDist()[0] < dist||getDist()[1] < dist||getDist()[2] < dist) {
+                double correction = checkDirection();
+                motorFrontLeft.setPower(power-correction);
+                motorBackLeft.setPower(power-correction);
+                motorFrontRight.setPower(power+correction);
+                motorBackRight.setPower(power+correction);
+            }
 
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
@@ -363,21 +375,37 @@ public class ExCompTele extends LinearOpMode {
     }
     public static void strafeSideToSide(double power, double yDisplacement) throws InterruptedException{
         resetAngleAcc();
-        double correction = checkDirection();
 
-        motorBackRight.setPower(power + correction);
-        motorBackLeft.setPower(power - correction);
-        motorFrontRight.setPower(-power + correction);
-        motorFrontLeft.setPower(-power - correction);
 
 
 
         if(yDisplacement > 0){
-            while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){}
-            while (yDisplacement == 0){}
+            while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){
+                double correction = checkDirection();
+
+                motorBackRight.setPower(power + correction);
+                motorBackLeft.setPower(power - correction);
+                motorFrontRight.setPower(-power + correction);
+                motorFrontLeft.setPower(-power - correction);
+            }
+            while (yDisplacement == 0){
+                double correction = checkDirection();
+
+                motorBackRight.setPower(power + correction);
+                motorBackLeft.setPower(power - correction);
+                motorFrontRight.setPower(-power + correction);
+                motorFrontLeft.setPower(-power - correction);
+            }
         }
         else if (yDisplacement < 0){
-            while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){}
+            while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){
+                double correction = checkDirection();
+
+                motorBackRight.setPower(power + correction);
+                motorBackLeft.setPower(power - correction);
+                motorFrontRight.setPower(-power + correction);
+                motorFrontLeft.setPower(-power - correction);
+            }
         }
 
         motorBackRight.setPower(0);
