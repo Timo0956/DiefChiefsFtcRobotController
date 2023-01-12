@@ -85,7 +85,6 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("Position", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
-            telemetry.addData("Gyro Angle", getAngle());
             telemetry.update();
 
             newFarm.farmFromPark(gamepad1.a);
