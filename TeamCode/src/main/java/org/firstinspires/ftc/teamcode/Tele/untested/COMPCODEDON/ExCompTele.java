@@ -182,7 +182,7 @@ public class ExCompTele extends LinearOpMode {
     }
     private static void calculateAdj() throws InterruptedException {//this function lets us adjust our farming during operation
 
-        if(adjustments[0]==0 &&adjustments[1]==0 && adjustments[2]==0) return;
+        if(adjustments[0]==0 && adjustments[1]==0 && adjustments[2]==0) return;
 
         double denominator = Math.max(Math.abs(adjustments[0]) + Math.abs(adjustments[1]) + Math.abs(adjustments[2]), 1);
         double fl = (adjustments[0] + adjustments[1] + adjustments[2])/denominator;
@@ -382,7 +382,6 @@ public class ExCompTele extends LinearOpMode {
         if(yDisplacement > 0){
             while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){
                 double correction = checkDirection();
-
                 motorBackRight.setPower(power + correction);
                 motorBackLeft.setPower(power - correction);
                 motorFrontRight.setPower(-power + correction);
@@ -390,7 +389,6 @@ public class ExCompTele extends LinearOpMode {
             }
             while (yDisplacement == 0){
                 double correction = checkDirection();
-
                 motorBackRight.setPower(power + correction);
                 motorBackLeft.setPower(power - correction);
                 motorFrontRight.setPower(-power + correction);
@@ -400,7 +398,6 @@ public class ExCompTele extends LinearOpMode {
         else if (yDisplacement < 0){
             while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){
                 double correction = checkDirection();
-
                 motorBackRight.setPower(power + correction);
                 motorBackLeft.setPower(power - correction);
                 motorFrontRight.setPower(-power + correction);
