@@ -27,9 +27,9 @@ public class ExCompTele extends LinearOpMode {
     static Acceleration acceleration = new Acceleration(); //Gets the acceleration
     static Orientation lastAngles = new Orientation(); //Gets the heading in degrees
     static double globalAngle;
-    static double[] V = {0,0,0}; //The speed of the robot in m/s (z,x,y)
-    static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
-    static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
+    //static double[] V = {0,0,0}; //The speed of the robot in m/s (z,x,y)
+    //static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
+    //static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
     static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
     @Override
     public void runOpMode() throws InterruptedException{
@@ -138,7 +138,7 @@ public class ExCompTele extends LinearOpMode {
             else if (gamepad1.dpad_left){
                 rotate(156,1);
             }
-            if(gamepad2.dpad_down){
+            /*if(gamepad2.dpad_down){
                 adjustments[0]--;
                 calculateAdj();
                 while(gamepad2.dpad_down){}
@@ -162,7 +162,7 @@ public class ExCompTele extends LinearOpMode {
                 adjustments[2]++;
                 calculateAdj();
                 while(gamepad2.b){}
-            }
+            }*/
 
         }
     }
@@ -172,15 +172,15 @@ public class ExCompTele extends LinearOpMode {
 
         globalAngle = 0;
 
-        V[0] = 0;
+       /* V[0] = 0;
         V[1] = 0;
         V[2] = 0;
         D[0] = 0;
         D[1] = 0;
-        D[2] = 0;
+        D[2] = 0;*/
 
     }
-    private static void calculateAdj() throws InterruptedException {//this function lets us adjust our farming during operation
+   /* private static void calculateAdj() throws InterruptedException {//this function lets us adjust our farming during operation
 
         if(adjustments[0]==0 && adjustments[1]==0 && adjustments[2]==0) return;
 
@@ -208,7 +208,7 @@ public class ExCompTele extends LinearOpMode {
         avg = 0;
 
 
-    }
+    } */
 
     /**
      * Get current cumulative angle rotation from last reset.
@@ -236,7 +236,7 @@ public class ExCompTele extends LinearOpMode {
 
         return globalAngle;
     }
-    private static double[] getDist() throws InterruptedException {
+  /*  private static double[] getDist() throws InterruptedException {
         acceleration = imu.getLinearAcceleration();
 
         V[0] += (acceleration.zAccel/100);
@@ -249,7 +249,7 @@ public class ExCompTele extends LinearOpMode {
 
         double[] distance = {D[0],D[1],D[2]};
         return distance;
-    }
+    } */
 
     /**
      * See if we are moving in a straight line and if not return a power correction value.
@@ -334,7 +334,7 @@ public class ExCompTele extends LinearOpMode {
         rotateIMU(degrees, 0.5 * speed);
         resetAngleAcc();
     }
-    public static void moveFB(double power, double dist) throws InterruptedException {
+   /* public static void moveFB(double power, double dist) throws InterruptedException {
 
         resetAngleAcc();
 
@@ -412,6 +412,6 @@ public class ExCompTele extends LinearOpMode {
 
         resetAngleAcc();
 
-    }
+    }*/
 
 }
