@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.drive;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
@@ -27,6 +31,7 @@ public class ExCompTele extends LinearOpMode {
     static Acceleration acceleration = new Acceleration(); //Gets the acceleration
     static Orientation lastAngles = new Orientation(); //Gets the heading in degrees
     static double globalAngle;
+    static SampleMecanumDrive drivetrain;
     //static double[] V = {0,0,0}; //The speed of the robot in m/s (z,x,y)
     //static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
     //static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
@@ -43,6 +48,11 @@ public class ExCompTele extends LinearOpMode {
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+        Pose2d farmOne = new Pose2d(-12*2.54,-36*2.54,Math.toRadians(-90));
+        Pose2d farmTwo = new Pose2d(-36*2.54,-36*2.54,Math.toRadians(-90));
+        Pose2d farmThree = new Pose2d(-60*2.54,-36*2.54,Math.toRadians(-90));
+        Pose2d farmSetting = null;
 
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
@@ -87,7 +97,7 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            newFarm.farmFromPark(gamepad1.a);
+            newFarm.farmFromPark(gamepad1.a, farmSetting);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
@@ -138,6 +148,20 @@ public class ExCompTele extends LinearOpMode {
             else if (gamepad1.dpad_left){
                 rotate(156,1);
             }
+            if(gamepad2.a){ //farm from FAR
+                farmPos(-48*2.54,-36*2.54,farmThree);
+                farmSetting = farmThree;
+            }
+            else if (gamepad2.b){ //farm from MIDDLE
+                farmPos(-24*2.54,-36*2.54,farmTwo);
+                farmSetting = farmTwo;
+            }
+            else if (gamepad2.x){ // farm from CLOSE
+                farmPos(0,-36*2.54,farmOne);
+                farmSetting = farmOne;
+            }else if (gamepad2.y){ // reset farming position
+                farmSetting = null;
+            }
             /*if(gamepad2.dpad_down){
                 adjustments[0]--;
                 calculateAdj();
@@ -165,6 +189,15 @@ public class ExCompTele extends LinearOpMode {
             }*/
 
         }
+    }
+    public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
+        Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .back(xcm / 2.54)
+                .strafeLeft(ycm /2.54)
+                .back(12)
+                .lineToLinearHeading(farmPosition)
+                .build();
+        drivetrain.followTrajectory(goFarm);
     }
     private static void resetAngleAcc()
     {

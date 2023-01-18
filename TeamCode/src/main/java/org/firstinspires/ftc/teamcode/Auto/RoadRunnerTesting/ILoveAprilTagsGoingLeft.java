@@ -375,7 +375,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
         drivetrain.followTrajectory(goBackward);
     }
     public static void rotate (double degrees){
-        drivetrain.turn(degrees);
+        drivetrain.turn(Math.toRadians(degrees));
     }
     public static void repeat(int linslidePos) throws InterruptedException {
         moveForward(2*2.54);
