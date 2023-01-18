@@ -118,12 +118,12 @@ public class newFarm {
         fr.setPower(0);
         bl.setPower(0);
         br.setPower(0);
-        velocity[0] = 0;
+      /*  velocity[0] = 0;
         velocity[1] = 0;
         velocity[2] = 0; //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
         distance[0] = 0;
         distance[1] = 0;
-        distance[2] = 0;
+        distance[2] = 0; */
         Thread.sleep(time);
     }
     /*public static void updateDistMoved() throws InterruptedException {

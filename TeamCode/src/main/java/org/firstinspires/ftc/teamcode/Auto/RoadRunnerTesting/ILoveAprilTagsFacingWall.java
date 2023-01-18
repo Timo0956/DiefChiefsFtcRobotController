@@ -30,7 +30,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Auto.RoadRunnerTesting.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.openftc.apriltag.AprilTagDetection;
@@ -41,7 +40,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous
-public class ILoveAprilTagsGoingLeft extends LinearOpMode
+public class ILoveAprilTagsFacingWall extends LinearOpMode
 {
     static Servo ClawL = null;
     static Servo ClawR = null;
@@ -350,6 +349,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
         rightLinSlide.setPower(speed);
         Thread.sleep(time);
     }
+
     public static void moveForward (double cm){
         Trajectory goForward = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
                 .forward(cm / 2.54)
