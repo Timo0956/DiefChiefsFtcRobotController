@@ -192,10 +192,10 @@ public class ExCompTele extends LinearOpMode {
     }
     public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
         Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                .back(xcm / 2.54)
-                .strafeLeft(ycm /2.54)
-                .back(12)
-                .lineToLinearHeading(farmPosition)
+                .splineTo(new Vector2d(-xcm/2.54,0),0)
+                .splineTo(new Vector2d(-xcm/2.54,-ycm/2.54),0)
+                .splineTo(new Vector2d((-xcm/2.54)-12,-ycm/2.54),0)
+                .splineToLinearHeading(farmPosition,0)
                 .build();
         drivetrain.followTrajectory(goFarm);
     }
