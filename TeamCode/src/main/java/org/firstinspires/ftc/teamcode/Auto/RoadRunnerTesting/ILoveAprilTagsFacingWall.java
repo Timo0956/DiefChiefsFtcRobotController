@@ -353,9 +353,9 @@ public class ILoveAprilTagsFacingWall extends LinearOpMode
         rightLinSlide.setTargetPosition(position);
         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLinSlide.setPower(speed);
-        leftLinSlide.setTargetPosition(position);
+        leftLinSlide.setTargetPosition(-position);
         leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLinSlide.setPower(speed);
+        leftLinSlide.setPower(-speed);
         Thread.sleep(time);
     }
 
