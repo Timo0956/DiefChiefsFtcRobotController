@@ -94,6 +94,8 @@ public class ILoveAprilTagsFacingWall extends LinearOpMode
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
         drivetrain = new SampleMecanumDrive(hardwareMap);
+        ClawL = hardwareMap.servo.get("clawServoL");
+        ClawR = hardwareMap.servo.get("clawServoR");
         rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
         leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
 
@@ -351,6 +353,9 @@ public class ILoveAprilTagsFacingWall extends LinearOpMode
         rightLinSlide.setTargetPosition(position);
         rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLinSlide.setPower(speed);
+        leftLinSlide.setTargetPosition(position);
+        leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftLinSlide.setPower(speed);
         Thread.sleep(time);
     }
 
