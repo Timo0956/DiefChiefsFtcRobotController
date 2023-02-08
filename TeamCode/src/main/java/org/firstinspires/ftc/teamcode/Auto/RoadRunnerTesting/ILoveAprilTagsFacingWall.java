@@ -31,6 +31,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
+import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -49,6 +50,7 @@ public class ILoveAprilTagsFacingWall extends LinearOpMode
     static DcMotor motorFrontRight = null;
     static DcMotor motorBackRight = null;
     static DcMotor rightLinSlide = null;
+    static DcMotor leftLinSlide = null;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -92,8 +94,10 @@ public class ILoveAprilTagsFacingWall extends LinearOpMode
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
         drivetrain = new SampleMecanumDrive(hardwareMap);
+        rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
+        leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
 
-        TwoStageLinSlideFile.setLSMotor(rightLinSlide);
+        TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
