@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFi
 import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.drive;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
@@ -36,6 +37,7 @@ public class ExCompTele extends LinearOpMode {
     //static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
     //static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
     static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
+    StandardTrackingWheelLocalizer encoder = new StandardTrackingWheelLocalizer(hardwareMap);
     @Override
     public void runOpMode() throws InterruptedException{
 
