@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON;
 
 import static org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele.setServos;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,6 +23,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.drive;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
@@ -27,10 +32,12 @@ public class ExCompTele extends LinearOpMode {
     static Acceleration acceleration = new Acceleration(); //Gets the acceleration
     static Orientation lastAngles = new Orientation(); //Gets the heading in degrees
     static double globalAngle;
-    static double[] V = {0,0,0}; //The speed of the robot in m/s (z,x,y)
-    static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
-    static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
+    static SampleMecanumDrive drivetrain;
+    //static double[] V = {0,0,0}; //The speed of the robot in m/s (z,x,y)
+    //static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
+    //static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
     static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
+    StandardTrackingWheelLocalizer encoder = new StandardTrackingWheelLocalizer(hardwareMap);
     @Override
     public void runOpMode() throws InterruptedException{
 
@@ -43,6 +50,11 @@ public class ExCompTele extends LinearOpMode {
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+        Pose2d farmOne = new Pose2d(-12*2.54,-36*2.54,Math.toRadians(-90));
+        Pose2d farmTwo = new Pose2d(-36*2.54,-36*2.54,Math.toRadians(-90));
+        Pose2d farmThree = new Pose2d(-60*2.54,-36*2.54,Math.toRadians(-90));
+        Pose2d farmSetting = null;
 
         DcMotor rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide"); //defines our motors for LinSlide
         DcMotor leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
@@ -87,7 +99,7 @@ public class ExCompTele extends LinearOpMode {
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            newFarm.farmFromPark(gamepad1.a);
+            newFarm.farmFromPark(gamepad1.a, farmSetting);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
             ServoTele.close(gamepad1.y);
@@ -138,7 +150,21 @@ public class ExCompTele extends LinearOpMode {
             else if (gamepad1.dpad_left){
                 rotate(156,1);
             }
-            if(gamepad2.dpad_down){
+            if(gamepad2.a){ //farm from FAR
+                farmPos(-48*2.54,-36*2.54,farmThree);
+                farmSetting = farmThree;
+            }
+            else if (gamepad2.b){ //farm from MIDDLE
+                farmPos(-24*2.54,-36*2.54,farmTwo);
+                farmSetting = farmTwo;
+            }
+            else if (gamepad2.x){ // farm from CLOSE
+                farmPos(0,-36*2.54,farmOne);
+                farmSetting = farmOne;
+            }else if (gamepad2.y){ // reset farming position
+                farmSetting = null;
+            }
+            /*if(gamepad2.dpad_down){
                 adjustments[0]--;
                 calculateAdj();
                 while(gamepad2.dpad_down){}
@@ -162,9 +188,18 @@ public class ExCompTele extends LinearOpMode {
                 adjustments[2]++;
                 calculateAdj();
                 while(gamepad2.b){}
-            }
+            }*/
 
         }
+    }
+    public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
+        Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .splineTo(new Vector2d(-xcm/2.54,0),0)
+                .splineTo(new Vector2d(-xcm/2.54,-ycm/2.54),0)
+                .splineTo(new Vector2d((-xcm/2.54)-12,-ycm/2.54),0)
+                .splineToLinearHeading(farmPosition,0)
+                .build();
+        drivetrain.followTrajectory(goFarm);
     }
     private static void resetAngleAcc()
     {
@@ -172,17 +207,17 @@ public class ExCompTele extends LinearOpMode {
 
         globalAngle = 0;
 
-        V[0] = 0;
+       /* V[0] = 0;
         V[1] = 0;
         V[2] = 0;
         D[0] = 0;
         D[1] = 0;
-        D[2] = 0;
+        D[2] = 0;*/
 
     }
-    private static void calculateAdj() throws InterruptedException {//this function lets us adjust our farming during operation
+   /* private static void calculateAdj() throws InterruptedException {//this function lets us adjust our farming during operation
 
-        if(adjustments[0]==0 &&adjustments[1]==0 && adjustments[2]==0) return;
+        if(adjustments[0]==0 && adjustments[1]==0 && adjustments[2]==0) return;
 
         double denominator = Math.max(Math.abs(adjustments[0]) + Math.abs(adjustments[1]) + Math.abs(adjustments[2]), 1);
         double fl = (adjustments[0] + adjustments[1] + adjustments[2])/denominator;
@@ -208,7 +243,7 @@ public class ExCompTele extends LinearOpMode {
         avg = 0;
 
 
-    }
+    } */
 
     /**
      * Get current cumulative angle rotation from last reset.
@@ -236,7 +271,7 @@ public class ExCompTele extends LinearOpMode {
 
         return globalAngle;
     }
-    private static double[] getDist() throws InterruptedException {
+  /*  private static double[] getDist() throws InterruptedException {
         acceleration = imu.getLinearAcceleration();
 
         V[0] += (acceleration.zAccel/100);
@@ -249,13 +284,13 @@ public class ExCompTele extends LinearOpMode {
 
         double[] distance = {D[0],D[1],D[2]};
         return distance;
-    }
+    } */
 
     /**
      * See if we are moving in a straight line and if not return a power correction value.
      * @return Power adjustment, + is adjust left - is adjust right.
      */
-    private double checkDirection()
+    public static double checkDirection()
     {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
@@ -279,12 +314,12 @@ public class ExCompTele extends LinearOpMode {
      * @param degrees Degrees to turn, + is left - is right
      */
 
-    public static void rotate(int degrees, double power)
+    public static void rotateIMU(int degrees, double power)
     {
         double  leftPower, rightPower;
 
         // restart imu movement tracking.
-        resetAngleAcc();
+
 
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
@@ -326,29 +361,44 @@ public class ExCompTele extends LinearOpMode {
        // Thread.sleep(300);
 
         // reset angle tracking on new heading.
+
+    }
+    public static void rotate(int degrees, double speed){
+        resetAngleAcc();
+        rotateIMU(degrees, speed);
+        rotateIMU(degrees, 0.5 * speed);
         resetAngleAcc();
     }
-    public static void moveFB(double power, double dist) throws InterruptedException {
+   /* public static void moveFB(double power, double dist) throws InterruptedException {
 
         resetAngleAcc();
-
-        motorFrontLeft.setPower(power);
-        motorBackLeft.setPower(power);
-        motorFrontRight.setPower(power);
-        motorBackRight.setPower(power);
 
         if (dist < 0)
         {
             // move back.
-            while (getDist()[0] == 0||getDist()[1] == 0||getDist()[2] == 0) {}
+            while (getDist()[0] == 0||getDist()[1] == 0||getDist()[2] == 0) {
+                double correction = checkDirection();
+                motorFrontLeft.setPower(power-correction);
+                motorBackLeft.setPower(power-correction);
+                motorFrontRight.setPower(power+correction);
+                motorBackRight.setPower(power+correction);
+            }
 
             while  (getDist()[0] > dist||getDist()[1] > dist||getDist()[2] > dist) {
-
+                double correction = checkDirection();
+                motorFrontLeft.setPower(power-correction);
+                motorBackLeft.setPower(power-correction);
+                motorFrontRight.setPower(power+correction);
+                motorBackRight.setPower(power+correction);
             }
         }
         else    // move forward.
             while (getDist()[0] < dist||getDist()[1] < dist||getDist()[2] < dist) {
-
+                double correction = checkDirection();
+                motorFrontLeft.setPower(power-correction);
+                motorBackLeft.setPower(power-correction);
+                motorFrontRight.setPower(power+correction);
+                motorBackRight.setPower(power+correction);
             }
 
         motorFrontLeft.setPower(0);
@@ -358,5 +408,45 @@ public class ExCompTele extends LinearOpMode {
 
         resetAngleAcc();
     }
+    public static void strafeSideToSide(double power, double yDisplacement) throws InterruptedException{
+        resetAngleAcc();
+
+
+
+
+        if(yDisplacement > 0){
+            while(yDisplacement>getDist()[0]||yDisplacement > getDist()[1]||yDisplacement > getDist()[2]){
+                double correction = checkDirection();
+                motorBackRight.setPower(power + correction);
+                motorBackLeft.setPower(power - correction);
+                motorFrontRight.setPower(-power + correction);
+                motorFrontLeft.setPower(-power - correction);
+            }
+            while (yDisplacement == 0){
+                double correction = checkDirection();
+                motorBackRight.setPower(power + correction);
+                motorBackLeft.setPower(power - correction);
+                motorFrontRight.setPower(-power + correction);
+                motorFrontLeft.setPower(-power - correction);
+            }
+        }
+        else if (yDisplacement < 0){
+            while (yDisplacement<getDist()[0]||yDisplacement < getDist()[1]||yDisplacement < getDist()[2]){
+                double correction = checkDirection();
+                motorBackRight.setPower(power + correction);
+                motorBackLeft.setPower(power - correction);
+                motorFrontRight.setPower(-power + correction);
+                motorFrontLeft.setPower(-power - correction);
+            }
+        }
+
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+
+        resetAngleAcc();
+
+    }*/
 
 }

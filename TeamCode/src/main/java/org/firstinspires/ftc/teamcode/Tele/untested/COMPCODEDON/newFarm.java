@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -51,8 +52,9 @@ public class newFarm {
 
     }
 
-    public static void farmFromPark(boolean a)throws InterruptedException{
+    public static void farmFromPark(boolean a, Pose2d FP)throws InterruptedException{
         if(a) {
+            ExCompTele.farmPos(0,0,FP);
             moveFB(0.75, 300);
             ServoTele.close(true);
             pause(200);
@@ -116,12 +118,12 @@ public class newFarm {
         fr.setPower(0);
         bl.setPower(0);
         br.setPower(0);
-        velocity[0] = 0;
+      /*  velocity[0] = 0;
         velocity[1] = 0;
         velocity[2] = 0; //Divides the acceleration by time (Or multiplied by 0.01s) to get the velocity
         distance[0] = 0;
         distance[1] = 0;
-        distance[2] = 0;
+        distance[2] = 0; */
         Thread.sleep(time);
     }
     /*public static void updateDistMoved() throws InterruptedException {
