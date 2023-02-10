@@ -163,6 +163,32 @@ public class splinetest extends LinearOpMode {
         /* Actually do something useful */
         if (tagOfInterest.id == one) {
             closeServo();
+            moveBackward(24*2.54);
+            strafeLeft(60*2.54);
+            moveLinSlidePosition(4050, 0.9, 800);
+            moveForward(2.54*12);
+            Thread.sleep(200);
+            openServo();
+            Thread.sleep(300);
+            moveLinSlidePosition(150,-0.9,600);
+            moveBackward(2.54*12);
+            strafeRight(12*2.54);
+            moveForward(57*2.54);
+            closeServo();
+            Thread.sleep(300);
+            moveLinSlidePosition(4050,0.9,800);
+            Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                    .splineToLinearHeading(new Pose2d(-54,-6,Math.toRadians(100)), Math.toRadians(0))
+                    .build();
+            drivetrain.followTrajectory(trajectory3);
+            openServo();
+            Thread.sleep(250);
+            moveLinSlidePosition(100,-0.9,600);
+            /*Trajectory trajectory4 = drivetrain.trajectoryBuilder(new Pose2d(-54,6,-135))
+                    .splineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)),0 )
+                    .build();
+            drivetrain.followTrajectory(trajectory4);
+             */
 
         } else if (tagOfInterest.id == two) {
             closeServo();
