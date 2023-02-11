@@ -315,13 +315,6 @@ public class ExCompTele extends LinearOpMode {
     public static void rotateIMU(int degrees, double power)
     {
         double  leftPower, rightPower;
-
-        // restart imu movement tracking.
-
-
-        // getAngle() returns + when rotating counter clockwise (left) and - when rotating
-        // clockwise (right).
-
         if (degrees < 0)
         {   // turn right.
             leftPower = power;
@@ -333,13 +326,11 @@ public class ExCompTele extends LinearOpMode {
             rightPower = power;
         }
         else return;
-
         // set power to rotate.
         motorFrontLeft.setPower(leftPower);
         motorBackLeft.setPower(leftPower);
         motorFrontRight.setPower(rightPower);
         motorBackRight.setPower(rightPower);
-
         // rotate until turn is completed.
         if (degrees < 0)
         {
@@ -350,16 +341,13 @@ public class ExCompTele extends LinearOpMode {
         }
         else    // left turn.
             while (getAngle() < degrees) {}
-
         // turn the motors off.
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
         motorFrontRight.setPower(0);
         motorBackRight.setPower(0);
        // Thread.sleep(300);
-
         // reset angle tracking on new heading.
-
     }
     public static void rotate(int degrees, double speed){
         resetAngleAcc();
