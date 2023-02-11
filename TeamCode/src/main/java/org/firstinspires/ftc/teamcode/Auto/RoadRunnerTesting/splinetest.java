@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Auto.RoadRunnerTesting;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Tele.untested.linSlideFiles.TwoStageLinSlideFile;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -76,7 +78,10 @@ public class splinetest extends LinearOpMode {
         ClawR = hardwareMap.servo.get("clawServoR");
         rightLinSlide = hardwareMap.dcMotor.get("rightLinSlide");
         leftLinSlide = hardwareMap.dcMotor.get("leftLinSlide");
-
+        motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
+        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
+        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
+        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -163,32 +168,49 @@ public class splinetest extends LinearOpMode {
         /* Actually do something useful */
         if (tagOfInterest.id == one) {
             closeServo();
-            moveBackward(24*2.54);
-            strafeLeft(60*2.54);
-            moveLinSlidePosition(4050, 0.9, 800);
-            moveForward(2.54*12);
-            Thread.sleep(200);
+            //Thread.sleep(500);
+            moveLinSlidePosition(1750, 1, 300);
+            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                    .lineToLinearHeading(new Pose2d(14,79,Math.toRadians(0))) // leftstrafe is neg on y axis
+                    .build();
+            drivetrain.followTrajectory(traj2);
             openServo();
-            Thread.sleep(300);
-            moveLinSlidePosition(150,-0.9,600);
-            moveBackward(2.54*12);
-            strafeRight(12*2.54);
-            moveForward(57*2.54);
+            moveLinSlidePosition(1750, 1, 300);
+            Trajectory traj3 = drivetrain.trajectoryBuilder(new Pose2d(10,58,0))
+                    .lineToLinearHeading(new Pose2d(0,95,Math.toRadians(-20))) // leftstrafe is neg on y axis
+                    .build();
+            drivetrain.followTrajectory(traj3);
+            moveLinSlidePosition(600,-1,300);
+            moveForward(2.54*48);
+            /*Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                    //.splineTo(new Vector2d(-30,0),0)
+                    .lineToLinearHeading(new Pose2d(10,35*2.54,Math.toRadians(-8))) // leftstrafe is neg on y axis
+                    .build();
+            drivetrain.followTrajectory(traj1);*/
+           // strafeLeft(110*2.54);
+            //moveForward(2.54*12);
             closeServo();
             Thread.sleep(300);
-            moveLinSlidePosition(4050,0.9,800);
+            moveLinSlidePosition(4050,1,500);
+
+            //moveBackward(2.54*12);
+            //rightStrafe(1,15);
+           // strafeRight(32*2.54);
+            //moveForward(59*2.54);
+            //closeServo();
+            //Thread.sleep(300);
             Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .splineToLinearHeading(new Pose2d(-54,-6,Math.toRadians(100)), Math.toRadians(0))
+                    .splineToLinearHeading(new Pose2d(-54,35,Math.toRadians(100)), Math.toRadians(0))
                     .build();
             drivetrain.followTrajectory(trajectory3);
             openServo();
-            Thread.sleep(250);
-            moveLinSlidePosition(100,-0.9,600);
-            /*Trajectory trajectory4 = drivetrain.trajectoryBuilder(new Pose2d(-54,6,-135))
-                    .splineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)),0 )
+            Trajectory trajectory4 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                    .splineToLinearHeading(new Pose2d(-15,-30,Math.toRadians(-100)),0)
                     .build();
             drivetrain.followTrajectory(trajectory4);
-             */
+            moveLinSlidePosition(0,-1,500);
+
+
 
         } else if (tagOfInterest.id == two) {
             closeServo();
@@ -199,13 +221,13 @@ public class splinetest extends LinearOpMode {
         } else if (tagOfInterest.id == three) {
             closeServo();
             moveBackward(24 * 2.54);
-            strafeLeft(60 * 2.54);
+            strafeLeft(55 * 2.54);
             moveLinSlidePosition(4050, 0.8, 600);
-            moveForward(6 * 2.54);
+            moveForward(3 * 2.54);
             openServo();
             moveLinSlidePosition(600, -0.8, 600);
             moveBackward(6 * 2.54);
-            strafeRight(1 * 2.54);
+            strafeRight(10 * 2.54);
             moveForward(4 * 2.54);
             moveForward(1 * 2.54);
             closeServo();
@@ -237,7 +259,7 @@ public class splinetest extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 
-    /*  public static void pause(long time)throws InterruptedException{
+     public static void pause(long time)throws InterruptedException{
           motorFrontLeft.setPower(0);
           motorFrontRight.setPower(0);
           motorBackLeft.setPower(0);
@@ -245,24 +267,24 @@ public class splinetest extends LinearOpMode {
           Thread.sleep(time);
       }
       public static void forwardBackwardDrive (double power, long time) throws InterruptedException {
-          motorFrontLeft.setPower(-power);
+          motorFrontLeft.setPower(power);
           motorFrontRight.setPower(power);
-          motorBackLeft.setPower(-power);
+          motorBackLeft.setPower(power);
           motorBackRight.setPower(power);
           Thread.sleep(time);
       }
       public static void leftStrafe (double power, long time) throws InterruptedException{
           motorFrontLeft.setPower(-power);
-          motorFrontRight.setPower(-power);
+          motorFrontRight.setPower(power);
           motorBackLeft.setPower(power);
-          motorBackRight.setPower(power);
+          motorBackRight.setPower(-power);
           Thread.sleep(time);
       }
       public static void rightStrafe (double power, long time) throws InterruptedException {
           motorFrontLeft.setPower(power);
-          motorFrontRight.setPower(power);
+          motorFrontRight.setPower(-power);
           motorBackLeft.setPower(-power);
-          motorBackRight.setPower(-power);
+          motorBackRight.setPower(power);
           Thread.sleep(time);
       }
       /*    public static void toLowLinSlide(){
@@ -277,8 +299,8 @@ public class splinetest extends LinearOpMode {
           public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */// commented out extra linside functions
     public static void closeServo() {
         // ServoTele.close(true);
-        ClawL.setPosition(0.15);
-        ClawR.setPosition(0.15);
+        ClawL.setPosition(0.25);
+        ClawR.setPosition(0.25);
     }
 
     public static void openServo() {
@@ -352,4 +374,6 @@ public class splinetest extends LinearOpMode {
                 .build();
         drivetrain.followTrajectory(traj);
     }
+
+
 }

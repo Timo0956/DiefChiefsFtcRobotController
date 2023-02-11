@@ -54,7 +54,7 @@ public class newFarm {
 
     public static void farmFromPark(boolean a, Pose2d FP)throws InterruptedException{
         if(a) {
-            ExCompTele.farmPos(0,0,FP);
+            //ExCompTele.farmPos(0,0,FP);
             moveFB(0.75, 300);
             ServoTele.close(true);
             pause(200);

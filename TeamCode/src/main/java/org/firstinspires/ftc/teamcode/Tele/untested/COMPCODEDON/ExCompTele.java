@@ -37,7 +37,6 @@ public class ExCompTele extends LinearOpMode {
     //static double[] D = {0,0,0}; //The displacement of the robot in meters (z,x,y)
     //static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
     static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
-    StandardTrackingWheelLocalizer encoder = new StandardTrackingWheelLocalizer(hardwareMap);
     @Override
     public void runOpMode() throws InterruptedException{
 
@@ -150,7 +149,7 @@ public class ExCompTele extends LinearOpMode {
             else if (gamepad1.dpad_left){
                 rotate(156,1);
             }
-            if(gamepad2.a){ //farm from FAR
+         /*   if(gamepad2.a){ //farm from FAR
                 farmPos(-48*2.54,-36*2.54,farmThree);
                 farmSetting = farmThree;
             }
@@ -192,7 +191,7 @@ public class ExCompTele extends LinearOpMode {
 
         }
     }
-    public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
+  /*  public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
         Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
                 .splineTo(new Vector2d(-xcm/2.54,0),0)
                 .splineTo(new Vector2d(-xcm/2.54,-ycm/2.54),0)
@@ -200,7 +199,7 @@ public class ExCompTele extends LinearOpMode {
                 .splineToLinearHeading(farmPosition,0)
                 .build();
         drivetrain.followTrajectory(goFarm);
-    }
+    }*/
     private static void resetAngleAcc()
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
