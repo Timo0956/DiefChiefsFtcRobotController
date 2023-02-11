@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFi
 import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.drive;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @TeleOp
 public class ExCompTele extends LinearOpMode {
@@ -148,7 +149,7 @@ public class ExCompTele extends LinearOpMode {
             else if (gamepad1.dpad_left){
                 rotate(156,1);
             }
-            if(gamepad2.a){ //farm from FAR
+         /*   if(gamepad2.a){ //farm from FAR
                 farmPos(-48*2.54,-36*2.54,farmThree);
                 farmSetting = farmThree;
             }
@@ -190,7 +191,7 @@ public class ExCompTele extends LinearOpMode {
 
         }
     }
-    public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
+  /*  public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
         Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
                 .splineTo(new Vector2d(-xcm/2.54,0),0)
                 .splineTo(new Vector2d(-xcm/2.54,-ycm/2.54),0)
@@ -198,7 +199,7 @@ public class ExCompTele extends LinearOpMode {
                 .splineToLinearHeading(farmPosition,0)
                 .build();
         drivetrain.followTrajectory(goFarm);
-    }
+    }*/
     private static void resetAngleAcc()
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

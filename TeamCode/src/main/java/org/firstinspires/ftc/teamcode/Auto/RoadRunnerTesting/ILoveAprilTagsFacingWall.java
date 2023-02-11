@@ -207,7 +207,7 @@ public class ILoveAprilTagsFacingWall extends LinearOpMode
         if( tagOfInterest.id == one){
             closeServo();
             moveBackward(24*2.54);
-            strafeLeft(60*2.54);
+            strafeLeft(200*2.54);
             moveLinSlidePosition(4050,0.8,600);
             moveForward(6*2.54);
             openServo();
