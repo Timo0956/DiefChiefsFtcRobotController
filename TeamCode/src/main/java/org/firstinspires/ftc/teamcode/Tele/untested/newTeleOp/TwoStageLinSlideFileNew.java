@@ -11,12 +11,12 @@ public class TwoStageLinSlideFileNew {
     static final int low = 0; // declares encoder variables
     static final int lowOff = 1850;
     static final int mid = 2900;
-    static final int high = 4050;
-    static final double power = 0.9;
+    static final int high = 3970;
+    static final double power = 1;
     static final boolean mode = true;
 
 
-    public enum states {LOW, LOWOFF, MEDIUM, HIGH,TOLOWOFF, TOLOW, TOMEDIUM, TOHIGH} //state array for state machine
+    public enum states {LOW, LOWOFF, MEDIUM, HIGH,TOLOWOFF, TOLOW, TOMEDIUM, TOHIGH, CUSTOM} //state array for state machine
     public static states state = states.LOW;
     static DcMotor rightLinSlide = null; //DC Motors for lin slide
     static DcMotor leftLinSlide = null;
@@ -118,6 +118,19 @@ public class TwoStageLinSlideFileNew {
                     }
                 }
                 break;
+            /*case CUSTOM:
+                if(rightBumper){
+                    state = states.TOMEDIUM;
+                }
+                else if(leftBumper){
+                    state = states.TOLOW;
+                }
+                else if(leftTrigger>0.7){
+                    state = states.TOLOWOFF;
+                }
+                else if(rightTrigger > 0.7){
+                    state = states.TOHIGH;
+                }*/
             case TOLOW:
                 if(rightLinSlide.getCurrentPosition() > low /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to
                     goPosition(-power, low);

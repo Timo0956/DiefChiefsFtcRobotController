@@ -10,7 +10,7 @@ public class ServoTele {
     static Servo ClawL;
     static Servo ClawR;
     static double startPos = 0;
-    static double closePos = 0.33;
+    static double closePos = 0.32;
     // Initializing both servos (Declared in main Teleop)
 
 
@@ -34,12 +34,12 @@ public class ServoTele {
         }
     }
     //closes claw
-    public static void close(boolean y) throws InterruptedException {
+    public static void close(boolean y, int height) throws InterruptedException {
         if(y) {
             ClawL.setPosition(closePos);
             ClawR.setPosition(closePos);
             newFarm.pause(300);
-            TwoStageLinSlideFileNew.goPosition(1,350);
+            TwoStageLinSlideFileNew.goPosition(1,height);
             TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.LOWOFF;
 
             Thread.sleep(200);

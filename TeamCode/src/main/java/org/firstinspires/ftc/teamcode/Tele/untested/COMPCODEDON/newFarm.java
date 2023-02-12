@@ -56,7 +56,7 @@ public class newFarm {
         if(a) {
             //ExCompTele.farmPos(0,0,FP);
             moveFB(0.75, 300);
-            ServoTele.close(true);
+            ServoTele.close(true, 350);
             pause(200);
             TwoStageLinSlideFileNew.goPosition(0.9, 350);
             pause(350);

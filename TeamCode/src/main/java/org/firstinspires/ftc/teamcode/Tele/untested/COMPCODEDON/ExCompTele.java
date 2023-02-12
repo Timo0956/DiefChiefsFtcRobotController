@@ -71,6 +71,7 @@ public class ExCompTele extends LinearOpMode {
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        int LSCount = 5;
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
@@ -93,7 +94,8 @@ public class ExCompTele extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()){
 
-            telemetry.addData("Position", rightLinSlide.getCurrentPosition());
+            telemetry.addData("LSCount", LSCount);
+            telemetry.addData("LSPosition", rightLinSlide.getCurrentPosition());
             telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
@@ -101,7 +103,12 @@ public class ExCompTele extends LinearOpMode {
             newFarm.farmFromPark(gamepad1.a, farmSetting);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
             ServoTele.open(gamepad1.x);
-            ServoTele.close(gamepad1.y);
+            if (TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW) {
+                ServoTele.close(gamepad1.y, 350);
+            } else if (TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.CUSTOM) {
+                ServoTele.close(gamepad1.y, 1750);
+
+            }
 
 
             //double speedfactor = Math.abs(gamepad2.left_stick_y);
@@ -148,6 +155,79 @@ public class ExCompTele extends LinearOpMode {
             }
             else if (gamepad1.dpad_left){
                 rotate(156,1);
+            }
+            if(gamepad2.a){
+                switch (LSCount){
+                    case 1:
+                        Thread.sleep(100);
+                        break;
+
+                    case 2:
+                        TwoStageLinSlideFileNew.goPosition(-0.8,0);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.LOW;
+                        Thread.sleep(100);
+                        LSCount = 1;
+                        break;
+
+                    case 3:
+                        TwoStageLinSlideFileNew.goPosition(-0.8,150);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 2;
+                        break;
+
+                    case 4:
+                        TwoStageLinSlideFileNew.goPosition(-0.8,300);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 3;
+                        break;
+
+                    case 5:
+                        TwoStageLinSlideFileNew.goPosition(-0.8,450);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 4;
+                        break;
+
+                }
+            } else if (gamepad2.b){
+                switch (LSCount){
+                    case 1:
+                        TwoStageLinSlideFileNew.goPosition(0.8,150);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 2;
+                        break;
+
+                    case 2:
+                        TwoStageLinSlideFileNew.goPosition(0.8,300);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 3;
+                        break;
+
+                    case 3:
+                        TwoStageLinSlideFileNew.goPosition(0.8,450);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 4;
+                        break;
+
+                    case 4:
+                        TwoStageLinSlideFileNew.goPosition(0.8,600);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        LSCount = 5;
+                        break;
+
+                    case 5:
+                        TwoStageLinSlideFileNew.goPosition(0.8,600);
+                        TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.CUSTOM;
+                        Thread.sleep(100);
+                        break;
+
+                }
             }
          /*   if(gamepad2.a){ //farm from FAR
                 farmPos(-48*2.54,-36*2.54,farmThree);

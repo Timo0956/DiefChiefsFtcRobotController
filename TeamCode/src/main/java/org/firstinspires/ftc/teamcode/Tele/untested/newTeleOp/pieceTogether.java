@@ -18,7 +18,7 @@ public class pieceTogether {
             dualServoForearm.out();
         }
         else */if(g1.y){
-            ServoTele.close(g1.y);
+            ServoTele.close(g1.y,350);
 
         } else if (g1.x) {
             ServoTele.open(g1.x);

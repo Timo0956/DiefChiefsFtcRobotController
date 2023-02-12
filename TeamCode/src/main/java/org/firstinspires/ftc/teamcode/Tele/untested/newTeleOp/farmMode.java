@@ -24,6 +24,6 @@ public class farmMode {
         }
         testHorizontalLinSlide.moveHorizontalLinManual(false, true); //includes opening claw
         Thread.sleep(700);
-        ServoTele.close(true);
+        ServoTele.close(true,350);
     }
 }

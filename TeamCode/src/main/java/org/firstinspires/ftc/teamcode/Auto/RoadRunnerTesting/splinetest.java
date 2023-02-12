@@ -97,6 +97,10 @@ public class splinetest extends LinearOpMode {
 
             }
         });
+        Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .splineToLinearHeading(new Pose2d(-62.5,20,Math.toRadians(100)), Math.toRadians(60))
+                //.lineToLinearHeading(new Pose2d(-54,35,Math.toRadians(100)))
+                .build();
 
         telemetry.setMsTransmissionInterval(50);
 
@@ -163,38 +167,42 @@ public class splinetest extends LinearOpMode {
             telemetry.update();
         }
 
+
         /* Actually do something useful */
         if (tagOfInterest.id == one) {
             closeServo();
-            Thread.sleep(200);
-            moveLinSlidePosition(300, 1,150);
+            Thread.sleep(300);
+            moveLinSlidePosition(200, 1,50);
             Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineToLinearHeading(new Pose2d(18,36,Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(14,36,Math.toRadians(0)))
                     .build();
             drivetrain.followTrajectory(traj1);
             openServo();
             Thread.sleep(200);
-            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(14,34,0))
+            moveLinSlidePosition(520,1,50);
+            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(10,31,0))
                     .lineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)))
                     .build();
             drivetrain.followTrajectory(traj2);
             moveForward(28*2.54);
-            moveLinSlidePosition(600,1,200);
             Trajectory traj3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineToLinearHeading(new Pose2d(10,-40,Math.toRadians(-8)))
+                    .lineToLinearHeading(new Pose2d(4,93,Math.toRadians(-8)))
                     .build();
             drivetrain.followTrajectory(traj3);
-            moveForward(6*2.54);
+            moveForward(12*2.54);
             closeServo();
             Thread.sleep(300);
-            moveLinSlidePosition(4050,1, 600);
-            Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .splineToLinearHeading(new Pose2d(-54,35,Math.toRadians(100)), Math.toRadians(0))
-                    .build();
+            moveLinSlidePosition(4050,1, 0);
+            //  Thread.sleep(50);
+
             drivetrain.followTrajectory(trajectory3);
             openServo();
-            moveLinSlidePosition(0,-1,0);
-            leftStrafe(0.7,500);
+            Thread.sleep(200);
+            forwardBackwardDrive(-0.7,350);
+            pause(100);
+            moveLinSlidePosition(0,-1,3500);
+            Thread.sleep(100);
+            rightStrafe(-0.7,460);
 
 
 
@@ -246,70 +254,75 @@ public class splinetest extends LinearOpMode {
 
          else if (tagOfInterest.id == two) {
             closeServo();
-            Thread.sleep(200);
-            moveLinSlidePosition(300, 1,150);
+            Thread.sleep(300);
+            moveLinSlidePosition(200, 1,50);
             Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineToLinearHeading(new Pose2d(18,36,Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(14,36,Math.toRadians(0)))
                     .build();
             drivetrain.followTrajectory(traj1);
             openServo();
             Thread.sleep(200);
-            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(14,34,0))
+            moveLinSlidePosition(520,1,50);
+            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(10,31,0))
                     .lineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)))
                     .build();
             drivetrain.followTrajectory(traj2);
             moveForward(28*2.54);
-            moveLinSlidePosition(600,1,200);
             Trajectory traj3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineToLinearHeading(new Pose2d(10,-40,Math.toRadians(-8)))
+                    .lineToLinearHeading(new Pose2d(4,93,Math.toRadians(-8)))
                     .build();
             drivetrain.followTrajectory(traj3);
-            moveForward(6*2.54);
+            moveForward(12*2.54);
             closeServo();
             Thread.sleep(300);
-            moveLinSlidePosition(4050,1, 600);
-            Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .splineToLinearHeading(new Pose2d(-54,35,Math.toRadians(100)), Math.toRadians(0))
-                    .build();
+            moveLinSlidePosition(4050,1, 0);
+          //  Thread.sleep(50);
+
             drivetrain.followTrajectory(trajectory3);
             openServo();
-            moveLinSlidePosition(0,-1,0);
-            moveBackward(3*2.54);
-
+            Thread.sleep(200);
+            forwardBackwardDrive(-0.7,350);
+            pause(100);
+            moveLinSlidePosition(0,-1,3500);
+            Thread.sleep(100);
+            rightStrafe(0.7,245);
 
 
 
         } else if (tagOfInterest.id == three) {
             closeServo();
-            Thread.sleep(200);
-            moveLinSlidePosition(300, 1,150);
+            Thread.sleep(300);
+            moveLinSlidePosition(200, 1,50);
             Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineToLinearHeading(new Pose2d(18,36,Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(14,36,Math.toRadians(0)))
                     .build();
             drivetrain.followTrajectory(traj1);
             openServo();
             Thread.sleep(200);
-            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(14,34,0))
+            moveLinSlidePosition(520,1,50);
+            Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(10,31,0))
                     .lineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)))
                     .build();
             drivetrain.followTrajectory(traj2);
             moveForward(28*2.54);
-            moveLinSlidePosition(600,1,200);
             Trajectory traj3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineToLinearHeading(new Pose2d(10,-40,Math.toRadians(-8)))
+                    .lineToLinearHeading(new Pose2d(4,93,Math.toRadians(-8)))
                     .build();
             drivetrain.followTrajectory(traj3);
-            moveForward(6*2.54);
+            moveForward(12*2.54);
             closeServo();
             Thread.sleep(300);
-            moveLinSlidePosition(4050,1, 600);
-            Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                    .splineToLinearHeading(new Pose2d(-54,35,Math.toRadians(100)), Math.toRadians(0))
-                    .build();
+            moveLinSlidePosition(4050,1, 0);
+            //  Thread.sleep(50);
+
             drivetrain.followTrajectory(trajectory3);
             openServo();
-            moveLinSlidePosition(0,-1,0);
-            rightStrafe(0.7,500);
+            Thread.sleep(200);
+            forwardBackwardDrive(-0.7,350);
+            pause(100);
+            moveLinSlidePosition(0,-1,3500);
+            Thread.sleep(100);
+            leftStrafe(-0.8,900);
 
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */

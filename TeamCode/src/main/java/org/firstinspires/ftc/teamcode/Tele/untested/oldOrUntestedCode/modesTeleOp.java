@@ -129,7 +129,7 @@ public class modesTeleOp extends LinearOpMode {
                     }
                 }
                 ServoTele.open(gamepad1.x);
-                ServoTele.close(gamepad1.y);
+                ServoTele.close(gamepad1.y,350);
                 telemetry.addData("Position", rightLinSlide.getCurrentPosition());
                 telemetry.addData("ServoPositionR", ClawServoR.getPosition());
                 telemetry.addData("ServoPositionL", ClawServoL.getPosition());

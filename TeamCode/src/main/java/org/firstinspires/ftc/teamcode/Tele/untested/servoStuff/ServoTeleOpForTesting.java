@@ -14,7 +14,7 @@ public class ServoTeleOpForTesting extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             ServoTele.open(gamepad1.x);
-            ServoTele.close(gamepad1.y);
+            ServoTele.close(gamepad1.y,350);
             telemetry.addData("Servo L Pos", ClawServoL.getPosition());
             telemetry.addData("Servo R Pos", ClawServoR.getPosition());
             telemetry.update();

@@ -24,7 +24,7 @@ public class fourarmtest extends LinearOpMode {
 
         while(opModeIsActive()){
             ServoTele.open(gamepad1.x);
-            ServoTele.close(gamepad1.y);
+            ServoTele.close(gamepad1.y,350);
 
             if(gamepad1.a){
                 right.setPosition(0.65);
