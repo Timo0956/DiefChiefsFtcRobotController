@@ -10,7 +10,7 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 class cameraPipeline extends OpenCvPipeline {
-    String Position;
+   // String Position;
     Mat YCbCr = new Mat();
     Mat leftCrop;
     Mat middleCrop;

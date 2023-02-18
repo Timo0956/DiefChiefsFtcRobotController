@@ -156,6 +156,24 @@ public class ExCompTele extends LinearOpMode {
             else if (gamepad1.dpad_left){
                 rotate(156,1);
             }
+            if(gamepad2.right_trigger>0.7){
+                rightLinSlide.setTargetPosition(rightLinSlide.getCurrentPosition() - 100);
+                rightLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLinSlide.setPower(0.8);
+                leftLinSlide.setTargetPosition(leftLinSlide.getCurrentPosition() - 100);
+                leftLinSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLinSlide.setPower(-0.8);
+            }
+            if(gamepad2.left_trigger > 0.7){
+                rightLinSlide.setPower(0);
+                leftLinSlide.setPower(0);
+                rightLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                rightLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLinSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                leftLinSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                leftLinSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                leftLinSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
             if(gamepad2.a){
                 switch (LSCount){
                     case 1:
