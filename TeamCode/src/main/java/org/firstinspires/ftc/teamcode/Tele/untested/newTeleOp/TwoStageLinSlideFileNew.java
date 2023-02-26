@@ -8,15 +8,17 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.dualServoForearm;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class TwoStageLinSlideFileNew {
-    static final int low = 0; // declares encoder variables
-    static final int lowOff = 1850;
-    static final int mid = 2900;
-    static final int high = 3970;
+    static final int low = 400; // declares encoder variables
+    static final int lowOff = 1000;
+    static final int mid = 1800;
+    static final int high = 2850;
     static final double power = 1;
     static final boolean mode = true;
 
 
-    public enum states {LOW, LOWOFF, MEDIUM, HIGH,TOLOWOFF, TOLOW, TOMEDIUM, TOHIGH, CUSTOM} //state array for state machine
+
+
+    public enum states {LOW, LOWOFF, MEDIUM, HIGH,TOLOWOFF, TOLOW, TOMEDIUM, TOHIGH, CUSTOM,CUSTOM2} //state array for state machine
     public static states state = states.LOW;
     static DcMotor rightLinSlide = null; //DC Motors for lin slide
     static DcMotor leftLinSlide = null;
@@ -58,11 +60,16 @@ public class TwoStageLinSlideFileNew {
                     state = states.TOLOWOFF;
                 }else if (leftBumper){
                     state = states.TOLOW;
-                }/* else if(a){
+                }
+                else{
+                    if (rightLinSlide.getCurrentPosition()<low-10){
+                        state = states.TOLOW;
+                    }/* else if(a){
                     mode=true;
                 } else if(b){
                     mode = false;
                 }*/
+                }
                 break;
             case LOWOFF:
                 if(rightTrigger > 0.7) {
@@ -134,6 +141,9 @@ public class TwoStageLinSlideFileNew {
             case TOLOW:
                 if(rightLinSlide.getCurrentPosition() > low /*&& leftLinSlide.getCurrentPosition()>low*/){ // if right lin slide and left lin slide encoder is more than 0, go to
                     goPosition(-power, low);
+                }
+                else if(rightLinSlide.getCurrentPosition() <low){
+                    goPosition(power,low);
                 }
                 else{
                     state = states.LOW; // anything else, set state to low and power to 0
@@ -225,6 +235,10 @@ public class TwoStageLinSlideFileNew {
             Thread.sleep(400);
 
         }
+
+    }
+    public static int getLinPosition(){
+        return rightLinSlide.getCurrentPosition();
     }
 }
 

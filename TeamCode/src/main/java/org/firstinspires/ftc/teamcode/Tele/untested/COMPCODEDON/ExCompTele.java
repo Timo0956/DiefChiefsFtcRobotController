@@ -22,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 import org.firstinspires.ftc.teamcode.Tele.untested.oldOrUntestedCode.drive;
+import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.NewServoClaw;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
@@ -38,6 +39,7 @@ public class ExCompTele extends LinearOpMode {
     //static int[] adjustments = {0,0,0}; //backward/forward, left/right, rotation
     static DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
     @Override
+
     public void runOpMode() throws InterruptedException{
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -61,9 +63,9 @@ public class ExCompTele extends LinearOpMode {
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        Servo ClawServoL = hardwareMap.servo.get("clawServoL");
-        Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-
+        //Servo ClawServoL = hardwareMap.servo.get("clawServoL");
+        //Servo ClawServoR = hardwareMap.servo.get("clawServoR");
+        Servo spinServo = hardwareMap.servo.get("spinServo");
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -82,8 +84,11 @@ public class ExCompTele extends LinearOpMode {
         acceleration = imu.getLinearAcceleration();
 
         drive.initDrive(motorFrontLeft, motorBackLeft, motorFrontRight, motorBackRight);
-        setServos(ClawServoL, ClawServoR);
+
+        //setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
+        NewServoClaw.initServo(spinServo);
+        int u = 1;
         newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
         while (!isStopRequested() && !imu.isGyroCalibrated())
         {
@@ -93,27 +98,31 @@ public class ExCompTele extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive()){
-
+            if (u==1){
+                TwoStageLinSlideFileNew.moveStates(0,true,false,0,false,false);
+                u++;
+            }
             telemetry.addData("LSCount", LSCount);
             telemetry.addData("LSPosition", rightLinSlide.getCurrentPosition());
-            telemetry.addData("ServoPositionR", ClawServoR.getPosition());
-            telemetry.addData("ServoPositionL", ClawServoL.getPosition());
+            //telemetry.addData("ServoPositionR", ClawServoR.getPosition());
+            //telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
-            newFarm.farmFromPark(gamepad1.a, farmSetting);
+            //newFarm.farmFromPark(gamepad1.a, farmSetting);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
-            ServoTele.open(gamepad1.x);
+            NewServoClaw.openPosition(gamepad1.x);
             if (TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW) {
-                ServoTele.close(gamepad1.y, 350);
+                NewServoClaw.closePosition(gamepad1.y, 350);
             } else if (TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.CUSTOM) {
-                ServoTele.close(gamepad1.y, 1750);
+                NewServoClaw.closePosition(gamepad1.y, 1750);
 
             }
+            ///NewServoClaw.closePosition(gamepad1.y, 400);
 
 
             //double speedfactor = Math.abs(gamepad2.left_stick_y);
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+            double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x ;
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio, but only when
@@ -145,7 +154,7 @@ public class ExCompTele extends LinearOpMode {
                 motorBackRight.setPower(backRightPower * 0.3);
             }
             if(gamepad1.dpad_right){
-               // TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);
+                // TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);
                 TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.HIGH;
                 TwoStageLinSlideFileNew.goPosition(1, 4050);
                 //Thread.sleep(300);
@@ -289,15 +298,22 @@ public class ExCompTele extends LinearOpMode {
 
         }
     }
-  /*  public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
-        Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
-                .splineTo(new Vector2d(-xcm/2.54,0),0)
-                .splineTo(new Vector2d(-xcm/2.54,-ycm/2.54),0)
-                .splineTo(new Vector2d((-xcm/2.54)-12,-ycm/2.54),0)
-                .splineToLinearHeading(farmPosition,0)
-                .build();
-        drivetrain.followTrajectory(goFarm);
-    }*/
+    /*  public static void farmPos(double xcm, double ycm, Pose2d farmPosition){
+          Trajectory goFarm = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                  .splineTo(new Vector2d(-xcm/2.54,0),0)
+                  .splineTo(new Vector2d(-xcm/2.54,-ycm/2.54),0)
+                  .splineTo(new Vector2d((-xcm/2.54)-12,-ycm/2.54),0)
+                  .splineToLinearHeading(farmPosition,0)
+                  .build();
+          drivetrain.followTrajectory(goFarm);
+      }*/
+    public static void moveBackward (long time)throws InterruptedException{
+        motorBackLeft.setPower(-0.5);
+        motorFrontLeft.setPower(-0.5);
+        motorFrontRight.setPower(-0.5);
+        motorBackRight.setPower(-0.5);
+        Thread.sleep(time);
+    }
     private static void resetAngleAcc()
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -445,7 +461,7 @@ public class ExCompTele extends LinearOpMode {
         motorBackLeft.setPower(0);
         motorFrontRight.setPower(0);
         motorBackRight.setPower(0);
-       // Thread.sleep(300);
+        // Thread.sleep(300);
         // reset angle tracking on new heading.
     }
     public static void rotate(int degrees, double speed){
