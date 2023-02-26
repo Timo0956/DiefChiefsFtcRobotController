@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Tele.untested.servoStuff;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON.ExCompTele;
 import org.firstinspires.ftc.teamcode.Tele.untested.COMPCODEDON.newFarm;
 import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.TwoStageLinSlideFileNew;
 
@@ -14,15 +15,15 @@ public class NewServoClaw {
     public static void openPosition(boolean x) throws InterruptedException {
         if(x) {
             Rotate.setPosition(1);
-            //Thread.sleep(200);
-            // ExCompTele.moveBackward(400);
+            Thread.sleep(400);
+            ExCompTele.moveBackward(300);
             //newFarm.moveFB(-0.5, 200);
             if (TwoStageLinSlideFileNew.getLinPosition() > 450){
                 //newFarm.pause(300);
                 //TwoStageLinSlideFileNew.goPosition(-1,450);
                 TwoStageLinSlideFileNew.state = TwoStageLinSlideFileNew.states.TOLOW;
                 //TwoStageLinSlideFileNew.moveStates(0,true,false, 0, false, false);
-                Thread.sleep(400);
+                //Thread.sleep(400);
             }
         }
     }

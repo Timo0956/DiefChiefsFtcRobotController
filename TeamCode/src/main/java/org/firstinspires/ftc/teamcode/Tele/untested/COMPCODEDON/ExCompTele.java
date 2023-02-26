@@ -88,7 +88,6 @@ public class ExCompTele extends LinearOpMode {
         //setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
         NewServoClaw.initServo(spinServo);
-        int u = 1;
         newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
         while (!isStopRequested() && !imu.isGyroCalibrated())
         {
@@ -97,13 +96,13 @@ public class ExCompTele extends LinearOpMode {
         }
         waitForStart();
         if (isStopRequested()) return;
+        spinServo.setPosition(1);
+        TwoStageLinSlideFileNew.moveStates(0,true,false,0,false,false);
         while (opModeIsActive()){
-            if (u==1){
-                TwoStageLinSlideFileNew.moveStates(0,true,false,0,false,false);
-                u++;
-            }
+
             telemetry.addData("LSCount", LSCount);
             telemetry.addData("LSPosition", rightLinSlide.getCurrentPosition());
+            telemetry.addData("ServoPos ", spinServo.getPosition());
             //telemetry.addData("ServoPositionR", ClawServoR.getPosition());
             //telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();

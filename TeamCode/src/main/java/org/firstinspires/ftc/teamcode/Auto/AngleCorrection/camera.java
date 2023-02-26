@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode.Auto.AngleCorrection;
+
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

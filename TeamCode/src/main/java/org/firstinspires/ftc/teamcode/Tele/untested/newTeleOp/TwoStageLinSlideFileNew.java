@@ -62,6 +62,11 @@ public class TwoStageLinSlideFileNew {
                     state = states.TOLOW;
                 }
                 else{
+                    if (rightLinSlide.getCurrentPosition() < low - 50){
+                        state = states.TOLOW;
+                    }
+                }
+                /*else{
                     if (rightLinSlide.getCurrentPosition()<low-10){
                         state = states.TOLOW;
                     }/* else if(a){
@@ -69,7 +74,7 @@ public class TwoStageLinSlideFileNew {
                 } else if(b){
                     mode = false;
                 }*/
-                }
+
                 break;
             case LOWOFF:
                 if(rightTrigger > 0.7) {
@@ -83,6 +88,11 @@ public class TwoStageLinSlideFileNew {
                 }
                 else if (leftTrigger > 0.7){
                     state = states.TOLOWOFF;
+                }
+                else{
+                    if(rightLinSlide.getCurrentPosition() < lowOff - 50){
+                        state = states.TOLOWOFF;
+                    }
                 }
                 break;
             case MEDIUM:
