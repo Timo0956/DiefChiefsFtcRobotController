@@ -203,7 +203,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             leftStrafe(-power, msPerCm *90);
             pause(100);
             openServo();
-            moveLinSlidePosition(00,0.9, 900);
+            moveLinSlidePosition(00,0.9, 3000);
 
         }
         else if (tagOfInterest.id == two){
@@ -215,7 +215,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             forwardBackwardDrive(-power, msPerCm *5);
             pause(100);
             openServo();
-            moveLinSlidePosition(00,0.9, 900);
+            moveLinSlidePosition(00,0.9, 3000);
 
 
         }
@@ -230,7 +230,7 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
             leftStrafe(-power, msPerCm*85);
             pause(100);
             openServo();
-            moveLinSlidePosition(0,0.9, 900);
+            moveLinSlidePosition(0,0.9, 3000);
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
        // while (opModeIsActive()) {sleep(20);}
@@ -286,8 +286,8 @@ public class ILoveAprilTagsGoingLeft extends LinearOpMode
         public static void toLowOffLinSlide(){TwoStageLinSlideFile.moveStates(0,false,false,1);} */// commented out extra linside functions
     public static void closeServo(){
         // ServoTele.close(true);
-        ClawL.setPosition(0.15);
-        ClawR.setPosition(0.15);
+        ClawL.setPosition(0.35);
+        ClawR.setPosition(0.35);
     }
     public static void openServo(){
         //   ServoTele.open(true);

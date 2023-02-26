@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Auto.RoadRunnerTesting;
 
+import com.acmerobotics.dashboard.canvas.Spline;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
+import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -56,9 +59,10 @@ public class splinetest extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
-        /*long msPerCm = 1500/89;
+
+        long msPerCm = 1500/89;
         double power = 0.5;
-        ClawL = hardwareMap.servo.get("clawServoL");
+        /*ClawL = hardwareMap.servo.get("clawServoL");
         ClawR = hardwareMap.servo.get("clawServoR");
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
@@ -81,11 +85,16 @@ public class splinetest extends LinearOpMode {
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide, leftLinSlide);
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        /**int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);**/
 
-        camera.setPipeline(aprilTagDetectionPipeline);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        /**camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -96,10 +105,44 @@ public class splinetest extends LinearOpMode {
             public void onError(int errorCode) {
 
             }
-        });
-        Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+        });**/
+        /*Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(5,32.5,0))
+                .lineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)))
+                .build();
+
+        Trajectory traj2 = drivetrain.trajectoryBuilder(new Pose2d(5,32.5,0))
+                .lineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)))
+                .build();*/
+
+        /*Trajectory trajectory3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
                 .splineToLinearHeading(new Pose2d(-62.5,20,Math.toRadians(100)), Math.toRadians(60))
                 //.lineToLinearHeading(new Pose2d(-54,35,Math.toRadians(100)))
+                .build();*/
+
+        Trajectory New1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .lineToLinearHeading(new Pose2d(24,20,Math.toRadians(0)))
+                .build();
+
+        Trajectory New2 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .lineToLinearHeading(new Pose2d(0,30,Math.toRadians(0)))
+                .build();
+        Trajectory New3 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .lineToLinearHeading(new Pose2d(24,-20,Math.toRadians(0)))
+                .build();
+
+        Trajectory New123 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0),0)
+                .splineToLinearHeading(new Pose2d(15,-20, 0),Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(50,-30, 0),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(85,-20, 0),Math.toRadians(60))
+                .splineToLinearHeading(new Pose2d(100,0, 0),Math.toRadians(90))
+                .build();
+
+        Trajectory New4 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
+                .splineToLinearHeading(new Pose2d(-62.5,20,Math.toRadians(100)), Math.toRadians(60))
+                .build();
+
+        Trajectory New5 = drivetrain.trajectoryBuilder(new Pose2d(-62.5,20,Math.toRadians(100)))
+                .splineToLinearHeading(new Pose2d(0,0,Math.toRadians(00)), Math.toRadians(60))
                 .build();
 
         telemetry.setMsTransmissionInterval(50);
@@ -108,7 +151,8 @@ public class splinetest extends LinearOpMode {
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
-        while (!isStarted() && !isStopRequested()) {
+        waitForStart();
+        /**while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             if (currentDetections.size() != 0) {
@@ -150,7 +194,7 @@ public class splinetest extends LinearOpMode {
 
             telemetry.update();
             sleep(20);
-        }
+        }**/
 
         /*
          * The START command just came in: now work off the latest snapshot acquired
@@ -158,19 +202,40 @@ public class splinetest extends LinearOpMode {
          */
 
         /* Update the telemetry */
-        if (tagOfInterest != null) {
+        /**if (tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
             telemetry.update();
         } else {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
-        }
+        }**/
 
 
         /* Actually do something useful */
-        if (tagOfInterest.id == one) {
-            closeServo();
+        /**if (tagOfInterest.id == one) {
+            //closeServo();
+            pause(700); //grab cone
+            moveLinSlidePosition(4000,0.9, 900);
+            pause(100);
+            drivetrain.followTrajectory(New123);
+            //openServo();
+            Thread.sleep(200);
+            drivetrain.followTrajectory(New4);
+            moveLinSlidePosition(600,-0.9, 1500);
+            Thread.sleep(100);
+            moveLinSlidePosition(4000,0.9, 1500);
+            drivetrain.followTrajectory(New5);
+            Thread.sleep(1000);
+            forwardBackwardDrive(-power, msPerCm *20);
+            //leftStrafe(-power, msPerCm * 10);
+            //forwardBackwardDrive(-power, msPerCm *57);
+            //leftStrafe(-power, msPerCm *90);
+            //pause(100);
+            //openServo();
+            moveLinSlidePosition(0,0.9, 3000);**/
+
+            /*closeServo();
             Thread.sleep(300);
             moveLinSlidePosition(200, 1,50);
             Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
@@ -202,11 +267,11 @@ public class splinetest extends LinearOpMode {
             pause(100);
             moveLinSlidePosition(0,-1,3500);
             Thread.sleep(100);
-            rightStrafe(-0.7,460);
+            rightStrafe(-0.7,460);*/
 
 
 
-        }
+
             //closeServo();
             //Thread.sleep(500);
             /*moveLinSlidePosition(1750, 1, 300);
@@ -252,8 +317,22 @@ public class splinetest extends LinearOpMode {
 
 
 
-         else if (tagOfInterest.id == two) {
+        /** }else if (tagOfInterest.id == two) {
             closeServo();
+            pause(700); //grab cone
+            moveLinSlidePosition(100,0.9, 900);
+            pause(100);
+           //drivetrain.followTrajectory(traj1);
+            openServo();
+            Thread.sleep(200);
+           // drivetrain.followTrajectory(traj2);
+            Thread.sleep(100);
+            leftStrafe(-power,msPerCm*90); //103
+            forwardBackwardDrive(-power, msPerCm *5);
+            pause(100);
+            openServo();
+            moveLinSlidePosition(00,0.9, 3000);**/
+            /*closeServo();
             Thread.sleep(300);
             moveLinSlidePosition(200, 1,50);
             Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
@@ -285,12 +364,28 @@ public class splinetest extends LinearOpMode {
             pause(100);
             moveLinSlidePosition(0,-1,3500);
             Thread.sleep(100);
-            rightStrafe(0.7,245);
+            rightStrafe(0.7,245);*/
 
 
 
-        } else if (tagOfInterest.id == three) {
+        /**} else if (tagOfInterest.id == three) {
             closeServo();
+            pause(700); //grab cone
+            moveLinSlidePosition(100,0.9, 900);
+            pause(300);
+           // drivetrain.followTrajectory(traj1);
+            openServo();
+            Thread.sleep(200);
+            //drivetrain.followTrajectory(traj2);
+            Thread.sleep(100);
+            leftStrafe(-power, msPerCm * 10);
+            forwardBackwardDrive(0.5, msPerCm*65);
+            pause(200);
+            leftStrafe(-power, msPerCm*85);
+            pause(100);
+            openServo();
+            moveLinSlidePosition(0,0.9, 3000);**/
+            /*closeServo();
             Thread.sleep(300);
             moveLinSlidePosition(200, 1,50);
             Trajectory traj1 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
@@ -322,9 +417,32 @@ public class splinetest extends LinearOpMode {
             pause(100);
             moveLinSlidePosition(0,-1,3500);
             Thread.sleep(100);
-            leftStrafe(-0.8,900);
+            leftStrafe(-0.8,900);*/
 
-        }
+        //}
+            //closeServo();
+            pause(700); //grab cone
+            //moveLinSlidePosition(4000,0.9, 900);
+            pause(100);
+            drivetrain.followTrajectory(New123);
+            //openServo();
+            Thread.sleep(200);
+            drivetrain.followTrajectory(New123);
+            //drivetrain.followTrajectory(New4);
+            //moveLinSlidePosition(600,-0.9, 1500);
+            Thread.sleep(100);
+            drivetrain.followTrajectory(New123);
+            //moveLinSlidePosition(4000,0.9, 1500);
+            //drivetrain.followTrajectory(New5);
+            Thread.sleep(1000);
+            //forwardBackwardDrive(-power, msPerCm *20);
+            //leftStrafe(-power, msPerCm * 10);
+            //forwardBackwardDrive(-power, msPerCm *57);
+            //leftStrafe(-power, msPerCm *90);
+            //pause(100);
+            //openServo();
+            //moveLinSlidePosition(0,0.9, 3000);
+
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         // while (opModeIsActive()) {sleep(20);}
     }
