@@ -8,10 +8,10 @@ import org.firstinspires.ftc.teamcode.Tele.untested.newTeleOp.dualServoForearm;
 import org.firstinspires.ftc.teamcode.Tele.untested.servoStuff.ServoTele;
 
 public class TwoStageLinSlideFileNew {
-    static final int low = 400; // declares encoder variables
+    static final int low = 0; // declares encoder variables
     static final int lowOff = 1000;
     static final int mid = 1800;
-    static final int high = 2850;
+    static final int high = 2950;
     static final double power = 1;
     static final boolean mode = true;
 
@@ -61,7 +61,7 @@ public class TwoStageLinSlideFileNew {
                 }else if (leftBumper){
                     state = states.TOLOW;
                 }
-                else{
+               /* else{
                     if (rightLinSlide.getCurrentPosition() < low - 50){
                         state = states.TOLOW;
                     }

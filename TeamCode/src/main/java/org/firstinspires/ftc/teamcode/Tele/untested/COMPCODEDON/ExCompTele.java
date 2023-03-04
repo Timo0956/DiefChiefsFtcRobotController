@@ -63,9 +63,9 @@ public class ExCompTele extends LinearOpMode {
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        //Servo ClawServoL = hardwareMap.servo.get("clawServoL");
-        //Servo ClawServoR = hardwareMap.servo.get("clawServoR");
-        Servo spinServo = hardwareMap.servo.get("spinServo");
+        Servo ClawServoL = hardwareMap.servo.get("clawServoL");
+        Servo ClawServoR = hardwareMap.servo.get("clawServoR");
+        //Servo spinServo = hardwareMap.servo.get("spinServo");
         //set zero power behavior to brake
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -85,9 +85,9 @@ public class ExCompTele extends LinearOpMode {
 
         drive.initDrive(motorFrontLeft, motorBackLeft, motorFrontRight, motorBackRight);
 
-        //setServos(ClawServoL, ClawServoR);
+        ServoTele.setServos(ClawServoL, ClawServoR);
         TwoStageLinSlideFileNew.setLSMotor(rightLinSlide,leftLinSlide);//defines motors in terms of the seperate file
-        NewServoClaw.initServo(spinServo);
+        //NewServoClaw.initServo(spinServo);
         newFarm.initFarmNew(imu,acceleration,lastAngles,motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight,rightLinSlide,leftLinSlide);
         while (!isStopRequested() && !imu.isGyroCalibrated())
         {
@@ -96,24 +96,24 @@ public class ExCompTele extends LinearOpMode {
         }
         waitForStart();
         if (isStopRequested()) return;
-        spinServo.setPosition(1);
-        TwoStageLinSlideFileNew.moveStates(0,true,false,0,false,false);
+       // spinServo.setPosition(1);
+        //TwoStageLinSlideFileNew.moveStates(0,true,false,0,false,false);
         while (opModeIsActive()){
 
             telemetry.addData("LSCount", LSCount);
             telemetry.addData("LSPosition", rightLinSlide.getCurrentPosition());
-            telemetry.addData("ServoPos ", spinServo.getPosition());
-            //telemetry.addData("ServoPositionR", ClawServoR.getPosition());
-            //telemetry.addData("ServoPositionL", ClawServoL.getPosition());
+            // telemetry.addData("ServoPos ", spinServo.getPosition());
+            telemetry.addData("ServoPositionR", ClawServoR.getPosition());
+            telemetry.addData("ServoPositionL", ClawServoL.getPosition());
             telemetry.update();
 
             //newFarm.farmFromPark(gamepad1.a, farmSetting);
             TwoStageLinSlideFileNew.linSlideDouble(gamepad1); //takes gamepad input
-            NewServoClaw.openPosition(gamepad1.x);
+            ServoTele.open(gamepad1.x);
             if (TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.LOW) {
-                NewServoClaw.closePosition(gamepad1.y, 350);
+                ServoTele.close(gamepad1.y, 350);
             } else if (TwoStageLinSlideFileNew.state == TwoStageLinSlideFileNew.states.CUSTOM) {
-                NewServoClaw.closePosition(gamepad1.y, 1750);
+                ServoTele.close(gamepad1.y, 1750);
 
             }
             ///NewServoClaw.closePosition(gamepad1.y, 400);
