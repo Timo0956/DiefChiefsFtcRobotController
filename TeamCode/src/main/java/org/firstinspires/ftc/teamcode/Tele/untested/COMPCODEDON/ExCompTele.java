@@ -131,26 +131,26 @@ public class ExCompTele extends LinearOpMode {
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx)/ denominator;
             double backRightPower = (y + x - rx)/ denominator;
-            if(!gamepad2.y&&!gamepad2.x) {
-                motorFrontLeft.setPower(frontLeftPower * 0.6);
-                motorBackLeft.setPower(backLeftPower * 0.6);
-                motorFrontRight.setPower(frontRightPower * 0.6);
-                motorBackRight.setPower(backRightPower * 0.6);
+            if(!gamepad2.y&&!gamepad2.x&&!gamepad2.y&&TwoStageLinSlideFileNew.state== TwoStageLinSlideFileNew.states.HIGH) {
+                motorFrontLeft.setPower(frontLeftPower);
+                motorBackLeft.setPower(backLeftPower);
+                motorFrontRight.setPower(frontRightPower);
+                motorBackRight.setPower(backRightPower);
             } else if (gamepad2.y && TwoStageLinSlideFileNew.state== TwoStageLinSlideFileNew.states.HIGH){
                 motorFrontLeft.setPower(frontLeftPower * 0.6);
                 motorBackLeft.setPower(backLeftPower * 0.6);
                 motorFrontRight.setPower(frontRightPower * 0.6);
                 motorBackRight.setPower(backRightPower * 0.6);
             } else if (gamepad2.y && TwoStageLinSlideFileNew.state != TwoStageLinSlideFileNew.states.HIGH){
-                motorFrontLeft.setPower(frontLeftPower);
-                motorBackLeft.setPower(backLeftPower);
-                motorFrontRight.setPower(frontRightPower);
-                motorBackRight.setPower(backRightPower);
+                motorFrontLeft.setPower(frontLeftPower*0.3);
+                motorBackLeft.setPower(backLeftPower*0.3);
+                motorFrontRight.setPower(frontRightPower*0.3);
+                motorBackRight.setPower(backRightPower*0.3);
             } else if (gamepad2.x){
-                motorFrontLeft.setPower(frontLeftPower * 0.3);
-                motorBackLeft.setPower(backLeftPower * 0.3);
-                motorFrontRight.setPower(frontRightPower * 0.3);
-                motorBackRight.setPower(backRightPower * 0.3);
+                motorFrontLeft.setPower(frontLeftPower * 0.6);
+                motorBackLeft.setPower(backLeftPower * 0.6);
+                motorFrontRight.setPower(frontRightPower * 0.6);
+                motorBackRight.setPower(backRightPower * 0.6);
             }
             if(gamepad1.dpad_right){
                 // TwoStageLinSlideFileNew.moveStates(1,false,false,0, false,false);

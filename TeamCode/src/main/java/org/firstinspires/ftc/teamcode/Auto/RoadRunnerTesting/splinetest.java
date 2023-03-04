@@ -131,10 +131,10 @@ public class splinetest extends LinearOpMode {
                 .build();
 
         Trajectory New123 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0),0)
-                .splineToLinearHeading(new Pose2d(15,-20, 0),Math.toRadians(-60))
-                .splineToLinearHeading(new Pose2d(50,-30, 0),Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(85,-20, 0),Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(100,0, 0),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(1,-8, 0),Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(2.5,-10, 0),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(4.0,-8, 0),Math.toRadians(60))
+                .splineToLinearHeading(new Pose2d(5.0,0, 0),Math.toRadians(90))
                 .build();
 
         Trajectory New4 = drivetrain.trajectoryBuilder(new Pose2d(0,0,0))
@@ -427,11 +427,11 @@ public class splinetest extends LinearOpMode {
             drivetrain.followTrajectory(New123);
             //openServo();
             Thread.sleep(200);
-            drivetrain.followTrajectory(New123);
+            //drivetrain.followTrajectory(New123);
             //drivetrain.followTrajectory(New4);
             //moveLinSlidePosition(600,-0.9, 1500);
             Thread.sleep(100);
-            drivetrain.followTrajectory(New123);
+           // drivetrain.followTrajectory(New123);
             //moveLinSlidePosition(4000,0.9, 1500);
             //drivetrain.followTrajectory(New5);
             Thread.sleep(1000);
